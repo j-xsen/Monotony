@@ -1,8 +1,10 @@
-from direct.gui.DirectGuiGlobals import SUNKEN, RAISED, GROOVE, RIDGE
-from direct.gui.DirectWaitBar import DirectWaitBar
+from objects.clock import Clock
 from direct.showbase.ShowBase import ShowBase
 from objects.selfportrait import SelfPortrait
 from objects.console import Console
+from panda3d.core import loadPrcFile
+
+loadPrcFile("config/Config.prc")
 
 
 class Monotony(ShowBase):
@@ -15,10 +17,7 @@ class Monotony(ShowBase):
         self.console = None
         self.accept("`", self.pressed_tilda)
 
-        self.bar = DirectWaitBar(text="", value=50, pos=(0, 0, .1))
-        self.bar['barColor'] = (1, 1, 1, 1)
-        self.bar['frameColor'] = (0, 0, 0, 1)
-        self.bar['frameSize'] = (-1.28, 1.28, -.070, .020)
+        self.clock = Clock()
 
     def pressed_tilda(self):
         if self.console is None:
