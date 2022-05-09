@@ -1,4 +1,5 @@
 from direct.gui.DirectWaitBar import DirectWaitBar
+from direct.gui.OnscreenText import OnscreenText
 from direct.task.TaskManagerGlobal import taskMgr
 
 from objects.notifier import Notifier
@@ -20,15 +21,18 @@ class Clock(Notifier):
         self.action_bar['frameSize'] = (-1.28, 1.28, -.050, .025)
 
         # the time
-        self.seconds_per_hour = 3.0
-        self.time = 0 # goes up in 100s
-        self.previous_time = 0
+        self.seconds_per_hour = 5.0
+        self.hours_in_day = 24
+        self.time = 600  # starting time, goes up in 100s
+
+        # hour text
+        self.hour_text = OnscreenText(text=str(self.time), pos=(-1.2, -.02), scale=0.07, fg=(1, 1, 1, 1))
 
         # start task
         self.start_clock()
 
     def run_clock(self, task):
-        self.action_bar['value'] = (task.time % self.seconds_per_hour) / self.seconds_per_hour * 100
+        self.action_bar['value'] = task.time / self.seconds_per_hour * 100
 
         if task.time < self.seconds_per_hour:
             return Task.cont
@@ -45,7 +49,8 @@ class Clock(Notifier):
 
     def progress_hour(self):
         self.time += 100
-        if self.time >= 2400:
-            self.time -= 2400
-            # TODO do hour move
+        if self.time >= self.hours_in_day * 100:
+            self.time -= self.hours_in_day * 100
+            # TODO do day move
             self.notify.debug("[progress_hour] End of day")
+        self.hour_text.setText(str(self.time))
