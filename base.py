@@ -2,7 +2,7 @@ from objects.clock import Clock
 from direct.showbase.ShowBase import ShowBase
 from objects.selfportrait import SelfPortrait
 from objects.console import Console
-from panda3d.core import loadPrcFile
+from panda3d.core import loadPrcFile, Multifile, VirtualFileSystem
 from objects.player import Player
 from objects.statswidget import StatsWidget
 from objects.action_bar import ActionBar
@@ -14,6 +14,15 @@ class Monotony(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
+
+        self.vfs = VirtualFileSystem.getGlobalPtr()
+        self.multifile = Multifile()
+        self.multifile.openReadWrite("art.mf")
+
+        if self.vfs.mount(self.multifile, ".", VirtualFileSystem.MFReadOnly):
+            self.notify.debug("mounted art.mf!")
+        else:
+            self.notify.error("Unable to mount art.mf!")
 
         self.setBackgroundColor(0, 0, 0)
         self.self_portrait = SelfPortrait()
