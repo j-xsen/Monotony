@@ -5,6 +5,7 @@ from objects.console import Console
 from panda3d.core import loadPrcFile
 from objects.player import Player
 from objects.statswidget import StatsWidget
+from objects.action_bar import ActionBar
 
 loadPrcFile("config/Config.prc")
 
@@ -19,8 +20,9 @@ class Monotony(ShowBase):
         self.console = None
         self.accept("`", self.pressed_tilda)
 
-        self.player = Player()
+        self.action_bar = ActionBar()
         self.clock = Clock()
+        self.player = Player(self)
 
         self.stats_widget = StatsWidget(self.player, self.clock)
 

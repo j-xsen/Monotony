@@ -15,7 +15,7 @@ class Clock(Notifier):
         Notifier.__init__(self, "clock")
 
         # the clock
-        self.action_bar = DirectWaitBar(text="", value=50, pos=(0, 0, .1))
+        self.action_bar = DirectWaitBar(text="", value=50, pos=(0, 0, .1), scale=(1, 1, 0.75))
         self.action_bar['barColor'] = (1, 1, 1, 1)
         self.action_bar['frameColor'] = (0, 0, 0, 1)
         self.action_bar['frameSize'] = (-1.28, 1.28, -.050, .025)

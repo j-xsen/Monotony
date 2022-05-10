@@ -16,6 +16,7 @@ class SelfPortrait(Notifier):
         self.image.setTransparency(TransparencyAttrib.MAlpha)
         self.white_square = OnscreenImage(image='art/white_square.png', scale=0.4, pos=(-.88, 0, .55))
         self.white_square.setTransparency(TransparencyAttrib.MAlpha)
+        self.update_state(SLEEPING)
 
     def update_state(self, new_state):
         if self.state != new_state:

@@ -103,13 +103,38 @@ class Console(Entry, DirectObject, Notifier):
     def debug(self, args):
         return True
 
+    def set_location(self, args):
+        success = False
+        if len(args) == 1:
+            new_location = int(args[0])
+            if new_location in self.level_holder.player.location_dict:
+                self.level_holder.player.head_to_location(new_location)
+                return True
+            else:
+                locations_string = ""
+                for location in self.level_holder.player.location_dict:
+                    locations_string += f" {location},"
+                self.notify.debug(f"[set_location] Invalid new location: {new_location}")
+                error_log = ConsoleLog(f"Invalid new location: {new_location}."
+                                       f"Valid locations:{locations_string[:-1]}", False, auto_create=False,
+                                       archivable=False)
+        else:
+            self.notify.debug(f"[set_location] Invalid number of args! ({len(args)})")
+            error_log = ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
+                                   False, archivable=False, auto_create=False)
+        args_string = ""
+        for arg in args:
+            args_string += f" {arg}"
+        return [ConsoleLog(f"set_location{args_string}", False, auto_create=False), error_log]
+
     def set_self_portrait_state(self, args):
         success = False
         if len(args) == 1:
             new_state = int(args[0])
             success = self.level_holder.self_portrait.update_state(new_state)
             if not success:
-                error_log = ConsoleLog(f"Invalid new_state! Submitted: {new_state}", False)
+                error_log = ConsoleLog(f"Invalid new_state! Submitted: {new_state}", False, archivable=False,
+                                       auto_create=False)
         else:
             self.notify.debug(f"[set_self_portrait_state] Invalid number of args! ({len(args)})")
             error_log = ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
@@ -158,6 +183,7 @@ class Console(Entry, DirectObject, Notifier):
         "clear": clear,
         "ssps": set_self_portrait_state,
         "archivable": print_archivable,
+        "location": set_location
     }
 
 
