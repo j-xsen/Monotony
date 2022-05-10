@@ -1,1 +1,2 @@
-HOME = 0
+BED = 0
+HOME = 1
