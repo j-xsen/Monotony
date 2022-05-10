@@ -9,13 +9,6 @@ from objects.notifier import Notifier
 
 class SelfPortrait(Notifier):
 
-    states = {
-        PERSON: "art/portraits/person.png",
-        EATING: "art/portraits/eating.png",
-        SLEEPING: "art/portraits/sleeping.png",
-        DRIVING: "art/portraits/driving.png"
-    }
-
     def __init__(self):
         Notifier.__init__(self, "selfportrait")
         self.state = PERSON
@@ -26,9 +19,9 @@ class SelfPortrait(Notifier):
 
     def update_state(self, new_state):
         if self.state != new_state:
-            if new_state in self.states:
+            if new_state in self_portrait_dict:
                 self.state = new_state
-                self.image.setImage(self.states[self.state])
+                self.image.setImage(self_portrait_dict[self.state])
                 self.image.setTransparency(TransparencyAttrib.MAlpha)
                 return True
             else:

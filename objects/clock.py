@@ -25,9 +25,6 @@ class Clock(Notifier):
         self.hours_in_day = 24
         self.time = 600  # starting time, goes up in 100s
 
-        # hour text
-        self.hour_text = OnscreenText(text=str(self.time), pos=(-1.2, -.02), scale=0.07, fg=(1, 1, 1, 1))
-
         # start task
         self.start_clock()
 
@@ -53,4 +50,3 @@ class Clock(Notifier):
             self.time -= self.hours_in_day * 100
             # TODO do day move
             self.notify.debug("[progress_hour] End of day")
-        self.hour_text.setText(str(self.time))

@@ -20,8 +20,9 @@ class Monotony(ShowBase):
         self.accept("`", self.pressed_tilda)
 
         self.player = Player()
-
         self.clock = Clock()
+
+        self.stats_widget = StatsWidget(self.player, self.clock)
 
     def pressed_tilda(self):
         if self.console is None:
