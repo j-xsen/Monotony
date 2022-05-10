@@ -3,7 +3,7 @@ This class is the portrait on the top-left
 """
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
-from objects.selfportrait_states import *
+from codes.selfportraitstates import *
 from objects.notifier import Notifier
 
 

@@ -1,9 +1,8 @@
 from objects.entry import Entry
 from direct.showbase.DirectObject import DirectObject
 from objects.notifier import Notifier
-from direct.gui.OnscreenText import OnscreenText, ConfigVariableString
+from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import TextNode
-from objects.selfportrait_states import *
 
 
 class Console(Entry, DirectObject, Notifier):

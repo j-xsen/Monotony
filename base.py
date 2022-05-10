@@ -3,6 +3,8 @@ from direct.showbase.ShowBase import ShowBase
 from objects.selfportrait import SelfPortrait
 from objects.console import Console
 from panda3d.core import loadPrcFile
+from objects.player import Player
+from objects.statswidget import StatsWidget
 
 loadPrcFile("config/Config.prc")
 
@@ -16,6 +18,8 @@ class Monotony(ShowBase):
         self.self_portrait = SelfPortrait()
         self.console = None
         self.accept("`", self.pressed_tilda)
+
+        self.player = Player()
 
         self.clock = Clock()
 
