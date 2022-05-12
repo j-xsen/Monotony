@@ -2,15 +2,13 @@ from objects.notifier import Notifier
 
 
 class Location(Notifier):
-    def __init__(self, action_bar):
+    def __init__(self, player):
         Notifier.__init__(self, "location")
-        self.action_bar = action_bar
+        self.player = player
+        self.action_bar = player.level_holder.action_bar
+        self.self_portrait = player.level_holder.self_portrait
         self.actions = []  # list of lists
         self.stage = 0  # starting stage is 0
-
-    def head_to(self):
-        self.notify.warning("[head_to] NO head_to FOR LOCATION")
-        self.set_stage(0)
 
     def set_stage(self, stage):
         if stage < len(self.actions):

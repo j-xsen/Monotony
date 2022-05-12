@@ -15,6 +15,10 @@ class ActionBar:
         self.actions.append(new_action)
 
     def set_actions(self, actions):
+        # delete old ones
+        for action in self.actions:
+            action.destroy_button()
+
         self.actions = actions
 
         image_scale = (0.1, 0, 0.1)
@@ -32,6 +36,7 @@ class ActionBar:
         number = 0
         for action in self.actions:
             # set location and scale
+            action.create_button()
             action.button.setPos(pos[len(self.actions)][number])
             number += 1
 
