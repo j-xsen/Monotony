@@ -1,6 +1,7 @@
 from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.OnscreenText import OnscreenText
 from direct.task.TaskManagerGlobal import taskMgr
+from panda3d.core import ConfigVariableString
 
 from objects.notifier import Notifier
 from direct.task import Task
@@ -23,7 +24,7 @@ class Clock(Notifier):
         # the time
         self.seconds_per_hour = 5.0
         self.hours_in_day = 24
-        self.time = 600  # starting time, goes up in 100s
+        self.time = ConfigVariableString('starting-time', '600')  # starting time, goes up in 100s
 
         # start task
         self.start_clock()
