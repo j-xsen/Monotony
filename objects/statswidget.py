@@ -1,6 +1,7 @@
 """
 This is the stats widget in the bottom right
 """
+from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import TransparencyAttrib
@@ -18,6 +19,15 @@ class StatsWidget:
                                       fg=(1, 1, 1, 1))
         self.money_text = OnscreenText(pos=(.6, -.35), scale=0.07,
                                        fg=(1, 1, 1, 1))
+
+        # hygiene bar
+        self.hygiene_text = OnscreenText(pos=(.6, -.45), scale=0.07,
+                                         fg=(1, 1, 1, 1))
+        self.hygiene_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.475), scale=(1, 1, 0.75))
+        self.hygiene_bar['barColor'] = (1, 1, 1, 1)
+        self.hygiene_bar['frameColor'] = (0, 0, 0, 1)
+        self.hygiene_bar['frameSize'] = (-0.35, 0.35, -.050, .025)
+
         self.update_stats()
         self.task_update_stats = taskMgr.doMethodLater(1, self.update_stats_task, 'update_stats')
 
