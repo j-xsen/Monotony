@@ -25,7 +25,7 @@ class Clock(Notifier):
         self.seconds_per_hour = 5.0
         self.hours_in_day = 24
         config_string = ConfigVariableString('starting-time', '600')
-        self.time = int(config_string)  # starting time, goes up in 100s
+        self.time = int(config_string.getValue())  # starting time, goes up in 100s
 
         # start task
         self.start_clock()

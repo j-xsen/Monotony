@@ -21,12 +21,18 @@ class StatsWidget:
                                        fg=(1, 1, 1, 1))
 
         # hygiene bar
-        self.hygiene_text = OnscreenText(pos=(.6, -.45), scale=0.07,
-                                         fg=(1, 1, 1, 1))
-        self.hygiene_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.475), scale=(1, 1, 0.75))
-        self.hygiene_bar['barColor'] = (1, 1, 1, 1)
-        self.hygiene_bar['frameColor'] = (0, 0, 0, 1)
-        self.hygiene_bar['frameSize'] = (-0.35, 0.35, -.050, .025)
+        self.hygiene_text = OnscreenText(pos=(1.08, -.45), scale=0.07,
+                                         fg=(1, 1, 1, 1), text="Hygiene")
+        self.hygiene_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.5), scale=(1, 1, 0.75),
+                                         barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
+                                         frameSize=(-0.35, 0.35, -0.050, .025))
+
+        # hunger bar
+        self.hunger_text = OnscreenText(pos=(1.1, -.615), scale=0.07,
+                                        fg=(1, 1, 1, 1), text="Hunger")
+        self.hunger_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.665), scale=(1, 1, 0.75),
+                                        barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
+                                        frameSize=(-0.35, 0.35, -.050, .025))
 
         self.update_stats()
         self.task_update_stats = taskMgr.doMethodLater(1, self.update_stats_task, 'update_stats')
