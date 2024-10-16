@@ -11,9 +11,9 @@ class Home(Location, Notifier):
 
         self.actions = [
             [
-                WakeUp(self)
+                WakeUp(self, player)
             ],
             [
-                Eat(self)
+                Eat(self, player)
             ]
         ]

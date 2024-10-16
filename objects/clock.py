@@ -14,6 +14,7 @@ class Clock(Notifier):
     """
     def __init__(self):
         Notifier.__init__(self, "clock")
+        self.player = None
 
         # the clock
         self.action_bar = DirectWaitBar(text="", value=50, pos=(0, 0, .1), scale=(1, 1, 0.75))
@@ -29,6 +30,9 @@ class Clock(Notifier):
 
         # start task
         self.start_clock()
+
+    def add_player(self, _player):
+        self.player = _player
 
     def run_clock(self, task):
         self.action_bar['value'] = task.time / self.seconds_per_hour * 100
@@ -48,6 +52,8 @@ class Clock(Notifier):
 
     def progress_hour(self):
         self.time += 100
+        if self.player:
+            self.player.deteriorate()
         if self.time >= self.hours_in_day * 100:
             self.time -= self.hours_in_day * 100
             # TODO do day move

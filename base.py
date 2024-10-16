@@ -33,7 +33,8 @@ class Monotony(ShowBase):
 
         self.action_bar = ActionBar()
         self.clock = Clock()
-        self.player = Player(self)
+        self.player = Player(self, self.clock)
+        self.clock.add_player(self.player)
 
         self.stats_widget = StatsWidget(self.player, self.clock)
 

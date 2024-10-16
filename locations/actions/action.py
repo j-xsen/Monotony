@@ -4,11 +4,12 @@ from direct.gui.DirectGui import DGG
 
 
 class Action:
-    def __init__(self, image_dir, location):
+    def __init__(self, image_dir, location, _player):
         self.maps = loader.loadModel('art/activities/activities.egg')
         self.location = location
         self.image_dir = image_dir
         self.button = None
+        self.player = _player
 
     def create_button(self):
         self.button = DirectButton(scale=(0.6, 1, 0.3), relief=None, command=self.command,
