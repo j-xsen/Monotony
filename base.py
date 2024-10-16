@@ -2,7 +2,6 @@ from direct.gui import DirectButton
 
 from objects.clock import Clock
 from direct.showbase.ShowBase import ShowBase
-from objects.selfportrait import SelfPortrait
 from objects.console import Console
 from panda3d.core import loadPrcFile, Multifile, VirtualFileSystem, TransparencyAttrib
 from objects.player import Player
@@ -27,13 +26,11 @@ class Monotony(ShowBase):
             self.notify.error("Unable to mount art.mf!")
 
         self.setBackgroundColor(0, 0, 0)
-        self.self_portrait = SelfPortrait()
         self.console = None
         self.accept("`", self.pressed_tilda)
 
-        self.action_bar = ActionBar()
         self.clock = Clock()
-        self.player = Player(self, self.clock)
+        self.player = Player(self.clock)
         self.clock.add_player(self.player)
 
         self.stats_widget = StatsWidget(self.player, self.clock)
