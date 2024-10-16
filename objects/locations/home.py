@@ -1,6 +1,6 @@
-from locations.location import Location
+from objects.locations.location import Location
 from objects.notifier import Notifier
-from locations.actions.home import *
+from objects.locations.actions.home import *
 
 
 class Home(Location, Notifier):

@@ -1,8 +1,10 @@
 from codes.locations import *
-from locations.home import Home
-from objects.action_bar import ActionBar
+from objects.locations.home import Home
+from objects.player.action_bar import ActionBar
 from objects.notifier import Notifier
-from objects.selfportrait import SelfPortrait
+from objects.player.clock import Clock
+from objects.player.selfportrait import SelfPortrait
+from objects.player.statswidget import StatsWidget
 
 
 class Stat:
@@ -43,14 +45,12 @@ class Stat:
 
 
 class Player(Notifier):
-    def __init__(self, clock):
+    def __init__(self):
         """
         Player object
         @param clock: Clock object
         """
         Notifier.__init__(self, "player")
-
-        self.clock = clock
 
         self.location_dict = {
             HOME: Home
@@ -67,6 +67,9 @@ class Player(Notifier):
         self.sleep = Stat(100)
         self.money = 0
         self.head_to_location(HOME)
+
+        self.clock = Clock(self)
+        self.stats_widget = StatsWidget(self)
 
     def head_to_location(self, destination, stage=0):
         if destination in self.location_dict:

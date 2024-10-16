@@ -1,14 +1,11 @@
-from direct.gui import DirectButton
-
-from objects.clock import Clock
-from direct.showbase.ShowBase import ShowBase
-from objects.console import Console
-from panda3d.core import loadPrcFile, Multifile, VirtualFileSystem, TransparencyAttrib
-from objects.player import Player
-from objects.statswidget import StatsWidget
-from objects.action_bar import ActionBar
-
+from panda3d.core import loadPrcFile
 loadPrcFile("config/Config.prc")
+
+
+from direct.showbase.ShowBase import ShowBase
+from objects.console.console import Console
+from panda3d.core import Multifile, VirtualFileSystem
+from objects.player.player import Player
 
 
 class Monotony(ShowBase):
@@ -29,11 +26,7 @@ class Monotony(ShowBase):
         self.console = None
         self.accept("`", self.pressed_tilda)
 
-        self.clock = Clock()
-        self.player = Player(self.clock)
-        self.clock.add_player(self.player)
-
-        self.stats_widget = StatsWidget(self.player, self.clock)
+        self.player = Player()
 
     def test(self):
         print("YUP")

@@ -1,4 +1,4 @@
-from objects.entry import Entry
+from objects.console.entry import Entry
 from direct.showbase.DirectObject import DirectObject
 from objects.notifier import Notifier
 from direct.gui.OnscreenText import OnscreenText

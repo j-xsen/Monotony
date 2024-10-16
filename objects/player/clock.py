@@ -12,31 +12,26 @@ class Clock(Notifier):
     Every x seconds, a clock cycle is finished
     A clock cycle symbolizes an hour
     """
-    def __init__(self):
+    def __init__(self, player):
         Notifier.__init__(self, "clock")
-        self.player = None
+        self.player = player
 
         # the clock
-        self.action_bar = DirectWaitBar(text="", value=50, pos=(0, 0, .1), scale=(1, 1, 0.75))
+        self.action_bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75))
         self.action_bar['barColor'] = (1, 1, 1, 1)
         self.action_bar['frameColor'] = (0, 0, 0, 1)
         self.action_bar['frameSize'] = (-1.28, 1.28, -.050, .025)
 
         # the time
-        self.seconds_per_hour = 5.0
-        self.hours_in_day = 24
-        config_string = ConfigVariableString('starting-time', '600')
-        self.time = int(config_string.getValue())  # starting time, goes up in 100s
+        self.seconds_per_hour = int(ConfigVariableString('secs-per-hour', '10').getValue())
+        self.hours_in_day = int(ConfigVariableString('hours-in-day', '24').getValue())
+        self.time = int(ConfigVariableString('starting-time', '600').getValue())
 
         # start task
         self.start_clock()
 
-    def add_player(self, _player):
-        self.player = _player
-
     def run_clock(self, task):
         self.action_bar['value'] = task.time / self.seconds_per_hour * 100
-
         if task.time < self.seconds_per_hour:
             return Task.cont
         self.progress_hour()
@@ -52,8 +47,7 @@ class Clock(Notifier):
 
     def progress_hour(self):
         self.time += 100
-        if self.player:
-            self.player.deteriorate()
+        self.player.deteriorate()
         if self.time >= self.hours_in_day * 100:
             self.time -= self.hours_in_day * 100
             # TODO do day move

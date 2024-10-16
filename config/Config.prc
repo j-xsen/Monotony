@@ -1,10 +1,6 @@
 notify-level warning
-notify-level-console debug
-notify-level-clock debug
-notify-level-player debug
-notify-level-location debug
-notify-level-bed debug
-notify-level-home debug
-
+default-directnotify-level warning
 
 starting-time 600
+secs-per-hour 5
+hours-in-day 24

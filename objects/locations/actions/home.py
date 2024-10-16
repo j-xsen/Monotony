@@ -1,4 +1,4 @@
-from locations.actions.action import Action
+from objects.locations.actions.action import Action
 from codes.selfportraitstates import *
 
 
