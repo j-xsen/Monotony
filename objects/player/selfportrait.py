@@ -1,15 +1,26 @@
-"""
-This class is the portrait on the top-left
-"""
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
-from codes.selfportraitstates import *
 from objects.notifier import Notifier
 
+
+PERSON = 0
+EATING = 1
+SLEEPING = 2
+DRIVING = 3
+
+self_portrait_dict = {
+        PERSON: "art/portraits/person.png",
+        EATING: "art/portraits/eating.png",
+        SLEEPING: "art/portraits/sleeping.png",
+        DRIVING: "art/portraits/driving.png"
+    }
 
 class SelfPortrait(Notifier):
 
     def __init__(self):
+        """
+        Portrait on the left
+        """
         Notifier.__init__(self, "selfportrait")
         self.state = PERSON
         self.image = OnscreenImage(image='art/portraits/person.png', scale=0.4, pos=(-.88, 0, .55))
@@ -19,6 +30,11 @@ class SelfPortrait(Notifier):
         self.update_state(SLEEPING)
 
     def update_state(self, new_state):
+        """
+        Updates self.state and changes image accordingly
+        @param new_state:
+        @return:
+        """
         if self.state != new_state:
             if new_state in self_portrait_dict:
                 self.state = new_state

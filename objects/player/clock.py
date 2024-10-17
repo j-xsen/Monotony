@@ -1,26 +1,33 @@
 from direct.gui.DirectWaitBar import DirectWaitBar
-from direct.gui.OnscreenText import OnscreenText
 from direct.task.TaskManagerGlobal import taskMgr
 from panda3d.core import ConfigVariableString
-
 from objects.notifier import Notifier
 from direct.task import Task
 
 
 class Clock(Notifier):
-    """
-    Every x seconds, a clock cycle is finished
-    A clock cycle symbolizes an hour
-    """
     def __init__(self, player):
+        """
+        Clock object that holds:
+        - Task ("RunClock") that progresses hours
+            = Deteriorates player
+        - bar: A clock widget showing the progress between hours
+
+        Variables for time settings are in config/Config.prc
+        - starting-time 600
+        - secs-per-hour 5
+        - hours-in-day 24
+
+        @param player: The Player object
+        """
         Notifier.__init__(self, "clock")
         self.player = player
 
         # the clock
-        self.action_bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75))
-        self.action_bar['barColor'] = (1, 1, 1, 1)
-        self.action_bar['frameColor'] = (0, 0, 0, 1)
-        self.action_bar['frameSize'] = (-1.28, 1.28, -.050, .025)
+        self.bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75))
+        self.bar['barColor'] = (1, 1, 1, 1)
+        self.bar['frameColor'] = (0, 0, 0, 1)
+        self.bar['frameSize'] = (-1.28, 1.28, -.050, .025)
 
         # the time
         self.seconds_per_hour = int(ConfigVariableString('secs-per-hour', '10').getValue())
@@ -31,7 +38,7 @@ class Clock(Notifier):
         self.start_clock()
 
     def run_clock(self, task):
-        self.action_bar['value'] = task.time / self.seconds_per_hour * 100
+        self.bar['value'] = task.time / self.seconds_per_hour * 100
         if task.time < self.seconds_per_hour:
             return Task.cont
         self.progress_hour()

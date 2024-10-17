@@ -28,9 +28,6 @@ class Monotony(ShowBase):
 
         self.player = Player()
 
-    def test(self):
-        print("YUP")
-
     def pressed_tilda(self):
         if self.console is None:
             self.console = Console(self)

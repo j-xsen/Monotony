@@ -4,6 +4,12 @@ from panda3d.core import TransparencyAttrib
 
 class ActionBar:
     def __init__(self):
+        """
+        Holds the box with the different actions available.
+        """
+        # Load activity textures
+        self.maps = loader.loadModel('art/activities/activities.egg')
+
         # create image
         self.white_square = OnscreenImage(image='art/action_bar.png', scale=(0.87, 0.4, 0.4),
                                           pos=(0.425, 0, .55))

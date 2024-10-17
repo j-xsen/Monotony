@@ -1,6 +1,3 @@
-"""
-This is the stats widget in the bottom right
-"""
 from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.OnscreenText import OnscreenText

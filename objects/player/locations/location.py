@@ -1,6 +1,10 @@
 from objects.notifier import Notifier
 
 
+BED = 0
+HOME = 1
+
+
 class Location(Notifier):
     def __init__(self, player):
         """
@@ -13,7 +17,7 @@ class Location(Notifier):
         self.action_bar = player.action_bar
         self.self_portrait = player.self_portrait
 
-        # Each list within self.acitons is a different stage
+        # Each list within self.actions is a different stage
         self.actions = []  # list of lists
         self.stage = 0  # starting stage is 0
 

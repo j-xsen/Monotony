@@ -1,4 +1,3 @@
-from codes.locations import *
 from objects.player.locations.home import Home
 from objects.player.action_bar import ActionBar
 from objects.notifier import Notifier
@@ -6,6 +5,7 @@ from objects.player.clock import Clock
 from objects.player.selfportrait import SelfPortrait
 from objects.player.stats.statswidget import StatsWidget
 from objects.player.stats.stat import Stat
+from objects.player.locations.location import HOME
 
 
 class Player(Notifier):
@@ -16,14 +16,14 @@ class Player(Notifier):
         """
         Notifier.__init__(self, "player")
 
+        # Location
         self.location_dict = {
             HOME: Home
         }
+        self.location_object = None
 
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
-        self.location = HOME
-        self.location_object = None
         self.active = True  # this is if the player can take an action
         self.hygiene = Stat(20)
         self.hunger = Stat(20)
@@ -46,9 +46,41 @@ class Player(Notifier):
         return True
 
     def deteriorate(self):
-        self.hunger -= 10
-        self.hygiene -= 10
+        self.starve()
+        self.stink()
         if self.in_bed:
-            self.sleep += 10
+            self.rest()
         else:
-            self.sleep -= 5
+            self.tire()
+
+    def stink(self):
+        """
+        Pee-ew!
+        """
+        self.hygiene -= 5
+
+    def starve(self):
+        """
+        No cheezburger
+        """
+        self.hunger -= 10
+
+    def feed(self, calories=10):
+        """
+        Cheezburger
+        @param calories: Amount of hunger to restore
+        """
+        self.hunger += calories
+
+    def tire(self):
+        """
+        Another hour awake
+        """
+        self.sleep -= 5
+
+    def rest(self, power_boost=10):
+        """
+        Zzz...
+        @param power_boost: Amount of sleep to restore
+        """
+        self.sleep += power_boost
