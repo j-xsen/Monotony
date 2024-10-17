@@ -1,3 +1,6 @@
+win-size 1800 1000
+window-title Monotony
+
 notify-level warning
 default-directnotify-level warning
 
