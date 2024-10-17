@@ -32,8 +32,7 @@ class SelfPortrait(Notifier):
     def update_state(self, new_state):
         """
         Updates self.state and changes image accordingly
-        @param new_state:
-        @return:
+        @param new_state: New portrait state
         """
         if self.state != new_state:
             if new_state in self_portrait_dict:

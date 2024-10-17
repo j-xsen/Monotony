@@ -8,7 +8,7 @@ class WakeUp(Action):
 
     def command(self):
         # change stage
-        self.player.location_object.set_stage(1)
+        self.player.location.set_stage(1)
         # update portrait
         self.player.self_portrait.update_state(PERSON)
         # change player variable for deteriorate

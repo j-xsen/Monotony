@@ -23,7 +23,7 @@ class Clock(Notifier):
         Notifier.__init__(self, "clock")
         self.player = player
 
-        # the clock
+        # the clock bar
         self.bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75))
         self.bar['barColor'] = (1, 1, 1, 1)
         self.bar['frameColor'] = (0, 0, 0, 1)

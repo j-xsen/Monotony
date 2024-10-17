@@ -1,12 +1,14 @@
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
+from objects.notifier import Notifier
 
 
-class ActionBar:
+class ActionBar(Notifier):
     def __init__(self):
         """
         Holds the box with the different actions available.
         """
+        Notifier.__init__(self, 'actionbar')
         # Load activity textures
         self.maps = loader.loadModel('art/activities/activities.egg')
 
@@ -16,14 +18,17 @@ class ActionBar:
         self.white_square.setTransparency(TransparencyAttrib.MAlpha)
 
         self.actions = []
+        self.temp = []
 
     def add_action(self, new_action):
         self.actions.append(new_action)
 
-    def set_actions(self, actions):
-        # delete old ones
-        for action in self.actions:
+    def delete_actions(self, temp=False):
+        for action in self.actions if not temp else self.temp:
             action.destroy_button()
+
+    def set_actions(self, actions):
+        self.delete_actions()
 
         self.actions = actions
 
@@ -46,6 +51,11 @@ class ActionBar:
             action.button.setPos(pos[len(self.actions)][number])
             number += 1
 
-    def reset_actions(self):
-        self.actions = []
+    def hide(self):
+        self.notify.debug("[hide] Hiding actions...")
+        self.temp = self.actions
+        self.delete_actions()
 
+    def show(self):
+        self.notify.debug("[show] Showing actions...")
+        self.set_actions(self.temp)

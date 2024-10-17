@@ -2,10 +2,11 @@ from objects.player.locations.home import Home
 from objects.player.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
-from objects.player.selfportrait import SelfPortrait
+from objects.player.selfportrait import SelfPortrait, EATING, PERSON
 from objects.player.stats.statswidget import StatsWidget
 from objects.player.stats.stat import Stat
 from objects.player.locations.location import HOME
+from direct.task import Task
 
 
 class Player(Notifier):
@@ -20,11 +21,10 @@ class Player(Notifier):
         self.location_dict = {
             HOME: Home
         }
-        self.location_object = None
+        self.location = None
 
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
-        self.active = True  # this is if the player can take an action
         self.hygiene = Stat(20)
         self.hunger = Stat(20)
         self.in_bed = True  # checks if to add or remove from self.sleep
@@ -37,11 +37,11 @@ class Player(Notifier):
 
     def head_to_location(self, destination, stage=0):
         if destination in self.location_dict:
-            self.location_object = self.location_dict[destination](self)
+            self.location = self.location_dict[destination](self)
         else:
             return False
 
-        self.location_object.set_stage(stage)
+        self.location.set_stage(stage)
 
         return True
 
@@ -70,7 +70,14 @@ class Player(Notifier):
         Cheezburger
         @param calories: Amount of hunger to restore
         """
+        daze_time = 1
+        self.self_portrait.update_state(EATING)
         self.hunger += calories
+        taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
+        self.daze(daze_time)
+
+    def finish_eating(self, task):
+        self.self_portrait.update_state(PERSON)
 
     def tire(self):
         """
@@ -84,3 +91,10 @@ class Player(Notifier):
         @param power_boost: Amount of sleep to restore
         """
         self.sleep += power_boost
+
+    def daze(self, duration=5):
+        self.action_bar.hide()
+        taskMgr.doMethodLater(duration, self.undaze, 'DazePlayer')
+
+    def undaze(self, task):
+        self.action_bar.show()
