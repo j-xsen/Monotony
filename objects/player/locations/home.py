@@ -1,4 +1,4 @@
-from objects.player.locations.actions.home import WakeUp, Eat
+from objects.player.locations.actions.home import WakeUp, Eat, Bathe
 from objects.player.locations.location import Location
 from objects.notifier import Notifier
 
@@ -18,6 +18,7 @@ class Home(Location, Notifier):
                 WakeUp(player)
             ],
             [
-                Eat(player)
+                Eat(player),
+                Bathe(player)
             ]
         ]

@@ -7,12 +7,14 @@ PERSON = 0
 EATING = 1
 SLEEPING = 2
 DRIVING = 3
+BATHING = 4
 
 self_portrait_dict = {
         PERSON: "art/portraits/person.png",
         EATING: "art/portraits/fork.png",
         SLEEPING: "art/portraits/bed.png",
-        DRIVING: "art/portraits/car.png"
+        DRIVING: "art/portraits/car.png",
+        BATHING: "art/portraits/bath.png"
     }
 
 class SelfPortrait(Notifier):

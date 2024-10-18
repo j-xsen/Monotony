@@ -20,4 +20,12 @@ class Eat(Action):
         Action.__init__(self, "Eat", player)
 
     def command(self):
-        self.player.feed()
+        self.player.feed(calories=40)
+
+
+class Bathe(Action):
+    def __init__(self, player):
+        Action.__init__(self, "Bathe", player)
+
+    def command(self):
+        self.player.bathe(duration=3, effect=80)

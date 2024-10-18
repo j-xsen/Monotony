@@ -2,7 +2,7 @@ from objects.player.locations.home import Home
 from objects.player.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
-from objects.player.selfportrait import SelfPortrait, EATING, PERSON
+from objects.player.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.player.stats.statswidget import StatsWidget
 from objects.player.stats.stat import Stat
 from objects.player.locations.location import HOME
@@ -34,6 +34,7 @@ class Player(Notifier):
 
         # Stats
         self.hygiene = Stat(20)
+        self.cleaning_amount = 0 # adds hygiene after bathing
         self.hunger = Stat(20)
         self.consuming_calories = 0 # adds calories when done eating
         self.sleep = Stat(100)
@@ -66,6 +67,23 @@ class Player(Notifier):
         Pee-ew!
         """
         self.hygiene -= 5
+
+    def bathe(self, duration=2, effect=80):
+        """
+        The player takes a bath
+        @param duration: How long it takes to wash
+        @param effect: How much hygiene restored
+        """
+        self.self_portrait.update_state(BATHING)
+        self.cleaning_amount = effect
+        taskMgr.doMethodLater(duration, self.finish_bathing, "Bathing")
+        self.daze(duration)
+
+    def finish_bathing(self, task):
+        self.self_portrait.update_state(PERSON)
+        self.hygiene += self.cleaning_amount
+        self.cleaning_amount = 0
+        self.stats_widget.update_stats()
 
     def starve(self):
         """
