@@ -10,9 +10,9 @@ DRIVING = 3
 
 self_portrait_dict = {
         PERSON: "art/portraits/person.png",
-        EATING: "art/portraits/eating.png",
-        SLEEPING: "art/portraits/sleeping.png",
-        DRIVING: "art/portraits/driving.png"
+        EATING: "art/portraits/fork.png",
+        SLEEPING: "art/portraits/bed.png",
+        DRIVING: "art/portraits/car.png"
     }
 
 class SelfPortrait(Notifier):
@@ -23,7 +23,7 @@ class SelfPortrait(Notifier):
         """
         Notifier.__init__(self, "selfportrait")
         self.state = PERSON
-        self.image = OnscreenImage(image='art/portraits/person.png', scale=0.4, pos=(-.88, 0, .55))
+        self.image = OnscreenImage(image='art/portraits/person.png', scale=0.375, pos=(-.88, 0, .55))
         self.image.setTransparency(TransparencyAttrib.MAlpha)
         self.white_square = OnscreenImage(image='art/white_square.png', scale=0.4, pos=(-.88, 0, .55))
         self.white_square.setTransparency(TransparencyAttrib.MAlpha)
