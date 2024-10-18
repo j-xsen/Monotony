@@ -10,7 +10,7 @@ class ActionBar(Notifier):
         """
         Notifier.__init__(self, 'actionbar')
         # Load activity textures
-        self.maps = loader.loadModel('art/activities/activities.egg')
+        self.drawn_square = loader.loadModel('art/activities/drawn_square.egg')
 
         # create image
         self.white_square = OnscreenImage(image='art/action_bar.png', scale=(0.87, 0.4, 0.4),
@@ -48,7 +48,7 @@ class ActionBar(Notifier):
         for action in self.actions:
             # set location and scale
             action.create_button()
-            action.button.setPos(pos[len(self.actions)][number])
+            action.set_pos(pos[len(self.actions)][number])
             number += 1
 
     def hide(self):

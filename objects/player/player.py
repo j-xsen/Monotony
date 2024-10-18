@@ -17,22 +17,29 @@ class Player(Notifier):
         """
         Notifier.__init__(self, "player")
 
+        self.font = loader.loadFont("Monotony1-Regular.ttf")
+        self.font.setPixelsPerUnit(60)
+
+        # Widgets
+        self.self_portrait = SelfPortrait()
+        self.action_bar = ActionBar()
+        self.clock = Clock(self)
+
         # Location
         self.location_dict = {
             HOME: Home
         }
         self.location = None
-
-        self.self_portrait = SelfPortrait()
-        self.action_bar = ActionBar()
-        self.hygiene = Stat(20)
-        self.hunger = Stat(20)
-        self.in_bed = True  # checks if to add or remove from self.sleep
-        self.sleep = Stat(100)
-        self.money = 0
         self.head_to_location(HOME)
 
-        self.clock = Clock(self)
+        # Stats
+        self.hygiene = Stat(20)
+        self.hunger = Stat(20)
+        self.consuming_calories = 0 # adds calories when done eating
+        self.sleep = Stat(100)
+        self.in_bed = True
+        self.money = 0
+
         self.stats_widget = StatsWidget(self)
 
     def head_to_location(self, destination, stage=0):
@@ -52,6 +59,7 @@ class Player(Notifier):
             self.rest()
         else:
             self.tire()
+        self.stats_widget.update_stats()
 
     def stink(self):
         """
@@ -65,19 +73,22 @@ class Player(Notifier):
         """
         self.hunger -= 10
 
-    def feed(self, calories=10):
+    def feed(self, calories=20, daze_time=2):
         """
         Cheezburger
         @param calories: Amount of hunger to restore
+        @param daze_time: How long to eat
         """
-        daze_time = 1
         self.self_portrait.update_state(EATING)
-        self.hunger += calories
+        self.consuming_calories += calories
         taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
         self.daze(daze_time)
 
     def finish_eating(self, task):
+        self.hunger += self.consuming_calories
+        self.consuming_calories = 0
         self.self_portrait.update_state(PERSON)
+        self.stats_widget.update_stats()
 
     def tire(self):
         """

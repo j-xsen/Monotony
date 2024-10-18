@@ -59,3 +59,4 @@ class Clock(Notifier):
             self.time -= self.hours_in_day * 100
             # TODO do day move
             self.notify.debug("[progress_hour] End of day")
+        self.player.stats_widget.update_stats()

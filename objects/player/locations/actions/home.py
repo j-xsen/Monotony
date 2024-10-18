@@ -4,7 +4,7 @@ from objects.player.selfportrait import PERSON
 
 class WakeUp(Action):
     def __init__(self, player):
-        Action.__init__(self, "**/wake_up", player)
+        Action.__init__(self, "Wake Up", player)
 
     def command(self):
         # change stage
@@ -17,7 +17,7 @@ class WakeUp(Action):
 
 class Eat(Action):
     def __init__(self, player):
-        Action.__init__(self, "**/eat", player)
+        Action.__init__(self, "Eat", player)
 
     def command(self):
         self.player.feed()
