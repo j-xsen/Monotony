@@ -1,12 +1,11 @@
 from objects.player.locations.home import Home
-from objects.player.action_bar import ActionBar
+from objects.player.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
-from objects.player.selfportrait import SelfPortrait, EATING, PERSON, BATHING
-from objects.player.stats.statswidget import StatsWidget
-from objects.player.stats.stat import Stat
+from objects.player.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
+from objects.player.ui.stats.statswidget import StatsWidget
+from objects.player.ui.stats.stat import Stat
 from objects.player.locations.location import HOME
-from direct.task import Task
 
 
 class Player(Notifier):

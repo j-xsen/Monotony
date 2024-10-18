@@ -4,12 +4,15 @@ from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import TransparencyAttrib
 from direct.task import Task
 
+from objects.player.ui.panel import Panel
 
-class StatsWidget:
+
+class StatsWidget(Panel):
     def __init__(self, player):
+        Panel.__init__(self, "statswidget")
         self.player = player
-        self.white_square = OnscreenImage(image='art/white_square.png', scale=0.4, pos=(.88, 0, -.55))
-        self.white_square.setTransparency(TransparencyAttrib.MAlpha)
+        self.background.setScale(0.4)
+        self.background.setPos(.88, 0, -.55)
 
         self.hour_text = OnscreenText(pos=(.6, -.25), scale=0.07,
                                       fg=(1, 1, 1, 1), font=self.player.font)

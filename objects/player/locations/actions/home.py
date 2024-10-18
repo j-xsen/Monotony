@@ -1,5 +1,5 @@
 from objects.player.locations.actions.action import Action
-from objects.player.selfportrait import PERSON
+from objects.player.ui.selfportrait import PERSON
 
 
 class WakeUp(Action):
@@ -20,7 +20,7 @@ class Eat(Action):
         Action.__init__(self, "Eat", player)
 
     def command(self):
-        self.player.feed(calories=40)
+        self.player.feed(calories=60)
 
 
 class Bathe(Action):
