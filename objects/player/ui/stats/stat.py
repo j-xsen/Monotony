@@ -1,4 +1,7 @@
-class Stat:
+from objects.notifier import Notifier
+
+
+class Stat(Notifier):
     def __init__(self, value, max=100, min=0):
         """
         An integer with a minimum and maximum
@@ -6,6 +9,7 @@ class Stat:
         @param max: Highest the Stat can go (default: 100)
         @param min: Lowest the Stat can go (default: 0)
         """
+        Notifier.__init__(self, "stat")
         self.value = value
         self.max = max
         self.min = min
@@ -29,7 +33,9 @@ class Stat:
         """
         rtrn = int(self.value) + adjust
         if rtrn > self.max:
-            return rtrn - adjust
+            self.notify.debug(f"[change_value] {self.value} + {adjust} > {self.max}. Setting value to {self.max}.")
+            return self.max
         elif rtrn < self.min:
+            self.notify.debug(f"[change_value] {self.value} + {adjust} < {self.min}. Setting value to {self.min}.")
             return self.min
         return rtrn

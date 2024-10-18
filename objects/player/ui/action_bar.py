@@ -1,6 +1,3 @@
-from direct.gui.OnscreenImage import OnscreenImage
-from panda3d.core import TransparencyAttrib
-from objects.notifier import Notifier
 from objects.player.ui.panel import Panel
 
 
@@ -10,8 +7,8 @@ class ActionBar(Panel):
         Holds the box with the different actions available.
         """
         Panel.__init__(self, "actionbar")
-        self.background.setScale((0.87, 0.4, 0.4))
-        self.background.setPos((0.425, 0, .55))
+        self.background["frameSize"] = (1.7, 0, .8, 0)
+        self.background.setPos(-.4, 0, .18)
 
         # drawn square texture for actions
         self.drawn_square = loader.loadModel('art/activities/drawn_square.egg')
@@ -35,11 +32,11 @@ class ActionBar(Panel):
         scale = 10
         pos = {
             1: [
-                (0.4, 0, 0.55)
+                (0.45, 0, 0.575)
             ],
             2: [
-                (0.1, 0, 0.55),
-                (0.8, 0, 0.55)
+                (0.1, 0, 0.575),
+                (0.8, 0, 0.575)
             ]
         }
 

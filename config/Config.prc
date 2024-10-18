@@ -11,6 +11,8 @@ notify-level-player debug
 notify-level-home debug
 notify-level-location debug
 notify-level-selfportrait debug
+notify-level-stat debug
+notify-level-inventory debug
 
 starting-time 600
 secs-per-hour 5

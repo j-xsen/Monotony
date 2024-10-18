@@ -11,8 +11,8 @@ class StatsWidget(Panel):
     def __init__(self, player):
         Panel.__init__(self, "statswidget")
         self.player = player
-        self.background.setScale(0.4)
-        self.background.setPos(.88, 0, -.55)
+        self.background["frameSize"] = (.85, 0, .85, 0)
+        self.background.setPos(0.45, 0, -.975)
 
         self.hour_text = OnscreenText(pos=(.6, -.25), scale=0.07,
                                       fg=(1, 1, 1, 1), font=self.player.font)

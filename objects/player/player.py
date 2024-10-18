@@ -2,6 +2,7 @@ from objects.player.locations.home import Home
 from objects.player.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
+from objects.player.ui.inventory import Inventory
 from objects.player.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.player.ui.stats.statswidget import StatsWidget
 from objects.player.ui.stats.stat import Stat
@@ -22,6 +23,7 @@ class Player(Notifier):
         # Widgets
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
+        self.inventory = Inventory()
         self.clock = Clock(self)
 
         # Location
@@ -73,12 +75,14 @@ class Player(Notifier):
         @param duration: How long it takes to wash
         @param effect: How much hygiene restored
         """
+        self.notify.debug(f"[bathe] Start bathing for {duration} seconds for {effect} hygiene.")
         self.self_portrait.update_state(BATHING)
         self.cleaning_amount = effect
         taskMgr.doMethodLater(duration, self.finish_bathing, "Bathing")
         self.daze(duration)
 
     def finish_bathing(self, task):
+        self.notify.debug(f"[finish_bathing] Finished bathing; restoring {self.cleaning_amount} to {self.hygiene}.")
         self.self_portrait.update_state(PERSON)
         self.hygiene += self.cleaning_amount
         self.cleaning_amount = 0
@@ -96,12 +100,14 @@ class Player(Notifier):
         @param calories: Amount of hunger to restore
         @param daze_time: How long to eat
         """
+        self.notify.debug(f"[feed] Start feeding: {daze_time}s for +{calories}.")
         self.self_portrait.update_state(EATING)
         self.consuming_calories += calories
         taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
         self.daze(daze_time)
 
     def finish_eating(self, task):
+        self.notify.debug(f"[finish_eating] Finished eating; restoring {self.consuming_calories} to {self.hunger}.")
         self.hunger += self.consuming_calories
         self.consuming_calories = 0
         self.self_portrait.update_state(PERSON)

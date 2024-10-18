@@ -1,7 +1,8 @@
+from direct.gui.DirectFrame import DirectFrame
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
 from objects.notifier import Notifier
-
+from objects.player.ui.panel import Panel
 
 PERSON = 0
 EATING = 1
@@ -17,18 +18,23 @@ self_portrait_dict = {
         BATHING: "art/portraits/bath.png"
     }
 
-class SelfPortrait(Notifier):
+class SelfPortrait(Panel):
 
     def __init__(self):
         """
         Portrait on the left
         """
-        Notifier.__init__(self, "selfportrait")
+        Panel.__init__(self, "selfportrait")
         self.state = PERSON
-        self.image = OnscreenImage(image='art/portraits/person.png', scale=0.375, pos=(-.88, 0, .55))
-        self.image.setTransparency(TransparencyAttrib.MAlpha)
-        self.white_square = OnscreenImage(image='art/white_square.png', scale=0.4, pos=(-.88, 0, .55))
-        self.white_square.setTransparency(TransparencyAttrib.MAlpha)
+
+        self.background["frameSize"] = (.8, 0, .8, 0)
+        self.background.setPos(-1.25, 0, .18)
+
+        self.image = DirectFrame(image='art/portraits/person.png',
+                                 image_scale=0.35,
+                                 image_pos=(0.4, 0, 0.4),
+                                 parent=self.background)
+
         self.update_state(SLEEPING)
 
     def update_state(self, new_state):
