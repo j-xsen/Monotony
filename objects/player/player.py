@@ -17,13 +17,17 @@ class Player(Notifier):
         """
         Notifier.__init__(self, "player")
 
+        # load font
         self.font = loader.loadFont("Monotony1-Regular.ttf")
         self.font.setPixelsPerUnit(60)
+
+        # load image for buttons
+        self.drawn_square = loader.loadModel('art/activities/drawn_square.egg').find("**/drawn_square")
 
         # Widgets
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
-        self.inventory = Inventory()
+        self.inventory = Inventory(self)
         self.clock = Clock(self)
 
         # Location

@@ -15,5 +15,5 @@ notify-level-stat debug
 notify-level-inventory debug
 
 starting-time 600
-secs-per-hour 5
+secs-per-hour 6
 hours-in-day 24
