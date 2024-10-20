@@ -143,4 +143,6 @@ dmypy.json
 cython_debug/
 
 /venv/
+/venv312/
 art/*
+.DS_Store
