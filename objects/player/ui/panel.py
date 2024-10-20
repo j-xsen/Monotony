@@ -4,7 +4,7 @@ from objects.notifier import Notifier
 
 
 class Panel(Notifier):
-    def __init__(self, name):
+    def __init__(self, name, frame_size=(-1, 1, -1, 1), pos=(0, 0, 0)):
         """
         UI Widget that has a box
         """
@@ -13,5 +13,5 @@ class Panel(Notifier):
         # create background box
         self.background = DirectFrame(frameColor=(1, 1, 1, 1),
                                       frameTexture='art/activities/drawn_square.png',
-                                      frameSize=(5, 0, 10, 0),
-                                      pos=(1, 0, 1))
+                                      frameSize=frame_size,
+                                      pos=pos)

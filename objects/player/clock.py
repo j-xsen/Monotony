@@ -26,7 +26,7 @@ class Clock(Notifier):
         # the clock bar
         self.bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75))
         self.bar['barColor'] = (1, 1, 1, 1)
-        self.bar['frameColor'] = (0, 0, 0, 1)
+        self.bar['frameColor'] = (.075, .075, .075, 1)
         self.bar['frameSize'] = (-1.28, 1.28, -.050, .025)
 
         # the time

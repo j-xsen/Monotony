@@ -6,9 +6,9 @@ class ActionBar(Panel):
         """
         Holds the box with the different actions available.
         """
-        Panel.__init__(self, "actionbar")
-        self.background["frameSize"] = (1.7, 0, .8, 0)
-        self.background.setPos(-.4, 0, .18)
+        Panel.__init__(self, "actionbar",
+                       frame_size=(1.7, 0, .8, 0),
+                       pos=(-.4, 0, .18))
 
         # drawn square texture for actions
         self.drawn_square = loader.loadModel('art/activities/drawn_square.egg')

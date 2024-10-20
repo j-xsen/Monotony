@@ -20,7 +20,7 @@ class Eat(Action):
         Action.__init__(self, "Eat", player)
 
     def command(self):
-        self.player.feed(calories=60)
+        self.player.feed(calories=60, daze_time=1)
 
 
 class Bathe(Action):
@@ -28,4 +28,4 @@ class Bathe(Action):
         Action.__init__(self, "Bathe", player)
 
     def command(self):
-        self.player.bathe(duration=3, effect=80)
+        self.player.bathe(duration=2, effect=80)

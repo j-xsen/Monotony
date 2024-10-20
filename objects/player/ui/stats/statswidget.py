@@ -9,10 +9,10 @@ from objects.player.ui.panel import Panel
 
 class StatsWidget(Panel):
     def __init__(self, player):
-        Panel.__init__(self, "statswidget")
+        Panel.__init__(self, "statswidget",
+                       frame_size=(.85, 0, .85, 0),
+                       pos=(0.45, 0, -.975))
         self.player = player
-        self.background["frameSize"] = (.85, 0, .85, 0)
-        self.background.setPos(0.45, 0, -.975)
 
         self.hour_text = OnscreenText(pos=(.6, -.25), scale=0.07,
                                       fg=(1, 1, 1, 1), font=self.player.font)

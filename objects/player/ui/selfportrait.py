@@ -24,11 +24,10 @@ class SelfPortrait(Panel):
         """
         Portrait on the left
         """
-        Panel.__init__(self, "selfportrait")
+        Panel.__init__(self, "selfportrait",
+                       frame_size=(.8, 0, .8, 0),
+                       pos=(-1.25, 0, .18))
         self.state = PERSON
-
-        self.background["frameSize"] = (.8, 0, .8, 0)
-        self.background.setPos(-1.25, 0, .18)
 
         self.image = DirectFrame(image='art/portraits/person.png',
                                  image_scale=0.35,

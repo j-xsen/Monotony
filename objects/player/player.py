@@ -111,6 +111,7 @@ class Player(Notifier):
         self.hunger += self.consuming_calories
         self.consuming_calories = 0
         self.self_portrait.update_state(PERSON)
+
         self.stats_widget.update_stats()
 
     def tire(self):
