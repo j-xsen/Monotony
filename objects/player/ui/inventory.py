@@ -17,7 +17,7 @@ class Inventory(Panel):
         #                      pos=(-1, 0, -.1))
 
         button_scale = 0.4
-        self.nav_inv = DirectButton(geom=player.drawn_square,
+        self.nav_log = DirectButton(geom=player.drawn_square,
                                     text="Log",
                                     text_fg=(1, 1, 1, 1),
                                     text_pos=(0, -.03, 1),
@@ -25,3 +25,11 @@ class Inventory(Panel):
                                     relief=None,
                                     geom_scale=(button_scale, 1, button_scale*0.35),
                                     pos=(-1, 0, -.045))
+        self.nav_inv = DirectButton(geom=player.drawn_square,
+                                    text="Inventory",
+                                    text_fg=(1, 1, 1, 1),
+                                    text_pos=(0, -.03, 1),
+                                    text_font=player.font, text_scale=0.06,
+                                    relief=None,
+                                    geom_scale=(button_scale, 1, button_scale*0.35),
+                                    pos=(-.5, 0, -.045))
