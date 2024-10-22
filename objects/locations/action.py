@@ -1,6 +1,7 @@
 from direct.gui.DirectButton import DirectButton
 from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode
+from objects.ui.detailrectangle import LogEntry
 
 text_scale = 0.1
 
@@ -44,3 +45,14 @@ class Action:
     def set_pos(self, pos):
         self.button.setPos(pos)
         self.text_node_path.setPos(pos[0], pos[1], pos[2]-(self.text_node.getHeight()*text_scale/2)+0.01)
+
+    def add_log(self, text):
+        log = self.player.detail_rectangle.log
+        log.add(LogEntry(log, text))
+
+class DelayedAction(Action):
+    def __init__(self, text, player):
+        super().__init__(text, player)
+
+    def post(self, e):
+        pass

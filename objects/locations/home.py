@@ -1,6 +1,7 @@
-from objects.locations.action import Action
+from objects.locations.action import Action, DelayedAction
 from objects.locations.location import Location
 from objects.notifier import Notifier
+from objects.ui.detailrectangle import LogEntry
 from objects.ui.selfportrait import PERSON
 
 
@@ -15,22 +16,29 @@ class WakeUp(Action):
         self.player.self_portrait.update_state(PERSON)
         # change player variable for deteriorate
         self.player.in_bed = False
+        self.add_log("Good morning Me!")
 
 
-class Eat(Action):
+class Eat(DelayedAction):
     def __init__(self, player):
         Action.__init__(self, "Eat", player)
 
     def command(self):
-        self.player.feed(calories=60, daze_time=1)
+        self.player.feed(calories=60, daze_time=1, after=self.post)
+
+    def post(self, e):
+        self.add_log("Delicious!")
 
 
-class Bathe(Action):
+class Bathe(DelayedAction):
     def __init__(self, player):
         Action.__init__(self, "Bathe", player)
 
     def command(self):
-        self.player.bathe(duration=2, effect=80)
+        self.player.bathe(duration=2, effect=80, after=self.post)
+
+    def post(self, e):
+        self.add_log("All clean.")
 
 
 class Home(Location, Notifier):

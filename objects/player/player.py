@@ -1,10 +1,9 @@
 from panda3d.core import ConfigVariableString
-
 from objects.locations.home import Home
 from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
-from objects.ui.inventory import Inventory
+from objects.ui.detailrectangle import DetailRectangle
 from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 from objects.player.stat import Stat
@@ -29,8 +28,8 @@ class Player(Notifier):
         # Widgets
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
-        self.inventory = Inventory(self)
         self.clock = Clock(self)
+        self.detail_rectangle = DetailRectangle(self)
 
         # Location
         self.location_dict = {
@@ -45,7 +44,7 @@ class Player(Notifier):
         self.hunger = Stat(20)
         self.consuming_calories = 0 # adds calories when done eating
         self.sleep = Stat(100)
-        self.in_bed = True
+        self.in_bed = True # Used for decay or boost checking
         self.money = 0
 
         # Decay/Boost variables
@@ -75,7 +74,7 @@ class Player(Notifier):
             self.sleep -= self.sleep_decay
         self.stats_widget.update_stats()
 
-    def bathe(self, duration=2, effect=80):
+    def bathe(self, duration=2, effect=80, after=None):
         """
         The player takes a bath
         @param duration: How long it takes to wash
@@ -85,6 +84,8 @@ class Player(Notifier):
         self.self_portrait.update_state(BATHING)
         self.cleaning_amount = effect
         taskMgr.doMethodLater(duration, self.finish_bathing, "Bathing")
+        if after:
+            taskMgr.doMethodLater(duration, after, "AfterBathing")
         self.daze(duration)
 
     def finish_bathing(self, task):
@@ -94,16 +95,19 @@ class Player(Notifier):
         self.cleaning_amount = 0
         self.stats_widget.update_stats()
 
-    def feed(self, calories=20, daze_time=2):
+    def feed(self, calories=20, daze_time=2, after=None):
         """
         Cheezburger
         @param calories: Amount of hunger to restore
         @param daze_time: How long to eat
+        @param after: function to run after done eating
         """
         self.notify.debug(f"[feed] Start feeding: {daze_time}s for +{calories}.")
         self.self_portrait.update_state(EATING)
         self.consuming_calories += calories
         taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
+        if after:
+            taskMgr.doMethodLater(daze_time, after, "PostEating")
         self.daze(daze_time)
 
     def finish_eating(self, task):
