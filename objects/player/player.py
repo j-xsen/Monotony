@@ -1,3 +1,5 @@
+from panda3d.core import ConfigVariableString
+
 from objects.locations.home import Home
 from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
@@ -46,6 +48,12 @@ class Player(Notifier):
         self.in_bed = True
         self.money = 0
 
+        # Decay/Boost variables
+        self.hunger_decay = int(ConfigVariableString('hunger-decay', '10').getValue())
+        self.sleep_decay = int(ConfigVariableString('sleep-decay', '10').getValue())
+        self.sleep_boost = int(ConfigVariableString('sleep-boost', '10').getValue())
+        self.hygiene_decay = int(ConfigVariableString('hygiene-decay', '10').getValue())
+
         self.stats_widget = StatsWidget(self)
 
     def head_to_location(self, destination, stage=0):
@@ -59,19 +67,13 @@ class Player(Notifier):
         return True
 
     def deteriorate(self):
-        self.starve()
-        self.stink()
+        self.hunger -= self.hunger_decay
+        self.hygiene -= self.hygiene_decay
         if self.in_bed:
-            self.rest()
+            self.sleep += self.sleep_boost
         else:
-            self.tire()
+            self.sleep -= self.sleep_decay
         self.stats_widget.update_stats()
-
-    def stink(self):
-        """
-        Pee-ew!
-        """
-        self.hygiene -= 5
 
     def bathe(self, duration=2, effect=80):
         """
@@ -92,12 +94,6 @@ class Player(Notifier):
         self.cleaning_amount = 0
         self.stats_widget.update_stats()
 
-    def starve(self):
-        """
-        No cheezburger
-        """
-        self.hunger -= 10
-
     def feed(self, calories=20, daze_time=2):
         """
         Cheezburger
@@ -117,19 +113,6 @@ class Player(Notifier):
         self.self_portrait.update_state(PERSON)
 
         self.stats_widget.update_stats()
-
-    def tire(self):
-        """
-        Another hour awake
-        """
-        self.sleep -= 5
-
-    def rest(self, power_boost=10):
-        """
-        Zzz...
-        @param power_boost: Amount of sleep to restore
-        """
-        self.sleep += power_boost
 
     def daze(self, duration=5):
         self.action_bar.hide()

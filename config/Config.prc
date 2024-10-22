@@ -17,3 +17,8 @@ notify-level-inventory debug
 starting-time 600
 secs-per-hour 6
 hours-in-day 24
+
+hunger-decay 7
+hygiene-decay 5
+sleep-decay 5
+sleep-boost 10
