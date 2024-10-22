@@ -18,7 +18,7 @@ class Player(Notifier):
         Notifier.__init__(self, "player")
 
         # load font
-        self.font = loader.loadFont("Monotony1-Regular.ttf")
+        self.font = loader.loadFont("Monotony-Regular.ttf")
         self.font.setPixelsPerUnit(60)
 
         # load image for buttons
