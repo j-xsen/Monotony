@@ -1,10 +1,8 @@
 from direct.gui.DirectWaitBar import DirectWaitBar
-from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.OnscreenText import OnscreenText
-from panda3d.core import TransparencyAttrib
 from direct.task import Task
 
-from objects.player.ui.panel import Panel
+from objects.ui.panel import Panel
 
 
 class StatsWidget(Panel):

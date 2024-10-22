@@ -1,4 +1,4 @@
-from objects.console.entry import Entry
+from objects.ui.console.entry import Entry
 from direct.showbase.DirectObject import DirectObject
 from objects.notifier import Notifier
 from direct.gui.OnscreenText import OnscreenText
@@ -181,7 +181,7 @@ class Console(Entry, DirectObject, Notifier):
         "help": print_commands,
         "test": debug,
         "clear": clear,
-        "ssps": set_self_portrait_state,
+        "portraitstate": set_self_portrait_state,
         "archivable": print_archivable,
         "location": set_location
     }

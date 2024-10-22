@@ -1,4 +1,4 @@
-from objects.player.ui.panel import Panel
+from objects.ui.panel import Panel
 
 
 class ActionBar(Panel):

@@ -1,8 +1,6 @@
 from direct.gui.DirectFrame import DirectFrame
-from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
-from objects.notifier import Notifier
-from objects.player.ui.panel import Panel
+from objects.ui.panel import Panel
 
 PERSON = 0
 EATING = 1

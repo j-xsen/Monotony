@@ -3,7 +3,7 @@ loadPrcFile("config/Config.prc")
 
 
 from direct.showbase.ShowBase import ShowBase
-from objects.console.console import Console
+from objects.ui.console.console import Console
 from panda3d.core import Multifile, VirtualFileSystem
 from objects.player.player import Player
 
