@@ -10,9 +10,6 @@ class ActionBar(Panel):
                        frame_size=(1.7, 0, .8, 0),
                        pos=(-.4, 0, .18))
 
-        # drawn square texture for actions
-        self.drawn_square = loader.loadModel('art/activities/drawn_square.egg')
-
         self.actions = []
         self.temp = []
 

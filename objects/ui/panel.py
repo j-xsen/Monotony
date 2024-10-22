@@ -12,6 +12,6 @@ class Panel(Notifier):
 
         # create background box
         self.background = DirectFrame(frameColor=(1, 1, 1, 1),
-                                      frameTexture='art/activities/drawn_square.png',
+                                      frameTexture='art/drawn_square.png',
                                       frameSize=frame_size,
                                       pos=pos)

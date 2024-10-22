@@ -22,7 +22,7 @@ class Player(Notifier):
         self.font.setPixelsPerUnit(60)
 
         # load image for buttons
-        self.drawn_square = loader.loadModel('art/activities/drawn_square.egg').find("**/drawn_square")
+        self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
 
         # Widgets
         self.self_portrait = SelfPortrait()

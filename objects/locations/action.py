@@ -24,7 +24,7 @@ class Action:
         Creates a DirectButton
         """
         self.button = DirectButton(scale=((self.text_node.getWidth()*text_scale)+0.2, 1, 0.3), relief=None, command=self.command,
-                                   geom=(self.player.action_bar.drawn_square.find("**/drawn_square")))
+                                   geom=self.player.drawn_square)
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(text_scale)
 
