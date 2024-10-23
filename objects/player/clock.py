@@ -1,6 +1,7 @@
+from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.task.TaskManagerGlobal import taskMgr
-from panda3d.core import ConfigVariableString
+from panda3d.core import ConfigVariableString, LVecBase4f
 from objects.notifier import Notifier
 from direct.task import Task
 
@@ -34,14 +35,26 @@ class Clock(Notifier):
         self.hours_in_day = int(ConfigVariableString('hours-in-day', '24').getValue())
         self.time = int(ConfigVariableString('starting-time', '600').getValue())
 
+        self.egg = loader.loadModel("art/clock.egg")
+        self.toggle = DirectButton(geom=(self.egg.find("**/pause")),
+                                  relief=None,
+                                  scale=0.1,
+                                  pos=(0.38, 0, -.04),
+                                   command=self.toggle_clock)
+
+        self.paused = False
+        self.offset_time = 0
+
         # start task
         self.start_clock()
 
     def run_clock(self, task):
-        self.bar['value'] = task.time / self.seconds_per_hour * 100
-        if task.time < self.seconds_per_hour:
-            return Task.cont
-        self.progress_hour()
+        if not self.paused:
+            self.bar['value'] = (task.time+self.offset_time) / self.seconds_per_hour * 100
+            if task.time + self.offset_time < self.seconds_per_hour:
+                return Task.cont
+            self.offset_time = 0
+            self.progress_hour()
         return Task.again
 
     def start_clock(self):
@@ -60,3 +73,11 @@ class Clock(Notifier):
             # TODO do day move
             self.notify.debug("[progress_hour] End of day")
         self.player.stats_widget.update_stats()
+
+    def toggle_clock(self):
+        if not self.paused:
+            self.offset_time = (self.bar['value']/100)*self.seconds_per_hour
+            self.toggle.setGeom(self.egg.find("**/play"))
+        else:
+            self.toggle.setGeom(self.egg.find("**/pause"))
+        self.paused = not self.paused
