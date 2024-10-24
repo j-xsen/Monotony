@@ -1,6 +1,6 @@
 from panda3d.core import loadPrcFile
-loadPrcFile("config/Config.prc")
 
+loadPrcFile("config/Config.prc")
 
 from direct.showbase.ShowBase import ShowBase
 from objects.ui.console.console import Console
@@ -34,8 +34,6 @@ class Monotony(ShowBase):
         else:
             self.console.destroy()
             self.console = None
-
-
 
 
 app = Monotony()

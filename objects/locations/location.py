@@ -1,8 +1,7 @@
 from objects.notifier import Notifier
 
-
-BED = 0
-HOME = 1
+HOME = 0
+WORK = 1
 
 
 class Location(Notifier):

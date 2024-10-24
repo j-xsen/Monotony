@@ -5,6 +5,7 @@ from objects.ui.detailrectangle import LogEntry
 
 text_scale = 0.1
 
+
 class Action:
     def __init__(self, text, player):
         """
@@ -24,7 +25,8 @@ class Action:
         """
         Creates a DirectButton
         """
-        self.button = DirectButton(scale=((self.text_node.getWidth()*text_scale)+0.2, 1, 0.3), relief=None, command=self.command,
+        self.button = DirectButton(scale=((self.text_node.getWidth() * text_scale) + 0.2, 1, 0.3), relief=None,
+                                   command=self.command,
                                    geom=self.player.drawn_square)
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(text_scale)
@@ -44,11 +46,12 @@ class Action:
 
     def set_pos(self, pos):
         self.button.setPos(pos)
-        self.text_node_path.setPos(pos[0], pos[1], pos[2]-(self.text_node.getHeight()*text_scale/2)+0.01)
+        self.text_node_path.setPos(pos[0], pos[1], pos[2] - (self.text_node.getHeight() * text_scale / 2) + 0.01)
 
     def add_log(self, text):
         log = self.player.detail_rectangle.log
         log.add(LogEntry(log, text))
+
 
 class DelayedAction(Action):
     def __init__(self, text, player):

@@ -1,5 +1,6 @@
 from panda3d.core import ConfigVariableString
 from objects.locations.home import Home
+from objects.locations.work import Work
 from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
@@ -7,7 +8,7 @@ from objects.ui.detailrectangle import DetailRectangle
 from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 from objects.player.stat import Stat
-from objects.locations.location import HOME
+from objects.locations.location import HOME, WORK
 
 
 class Player(Notifier):
@@ -33,18 +34,19 @@ class Player(Notifier):
 
         # Location
         self.location_dict = {
-            HOME: Home
+            HOME: Home,
+            WORK: Work
         }
         self.location = None
         self.head_to_location(HOME)
 
         # Stats
         self.hygiene = Stat(20)
-        self.cleaning_amount = 0 # adds hygiene after bathing
+        self.cleaning_amount = 0  # adds hygiene after bathing
         self.hunger = Stat(20)
-        self.consuming_calories = 0 # adds calories when done eating
+        self.consuming_calories = 0  # adds calories when done eating
         self.sleep = Stat(100)
-        self.in_bed = True # Used for decay or boost checking
+        self.in_bed = True  # Used for decay or boost checking
         self.money = 0
 
         # Decay/Boost variables

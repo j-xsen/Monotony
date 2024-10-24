@@ -1,5 +1,6 @@
 from objects.player.stat import Stat
 
+
 def test_change_value():
     add_stat = Stat(100)
     sub_stat = Stat(0)

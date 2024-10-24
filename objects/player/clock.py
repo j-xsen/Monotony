@@ -6,6 +6,31 @@ from objects.notifier import Notifier
 from direct.task import Task
 
 
+class Day:
+    days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ]
+
+    def __init__(self):
+        self.index = 1  # Start monday
+
+    def set(self, index):
+        self.index = index
+        return self.index
+
+    def forward(self):
+        self.index += 1
+        if self.index >= len(self.days):
+            self.index = 0
+        return self.index
+
+
 class Clock(Notifier):
     def __init__(self, player):
         """
@@ -37,9 +62,9 @@ class Clock(Notifier):
 
         self.egg = loader.loadModel("art/clock.egg")
         self.toggle = DirectButton(geom=(self.egg.find("**/pause")),
-                                  relief=None,
-                                  scale=0.1,
-                                  pos=(0.38, 0, -.04),
+                                   relief=None,
+                                   scale=0.1,
+                                   pos=(0.38, 0, -.04),
                                    command=self.toggle_clock)
 
         self.paused = False
@@ -50,7 +75,7 @@ class Clock(Notifier):
 
     def run_clock(self, task):
         if not self.paused:
-            self.bar['value'] = (task.time+self.offset_time) / self.seconds_per_hour * 100
+            self.bar['value'] = (task.time + self.offset_time) / self.seconds_per_hour * 100
             if task.time + self.offset_time < self.seconds_per_hour:
                 return Task.cont
             self.offset_time = 0
@@ -76,8 +101,10 @@ class Clock(Notifier):
 
     def toggle_clock(self):
         if not self.paused:
-            self.offset_time = (self.bar['value']/100)*self.seconds_per_hour
+            self.notify.debug("[toggle_clock] Pausing")
+            self.offset_time = (self.bar['value'] / 100) * self.seconds_per_hour
             self.toggle.setGeom(self.egg.find("**/play"))
         else:
+            self.notify.debug("[toggle_clock] Unpausing")
             self.toggle.setGeom(self.egg.find("**/pause"))
         self.paused = not self.paused
