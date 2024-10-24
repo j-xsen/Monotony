@@ -5,6 +5,7 @@ from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
 from objects.ui.detailrectangle import DetailRectangle
+from objects.ui.message import Message
 from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 from objects.player.stat import Stat
@@ -25,6 +26,9 @@ class Player(Notifier):
 
         # load image for buttons
         self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
+
+        # Collection of notes
+        self.notes = []
 
         # Widgets
         self.self_portrait = SelfPortrait()
@@ -126,3 +130,8 @@ class Player(Notifier):
 
     def undaze(self, task):
         self.action_bar.show()
+
+    def add_note(self, title, message):
+        new_note = Message(self, title, message)
+        self.notify.debug(f"[add_note] Received note: {new_note.title}: {new_note.message}")
+        self.notes.append(message)

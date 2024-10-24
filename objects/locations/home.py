@@ -58,6 +58,8 @@ class Home(Location, Notifier):
         Notifier.__init__(self, "home")
         self.notify.debug("[__init__] Creating Home location")
 
+        player.add_note("Welcome to Monotony!", "Thanks for playing my game!")
+
         self.actions = [
             [
                 WakeUp(player)

@@ -15,3 +15,6 @@ class Panel(Notifier):
                                       frameTexture='art/drawn_square.png',
                                       frameSize=frame_size,
                                       pos=pos)
+
+    def destroy(self):
+        self.background.destroy()
