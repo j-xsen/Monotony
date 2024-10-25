@@ -13,6 +13,7 @@ class Monotony(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
 
+        # Open Multfile
         self.vfs = VirtualFileSystem.getGlobalPtr()
         self.multifile = Multifile()
         self.multifile.openReadWrite("art.mf")
@@ -23,10 +24,14 @@ class Monotony(ShowBase):
             self.notify.error("Unable to mount art.mf!")
 
         self.setBackgroundColor(0, 0, 0)
-        self.console = None
-        self.accept("`", self.pressed_tilda)
 
+        self.console = None
         self.player = Player()
+
+        # Controls
+        self.accept("`", self.pressed_tilda)
+        self.accept("escape", self.userExit)
+
 
     def pressed_tilda(self):
         if self.console is None:

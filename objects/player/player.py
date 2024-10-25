@@ -30,6 +30,9 @@ class Player(Notifier):
         # Collection of notes
         self.notes = []
 
+        # Ability to act
+        self.able = True
+
         # Widgets
         self.self_portrait = SelfPortrait()
         self.action_bar = ActionBar()
@@ -135,3 +138,13 @@ class Player(Notifier):
         new_note = Message(self, title, message)
         self.notify.debug(f"[add_note] Received note: {new_note.title}: {new_note.message}")
         self.notes.append(message)
+
+    def enable_actions(self):
+        self.able = True
+        self.clock.start_clock()
+        self.action_bar.enable_actions()
+
+    def disable_actions(self):
+        self.able = False
+        self.clock.stop_clock()
+        self.action_bar.disable_actions()

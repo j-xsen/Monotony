@@ -9,13 +9,14 @@ class WakeUp(Action):
         Action.__init__(self, "Wake Up", player)
 
     def command(self):
-        # change stage
-        self.player.location.set_stage(1)
-        # update portrait
-        self.player.self_portrait.update_state(PERSON)
-        # change player variable for deteriorate
-        self.player.in_bed = False
-        self.add_log("Good morning Me!")
+        if Action.command(self):
+            # change stage
+            self.player.location.set_stage(1)
+            # update portrait
+            self.player.self_portrait.update_state(PERSON)
+            # change player variable for deteriorate
+            self.player.in_bed = False
+            self.add_log("Good morning Me!")
 
 
 class GoToWork(Action):
@@ -23,7 +24,8 @@ class GoToWork(Action):
         Action.__init__(self, "Go to Work", player)
 
     def command(self):
-        self.player.head_to_location(WORK)
+        if Action.command(self):
+            self.player.head_to_location(WORK)
 
 
 class Eat(DelayedAction):
@@ -31,7 +33,8 @@ class Eat(DelayedAction):
         Action.__init__(self, "Eat", player)
 
     def command(self):
-        self.player.feed(calories=60, daze_time=1, after=self.post)
+        if Action.command(self):
+            self.player.feed(calories=60, daze_time=1, after=self.post)
 
     def post(self, e):
         self.add_log("Delicious!")
@@ -42,7 +45,8 @@ class Bathe(DelayedAction):
         Action.__init__(self, "Bathe", player)
 
     def command(self):
-        self.player.bathe(duration=2, effect=80, after=self.post)
+        if Action.command(self):
+            self.player.bathe(duration=2, effect=80, after=self.post)
 
     def post(self, e):
         self.add_log("All clean.")
@@ -58,8 +62,6 @@ class Home(Location, Notifier):
         Notifier.__init__(self, "home")
         self.notify.debug("[__init__] Creating Home location")
 
-        player.add_note("Welcome to Monotony!", "Thanks for playing my game!")
-
         self.actions = [
             [
                 WakeUp(player)
@@ -70,3 +72,8 @@ class Home(Location, Notifier):
                 GoToWork(player)
             ]
         ]
+
+    def set_stage(self, stage):
+        super(Home, self).set_stage(stage)
+        if stage == 0:
+            self.player.add_note("Welcome to Monotony!", "Thanks for playing my game!")

@@ -1,14 +1,14 @@
-from objects.ui.console.entry import Entry
+from objects.ui.console.userinputtextbox import UserInputTextBox
 from direct.showbase.DirectObject import DirectObject
 from objects.notifier import Notifier
 from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import TextNode
 
 
-class Console(Entry, DirectObject, Notifier):
+class Console(UserInputTextBox, Notifier):
     def __init__(self, level_holder):
         DirectObject.__init__(self)
-        Entry.__init__(self, "", (-1.25, 1, -.9), self.entered_command, focus=True, sort_order=1500)
+        UserInputTextBox.__init__(self, "", (-1.25, 1, -.9), self.entered_command, focus=True, sort_order=1500)
         Notifier.__init__(self, "console")
 
         self.level_holder = level_holder
@@ -24,7 +24,7 @@ class Console(Entry, DirectObject, Notifier):
     def destroy(self):
         for log in self.logs:
             log.destroy()
-        Entry.destroy(self)
+        UserInputTextBox.destroy(self)
 
     def pressed_tilda(self):
         self.notify.debug("[pressed_tilda] Destroy console")

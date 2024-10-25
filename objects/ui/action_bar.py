@@ -59,3 +59,11 @@ class ActionBar(Panel):
         self.notify.debug("[show] Showing actions...")
         self.set_actions(self.temp)
         self.temp = []
+
+    def disable_actions(self):
+        for action in self.actions:
+            action.disable_button()
+
+    def enable_actions(self):
+        for action in self.actions:
+            action.enable_button()

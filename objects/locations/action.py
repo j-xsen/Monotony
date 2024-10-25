@@ -2,6 +2,7 @@ from direct.gui.DirectButton import DirectButton
 from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode
 from objects.ui.detailrectangle import LogEntry
+from direct.gui.DirectGui import DGG
 
 text_scale = 0.1
 
@@ -27,9 +28,11 @@ class Action:
         """
         self.button = DirectButton(scale=((self.text_node.getWidth() * text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
-                                   geom=self.player.drawn_square)
+                                   geom=self.player.drawn_square,)
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(text_scale)
+        self.text_node_path.wrtReparentTo(self.button)
+        self.text_node_path.setPos(0, 0, -.1)
 
     def destroy_button(self):
         """
@@ -40,17 +43,25 @@ class Action:
 
     def command(self):
         """
-        OVERWRITE! Function ran when DirectButton pressed
+        Call to check validity
         """
-        pass
+        return self.player.able
 
     def set_pos(self, pos):
         self.button.setPos(pos)
-        self.text_node_path.setPos(pos[0], pos[1], pos[2] - (self.text_node.getHeight() * text_scale / 2) + 0.01)
 
     def add_log(self, text):
         log = self.player.detail_rectangle.log
         log.add(LogEntry(log, text))
+
+    def disable_button(self):
+        tint = .4
+        self.button["state"] = DGG.DISABLED
+        self.button.setColor(tint, tint, tint, 1)
+
+    def enable_button(self):
+        self.button["state"] = DGG.NORMAL
+        self.button.setColor(1, 1, 1, 1)
 
 
 class DelayedAction(Action):

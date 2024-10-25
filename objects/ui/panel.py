@@ -18,3 +18,5 @@ class Panel(Notifier):
 
     def destroy(self):
         self.background.destroy()
+        self.background = None
+

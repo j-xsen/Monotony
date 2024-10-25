@@ -2,7 +2,7 @@ from direct.gui.DirectGui import DirectEntry
 from direct.showbase.DirectObject import DirectObject
 
 
-class Entry(DirectObject):
+class UserInputTextBox(DirectObject):
     def __init__(self, placeholder, pos, on_enter, focus=False, sort_order=0):
         """
         Object of a simple entry field

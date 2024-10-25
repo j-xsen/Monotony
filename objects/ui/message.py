@@ -12,16 +12,19 @@ class CloseAction(Action):
         self.container = container
 
     def command(self):
-        self.container.message_destroy()
+        self.player.enable_actions()
+        self.container.destroy()
+
+    def create_button(self):
+        Action.create_button(self)
+        self.set_pos((0, 0, -.2))
 
 
 class Message(Panel):
     def __init__(self, player, title, message):
         Panel.__init__(self,"Message", frame_size=(size, -size, size, -size))
+        player.disable_actions()
         self.title = title
         self.message = message
-        self.close = CloseAction(player, self)
-
-    def message_destroy(self):
-        self.close.destroy_button()
-        self.destroy()
+        self.close_button = CloseAction(player, self)
+        self.close_button.button.reparentTo(self.background)
