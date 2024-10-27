@@ -1,4 +1,4 @@
-from objects.locations.action import Action, DelayedAction
+from objects.ui.action import Action, DelayedAction
 from objects.locations.location import Location, WORK
 from objects.notifier import Notifier
 from objects.ui.selfportrait import PERSON
@@ -76,7 +76,7 @@ class Home(Location, Notifier):
     def set_stage(self, stage):
         super(Home, self).set_stage(stage)
         if stage == 0:
-            self.player.add_note("Welcome to Monotony!", "In this game, you live the life of someone with a 9-5 job, "
+            self.player.add_note_("Welcome to Monotony!", "In this game, you live the life of someone with a 9-5 job, "
                                                          "with every day being the same.\n\n"
                                                          "The most important boxes that you need to keep an eye on are"
                                                          " the lower-left and upper-right boxes.\n\n"

@@ -134,9 +134,9 @@ class Player(Notifier):
     def undaze(self, task):
         self.action_bar.show()
 
-    def add_note(self, title, message):
+    def add_note_(self, title, message):
         new_note = Message(self, title, message)
-        self.notify.debug(f"[add_note] Received note: {new_note.title}: {new_note.message}")
+        self.notify.debug(f"[add_note_] Received note: {title}: {message[:20]}")
         self.notes.append(message)
 
     def enable_actions(self):

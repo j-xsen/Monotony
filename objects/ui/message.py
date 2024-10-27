@@ -1,12 +1,9 @@
-from direct.gui.DirectButton import DirectButton
-from direct.gui.DirectFrame import DirectFrame
-from direct.gui.DirectGuiGlobals import SUNKEN, RAISED, GROOVE, FLAT
+from direct.gui.DirectGuiGlobals import FLAT
 from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
-from direct.showbase.ShowBaseGlobal import render2d
 from panda3d.core import TextNode
 
-from objects.locations.action import Action
+from objects.ui.action import Action
 from objects.ui.panel import Panel
 
 size = .45
