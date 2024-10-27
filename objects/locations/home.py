@@ -76,4 +76,12 @@ class Home(Location, Notifier):
     def set_stage(self, stage):
         super(Home, self).set_stage(stage)
         if stage == 0:
-            self.player.add_note("Welcome to Monotony!", "Thanks for playing my game!")
+            self.player.add_note("Welcome to Monotony!", "In this game, you live the life of someone with a 9-5 job, "
+                                                         "with every day being the same.\n\n"
+                                                         "The most important boxes that you need to keep an eye on are"
+                                                         " the lower-left and upper-right boxes.\n\n"
+                                                         "The lower-left box will hold both your characters' thoughts "
+                                                         "in the Log and any messages that you may want to refer back "
+                                                         "to, such as this one, in the Inventory.\n\n"
+                                                         "The upper-right box is where you will see the actions "
+                                                         "available to you.")

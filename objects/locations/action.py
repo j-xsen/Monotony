@@ -1,6 +1,6 @@
 from direct.gui.DirectButton import DirectButton
 from direct.showbase.ShowBaseGlobal import aspect2d
-from panda3d.core import TextNode
+from panda3d.core import TextNode, LVecBase3f
 from objects.ui.detailrectangle import LogEntry
 from direct.gui.DirectGui import DGG
 
@@ -49,6 +49,11 @@ class Action:
 
     def set_pos(self, pos):
         self.button.setPos(pos)
+
+    def multiply_scale(self, multiple):
+        cur = self.button.getScale()
+        lvec = LVecBase3f(multiple*cur.x, multiple*cur.y, multiple*cur.z)
+        self.button.setScale(lvec)
 
     def add_log(self, text):
         log = self.player.detail_rectangle.log
