@@ -37,19 +37,27 @@ class DetailRectangle(Panel):
         self.log = Log()
         self.inventory = Inventory()
         self.inventory.hide()
-        self.nav_log["state"] = DGG.DISABLED
+        self.switch_inv_log(False)
 
     def goto_inventory(self):
         self.log.hide()
         self.inventory.show()
-        self.nav_log["state"] = DGG.NORMAL
-        self.nav_inv["state"] = DGG.DISABLED
+        self.switch_inv_log(True)
 
     def goto_log(self):
         self.inventory.hide()
         self.log.show()
-        self.nav_inv["state"] = DGG.NORMAL
-        self.nav_log["state"] = DGG.DISABLED
+        self.switch_inv_log(False)
+
+    def switch_inv_log(self, is_inv):
+        color_active = (1, 1, 1, 1)
+        color_disabled = (1, 1, 1, 0.5)
+        self.nav_log["state"] = DGG.NORMAL if is_inv else DGG.DISABLED
+        self.nav_log["text_fg"] = color_active if is_inv else color_disabled
+        self.nav_log.setColor(color_active if is_inv else color_disabled)
+        self.nav_inv["state"] = DGG.DISABLED if is_inv else DGG.NORMAL
+        self.nav_inv["text_fg"] = color_disabled if is_inv else color_active
+        self.nav_inv.setColor(color_disabled if is_inv else color_active)
 
 
 class DetailRectanglePane:
