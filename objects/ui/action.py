@@ -28,7 +28,7 @@ class Action:
         """
         self.button = DirectButton(scale=((self.text_node.getWidth() * text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
-                                   geom=self.player.drawn_square,)
+                                   geom=self.player.drawn_square, )
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(text_scale)
         self.text_node_path.wrtReparentTo(self.button)
@@ -39,7 +39,6 @@ class Action:
         Destroys the DirectButton self.button
         """
         self.button.destroy()
-        self.text_node_path.removeNode()
 
     def command(self):
         """
@@ -57,7 +56,7 @@ class Action:
 
     def add_log(self, text):
         log = self.player.detail_rectangle.log
-        log.add(LogEntry(log, text))
+        log.add(LogEntry(f"[{self.player.clock.time}] {text}", self.player.font))
 
     def disable_button(self):
         tint = .4

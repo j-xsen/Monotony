@@ -77,3 +77,6 @@ class Message(Panel):
         self.background.destroy()
         self.scrolled_frame.destroy()
         self.close_button.destroy_button()
+
+    def get_title(self):
+        return self.title["text"]

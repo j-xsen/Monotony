@@ -22,7 +22,7 @@ class Player(Notifier):
 
         # load font
         self.font = loader.loadFont("Monotony-Regular.ttf")
-        self.font.setPixelsPerUnit(60)
+        self.font.setPixelsPerUnit(120)
 
         # load image for buttons
         self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
@@ -134,10 +134,11 @@ class Player(Notifier):
     def undaze(self, task):
         self.action_bar.show()
 
-    def add_note_(self, title, message):
-        new_note = Message(self, title, message)
-        self.notify.debug(f"[add_note_] Received note: {title}: {message[:20]}")
-        self.notes.append(message)
+    def add_note_(self, title, text):
+        new_note = Message(self, title, text)
+        self.notify.debug(f"[add_note_] Received note: {title}: {text[:10]}")
+        self.notes.append(new_note)
+        self.detail_rectangle.inventory.add(new_note)
 
     def enable_actions(self):
         self.able = True
