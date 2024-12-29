@@ -5,7 +5,7 @@ from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
 from objects.player.clock import Clock
 from objects.ui.detailrectangle import DetailRectangle
-from objects.ui.message import Message
+from objects.ui.message import UIMessage, Message
 from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 from objects.player.stat import Stat
@@ -135,7 +135,7 @@ class Player(Notifier):
         self.action_bar.show()
 
     def add_note_(self, title, text):
-        new_note = Message(self, title, text)
+        new_note = Message(title, text, self)
         self.notify.debug(f"[add_note_] Received note: {title}: {text[:10]}")
         self.notes.append(new_note)
         self.detail_rectangle.inventory.add(new_note)

@@ -80,23 +80,26 @@ class Inventory(DetailRectanglePane):
         self.font = loader.loadFont("Monotony-Regular.ttf")
 
     def add(self, message):
-        new_item = InventoryItem(message.get_title(), self.font)
+        new_item = InventoryItem(message, self.font, len(self.items))
         new_item.reparentTo(self.frame)
         self.items.append(new_item)
 
 
 class InventoryItem:
-    def __init__(self, message, font):
-        new_button = DirectButton(text=message, text_scale=0.07, text_pos=(0,-.02),
+    def __init__(self, message, font, index):
+        self.message = message
+        new_button = DirectButton(text=self.message.title, text_scale=0.07, text_pos=(0,-.02),
                                   pos=(-.5,0,.13), geom=loader.loadModel('art/drawn_square.egg')
                                   .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
-                                  geom_scale=[1.5,1,.1], text_font=font)
+                                  geom_scale=[1.5,1,.1], text_font=font, command=self.click)
         self.button = new_button
-        self.message = message
 
     def reparentTo(self, parent):
         self.button.reparentTo(parent)
 
+    def click(self):
+        # Button pressed, display message
+        self.message.display()
 
 class Log(DetailRectanglePane):
     def __init__(self):

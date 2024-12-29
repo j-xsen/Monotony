@@ -24,40 +24,59 @@ class CloseAction(Action):
         self.multiply_scale(0.6)
 
 
-class Message(Panel):
-    def __init__(self, player, title, message):
+class Message:
+    def __init__(self, title, message, player):
+        self.title = title
+        self.message = message
+        self.player = player
+        self.UI_message = None
+
+    def display(self):
+        self.UI_message = UIMessage(self)
+
+
+class UIMessage(Panel):
+    def __init__(self, message):
         Panel.__init__(self,"Message", frame_size=(size, -size, size, -size), sort=1000)
-        player.disable_actions()
-        self.title = DirectLabel(text=title, scale=0.1,
-                                 text_font=player.font,
-                                 pos=(0,0,.6), text_bg=(0, 0, 0, 1),
+        self.player = message.player
+        self.message = message
+
+        self.UI_title = None
+        self.UI_message = None
+        self.UI_scrolled_frame = None
+        self.UI_close_button = None
+
+        self.player.disable_actions()
+        self.UI_title = DirectLabel(text=self.message.title, scale=0.1,
+                                 text_font=self.player.font,
+                                 pos=(0, 0, .6), text_bg=(0, 0, 0, 1),
                                  text_fg=(1, 1, 1, 1),
-                                 relief=None,parent=self.background)
-        self.message = DirectLabel(text=message, scale=0.07,
-                                   text_font=player.font,
+                                 relief=None, parent=self.background)
+        self.UI_message = DirectLabel(text=self.message.message, scale=0.07,
+                                   text_font=self.player.font,
                                    text_bg=(0, 0, 0, 1),
                                    text_fg=(1, 1, 1, 1),
-                                   relief=None,text_align=TextNode.ALeft,
+                                   relief=None, text_align=TextNode.ALeft,
                                    text_wordwrap=20)
-        self.close_button = CloseAction(player, self)
-        self.close_button.button.wrtReparentTo(self.background)
+        self.UI_close_button = CloseAction(self.player, self)
+        self.UI_close_button.button.wrtReparentTo(self.background)
         background_bounds = [
             -1,
             1,
-            self.close_button.button.getPos()[2]-.07,
-            self.title.getPos()[2]+.07,
+            self.UI_close_button.button.getPos()[2] - .07,
+            self.UI_title.getPos()[2] + .07,
         ]
         self.background["frameSize"] = background_bounds
 
-        self.scrolled_frame = DirectScrolledFrame(frameSize=[background_bounds[0]*.8,
-                                                             background_bounds[1]*.8,
-                                                             background_bounds[2]*.6,
-                                                             background_bounds[3]*.8],
+        self.UI_scrolled_frame = DirectScrolledFrame(frameSize=[background_bounds[0] * .8,
+                                                             background_bounds[1] * .8,
+                                                             background_bounds[2] * .6,
+                                                             background_bounds[3] * .8],
                                                   sortOrder=1001,
-                                                  canvasSize=[background_bounds[0]*.7,
-                                                              background_bounds[1]*.7,
+                                                  canvasSize=[background_bounds[0] * .7,
+                                                              background_bounds[1] * .7,
                                                               0,
-                                                              self.message.getHeight()/10],
+                                                              self.UI_message.getHeight() / 10],
                                                   frameColor=(0, 0, 0, 1),
                                                   autoHideScrollBars=True,
                                                   verticalScroll_relief=FLAT,
@@ -67,16 +86,13 @@ class Message(Panel):
                                                   verticalScroll_incButton_relief=FLAT,
                                                   verticalScroll_incButton_frameColor=(1, 1, 1, 0.25),
                                                   verticalScroll_decButton_frameColor=(1, 1, 1, 0.25),
-                                                  verticalScroll_decButton_relief=FLAT,)
-        self.message.wrtReparentTo(self.scrolled_frame.getCanvas())
-        self.message.setPos(-.7, 0, self.message.getHeight()/10-.1)
+                                                  verticalScroll_decButton_relief=FLAT, )
+        self.UI_message.wrtReparentTo(self.UI_scrolled_frame.getCanvas())
+        self.UI_message.setPos(-.7, 0, self.UI_message.getHeight() / 10 - .1)
 
     def destroy(self):
-        self.title.destroy()
-        self.message.destroy()
+        self.UI_title.destroy()
+        self.UI_message.destroy()
         self.background.destroy()
-        self.scrolled_frame.destroy()
-        self.close_button.destroy_button()
-
-    def get_title(self):
-        return self.title["text"]
+        self.UI_scrolled_frame.destroy()
+        self.UI_close_button.destroy_button()

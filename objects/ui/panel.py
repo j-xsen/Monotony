@@ -11,10 +11,17 @@ class Panel(Notifier):
         Notifier.__init__(self, name)
 
         # create background box
+        self.background = None
+        self.frame_size = frame_size
+        self.pos = pos
+        self.sort = sort
+        self.create_background()
+
+    def create_background(self):
         self.background = DirectFrame(frameColor=(1, 1, 1, 1),
                                       frameTexture='art/drawn_square.png',
-                                      frameSize=frame_size,
-                                      pos=pos, sortOrder=sort)
+                                      frameSize=self.frame_size,
+                                      pos=self.pos, sortOrder=self.sort)
 
     def destroy(self):
         self.background.destroy()

@@ -85,3 +85,4 @@ class Home(Location, Notifier):
                                                          "to, such as this one, in the Inventory.\n\n"
                                                          "The upper-right box is where you will see the actions "
                                                          "available to you.")
+            self.player.notes[0].display()
