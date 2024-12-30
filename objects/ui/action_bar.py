@@ -16,8 +16,8 @@ class ActionBar(Panel):
     def add_action(self, new_action):
         self.actions.append(new_action)
 
-    def delete_actions(self, temp=False):
-        for action in self.actions if not temp else self.temp:
+    def delete_actions(self):
+        for action in self.actions:
             action.destroy_button()
 
     def set_actions(self, actions):

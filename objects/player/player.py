@@ -3,9 +3,9 @@ from objects.locations.home import Home
 from objects.locations.work import Work
 from objects.ui.action_bar import ActionBar
 from objects.notifier import Notifier
-from objects.player.clock import Clock
+from objects.clock import Clock
 from objects.ui.detailrectangle import DetailRectangle
-from objects.ui.message import UIMessage, Message
+from objects.ui.message import Message
 from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 from objects.player.stat import Stat

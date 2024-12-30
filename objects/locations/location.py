@@ -13,8 +13,6 @@ class Location(Notifier):
         """
         Notifier.__init__(self, "location")
         self.player = player
-        self.action_bar = player.action_bar
-        self.self_portrait = player.self_portrait
 
         # Each list within self.actions is a different stage
         self.actions = []  # list of lists
@@ -28,6 +26,6 @@ class Location(Notifier):
         if stage < len(self.actions):
             self.notify.debug(f"[set_stage] Setting stage to {stage}")
             self.stage = stage
-            self.action_bar.set_actions(self.actions[self.stage])
+            self.player.action_bar.set_actions(self.actions[self.stage])
         else:
             self.notify.warning(f"[set_stage] Cannot set stage to {stage} (Out of index).")
