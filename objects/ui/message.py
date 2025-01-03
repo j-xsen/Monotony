@@ -16,7 +16,8 @@ class CloseAction(Action):
         self.container = container
 
     def command(self):
-        self.player.enable_actions()
+        if not self.container.was_paused:
+            self.player.enable_actions()
         self.container.destroy()
 
     def create_button(self):
