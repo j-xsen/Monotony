@@ -103,6 +103,7 @@ class UIMessage(Panel, DirectObject):
         self.UI_scrolled_frame.verticalScroll['value'] += self.scroll_speed
 
     def destroy(self):
+        self.ignore_all()
         self.UI_title.destroy()
         self.UI_message.destroy()
         self.background.destroy()
