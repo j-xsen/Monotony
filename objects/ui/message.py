@@ -9,6 +9,7 @@ from objects.ui.panel import Panel
 
 size = .45
 
+
 class CloseAction(Action):
     def __init__(self, player, container):
         Action.__init__(self, "Close", player)
@@ -39,8 +40,9 @@ class Message:
 
 class UIMessage(Panel, DirectObject):
     scroll_speed = 0.05
+
     def __init__(self, message):
-        Panel.__init__(self,"Message", frame_size=(size, -size, size, -size), sort=1000)
+        Panel.__init__(self, "Message", frame_size=(size, -size, size, -size), sort=1000)
         self.player = message.player
         self.message = message
 
@@ -53,16 +55,16 @@ class UIMessage(Panel, DirectObject):
         self.was_paused = self.player.clock.paused
         self.player.clock.pause_clock()
         self.UI_title = DirectLabel(text=self.message.title, scale=0.1,
-                                 text_font=self.player.font,
-                                 pos=(0, 0, .6), text_bg=(0, 0, 0, 1),
-                                 text_fg=(1, 1, 1, 1),
-                                 relief=None, parent=self.background)
+                                    text_font=self.player.font,
+                                    pos=(0, 0, .6), text_bg=(0, 0, 0, 1),
+                                    text_fg=(1, 1, 1, 1),
+                                    relief=None, parent=self.background)
         self.UI_message = DirectLabel(text=self.message.message, scale=0.07,
-                                   text_font=self.player.font,
-                                   text_bg=(0, 0, 0, 1),
-                                   text_fg=(1, 1, 1, 1),
-                                   relief=None, text_align=TextNode.ALeft,
-                                   text_wordwrap=20)
+                                      text_font=self.player.font,
+                                      text_bg=(0, 0, 0, 1),
+                                      text_fg=(1, 1, 1, 1),
+                                      relief=None, text_align=TextNode.ALeft,
+                                      text_wordwrap=20)
         self.UI_close_button = CloseAction(self.player, self)
         self.UI_close_button.button.wrtReparentTo(self.background)
         background_bounds = [
@@ -74,24 +76,24 @@ class UIMessage(Panel, DirectObject):
         self.background["frameSize"] = background_bounds
 
         self.UI_scrolled_frame = DirectScrolledFrame(frameSize=[background_bounds[0] * .8,
-                                                             background_bounds[1] * .8,
-                                                             background_bounds[2] * .6,
-                                                             background_bounds[3] * .8],
-                                                  sortOrder=1001,
-                                                  canvasSize=[background_bounds[0] * .7,
-                                                              background_bounds[1] * .7,
-                                                              0,
-                                                              self.UI_message.getHeight() / 10],
-                                                  frameColor=(0, 0, 0, 1),
-                                                  autoHideScrollBars=True,
-                                                  verticalScroll_relief=FLAT,
-                                                  verticalScroll_frameColor=(1, 1, 1, 0.25),
-                                                  verticalScroll_thumb_frameColor=(1, 1, 1, 1),
-                                                  verticalScroll_thumb_relief=FLAT,
-                                                  verticalScroll_incButton_relief=FLAT,
-                                                  verticalScroll_incButton_frameColor=(1, 1, 1, 0.25),
-                                                  verticalScroll_decButton_frameColor=(1, 1, 1, 0.25),
-                                                  verticalScroll_decButton_relief=FLAT, )
+                                                                background_bounds[1] * .8,
+                                                                background_bounds[2] * .6,
+                                                                background_bounds[3] * .8],
+                                                     sortOrder=1001,
+                                                     canvasSize=[background_bounds[0] * .7,
+                                                                 background_bounds[1] * .7,
+                                                                 0,
+                                                                 self.UI_message.getHeight() / 10],
+                                                     frameColor=(0, 0, 0, 1),
+                                                     autoHideScrollBars=True,
+                                                     verticalScroll_relief=FLAT,
+                                                     verticalScroll_frameColor=(1, 1, 1, 0.25),
+                                                     verticalScroll_thumb_frameColor=(1, 1, 1, 1),
+                                                     verticalScroll_thumb_relief=FLAT,
+                                                     verticalScroll_incButton_relief=FLAT,
+                                                     verticalScroll_incButton_frameColor=(1, 1, 1, 0.25),
+                                                     verticalScroll_decButton_frameColor=(1, 1, 1, 0.25),
+                                                     verticalScroll_decButton_relief=FLAT, )
         self.UI_message.wrtReparentTo(self.UI_scrolled_frame.getCanvas())
         self.UI_message.setPos(-.7, 0, self.UI_message.getHeight() / 10 - .1)
 

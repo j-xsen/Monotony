@@ -32,7 +32,6 @@ class Monotony(ShowBase):
         self.accept("`", self.pressed_tilda)
         self.accept("escape", self.userExit)
 
-
     def pressed_tilda(self):
         if self.console is None:
             self.console = Console(self)

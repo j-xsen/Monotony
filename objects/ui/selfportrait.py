@@ -1,5 +1,6 @@
 from direct.gui.DirectFrame import DirectFrame
 from panda3d.core import TransparencyAttrib
+
 from objects.ui.panel import Panel
 
 PERSON = 0

@@ -1,6 +1,6 @@
-from objects.ui.action import Action, DelayedAction
 from objects.locations.location import Location, WORK
 from objects.notifier import Notifier
+from objects.ui.action import Action, DelayedAction
 from objects.ui.selfportrait import PERSON
 
 

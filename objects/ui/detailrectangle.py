@@ -1,8 +1,8 @@
 from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectFrame import DirectFrame
-from direct.gui.DirectLabel import DirectLabel
-from panda3d.core import TextNode, LVector3f, LVecBase3f
 from direct.gui.DirectGui import DGG
+from direct.gui.DirectLabel import DirectLabel
+from panda3d.core import TextNode, LVector3f
 
 from objects.ui.panel import Panel
 
@@ -100,10 +100,10 @@ class Inventory(DetailRectanglePane):
 class InventoryItem:
     def __init__(self, message, font, index):
         self.message = message
-        new_button = DirectButton(text=self.message.title, text_scale=0.07, text_pos=(0,-.02),
-                                  pos=(-.5,0,.13), geom=loader.loadModel('art/drawn_square.egg')
+        new_button = DirectButton(text=self.message.title, text_scale=0.07, text_pos=(0, -.02),
+                                  pos=(-.5, 0, .13), geom=loader.loadModel('art/drawn_square.egg')
                                   .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
-                                  geom_scale=[1.5,1,.1], text_font=font, command=self.click)
+                                  geom_scale=[1.5, 1, .1], text_font=font, command=self.click)
         self.button = new_button
 
     def reparentTo(self, parent):
@@ -112,6 +112,7 @@ class InventoryItem:
     def click(self):
         # Button pressed, display message
         self.message.display()
+
 
 class Log(DetailRectanglePane):
     def __init__(self):

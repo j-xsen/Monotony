@@ -1,8 +1,9 @@
-from objects.ui.console.userinputtextbox import UserInputTextBox
-from direct.showbase.DirectObject import DirectObject
-from objects.notifier import Notifier
 from direct.gui.OnscreenText import OnscreenText
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TextNode
+
+from objects.notifier import Notifier
+from objects.ui.console.userinputtextbox import UserInputTextBox
 
 
 class Console(UserInputTextBox, Notifier):

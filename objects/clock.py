@@ -1,10 +1,11 @@
 from direct.gui.DirectButton import DirectButton
-from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.DirectGui import DGG
-from direct.task.TaskManagerGlobal import taskMgr
-from panda3d.core import ConfigVariableString, LVecBase4f
-from objects.notifier import Notifier
+from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.task import Task
+from direct.task.TaskManagerGlobal import taskMgr
+from panda3d.core import ConfigVariableString
+
+from objects.notifier import Notifier
 
 
 class Day:
