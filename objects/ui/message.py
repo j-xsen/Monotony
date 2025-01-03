@@ -49,6 +49,7 @@ class UIMessage(Panel, DirectObject):
         self.UI_close_button = None
 
         self.player.disable_actions()
+        self.was_paused = self.player.clock.paused
         self.player.clock.pause_clock()
         self.UI_title = DirectLabel(text=self.message.title, scale=0.1,
                                  text_font=self.player.font,
@@ -109,4 +110,5 @@ class UIMessage(Panel, DirectObject):
         self.background.destroy()
         self.UI_scrolled_frame.destroy()
         self.UI_close_button.destroy_button()
-        self.player.clock.resume_clock()
+        if not self.was_paused:
+            self.player.clock.resume_clock()
