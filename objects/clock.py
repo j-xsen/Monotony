@@ -1,5 +1,6 @@
 from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectWaitBar import DirectWaitBar
+from direct.gui.DirectGui import DGG
 from direct.task.TaskManagerGlobal import taskMgr
 from panda3d.core import ConfigVariableString, LVecBase4f
 from objects.notifier import Notifier
@@ -72,6 +73,15 @@ class Clock(Notifier):
 
         # start task
         self.start_clock()
+
+    def disable_pausing(self):
+        tint = .4
+        self.toggle["state"] = DGG.DISABLED
+        self.toggle.setColor(tint, tint, tint, 1)
+
+    def enable_pausing(self):
+        self.toggle["state"] = DGG.NORMAL
+        self.toggle.setColor(1, 1, 1, 1)
 
     def run_clock(self, task):
         if not self.paused:

@@ -129,12 +129,16 @@ class Player(Notifier):
 
     def daze(self, duration=5):
         self.action_bar.hide()
+        self.clock.disable_pausing()
+        self.detail_rectangle.inventory.disable_all()
         taskMgr.doMethodLater(duration, self.undaze, 'DazePlayer')
 
     def undaze(self, task):
+        self.clock.enable_pausing()
+        self.detail_rectangle.inventory.enable_all()
         self.action_bar.show()
 
-    def add_note_(self, title, text):
+    def add_note(self, title, text):
         new_note = Message(title, text, self)
         self.notify.debug(f"[add_note_] Received note: {title}: {text[:10]}")
         self.notes.append(new_note)

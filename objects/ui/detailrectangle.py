@@ -84,6 +84,18 @@ class Inventory(DetailRectanglePane):
         new_item.reparentTo(self.frame)
         self.items.append(new_item)
 
+    def disable_all(self):
+        for item in self.items:
+            item.button["state"] = DGG.DISABLED
+            item.button.setColor(.4, .4, .4, 1)
+            item.button["text_fg"] = (.4, .4, .4, 1)
+
+    def enable_all(self):
+        for item in self.items:
+            item.button["state"] = DGG.NORMAL
+            item.button.setColor(1, 1, 1, 1)
+            item.button["text_fg"] = (1, 1, 1, 1)
+
 
 class InventoryItem:
     def __init__(self, message, font, index):
