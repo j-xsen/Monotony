@@ -13,6 +13,29 @@ class ActionBar(Panel):
         self.actions = []
         self.temp = []
 
+        self.pos = {
+            0: [],
+            1: [
+                (0.45, 0, 0.575)
+            ],
+            2: [
+                (0.1, 0, 0.575),
+                (0.8, 0, 0.575)
+            ],
+            3: [
+                (0.1, 0, 0.75),
+                (0.8, 0, 0.75),
+                (0.45, 0, 0.4)
+            ],
+            5: [
+                (-.15, 0, 0.6),
+                (.15, 0, 0.6),
+                (0.45, 0, 0.6),
+                (0.75, 0, 0.6),
+                (1.05, 0, 0.6)
+            ]
+        }
+
     def add_action(self, new_action):
         self.actions.append(new_action)
 
@@ -27,27 +50,12 @@ class ActionBar(Panel):
 
         image_scale = (0.1, 0, 0.1)
         scale = 10
-        pos = {
-            0: [],
-            1: [
-                (0.45, 0, 0.575)
-            ],
-            2: [
-                (0.1, 0, 0.575),
-                (0.8, 0, 0.575)
-            ],
-            3: [
-                (0.1, 0, 0.75),
-                (0.8, 0, 0.75),
-                (0.45, 0, 0.4)
-            ]
-        }
 
         number = 0
         for action in self.actions:
             # set location and scale
             action.create_button()
-            action.set_pos(pos[len(self.actions)][number])
+            action.set_pos(self.pos[len(self.actions)][number])
             number += 1
 
     def hide(self):

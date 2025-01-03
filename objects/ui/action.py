@@ -5,8 +5,6 @@ from panda3d.core import TextNode, LVecBase3f
 
 from objects.ui.detailrectangle import LogEntry
 
-text_scale = 0.1
-
 
 class Action:
     def __init__(self, text, player):
@@ -15,6 +13,7 @@ class Action:
         @param text: Text to display on button
         @param player: player object
         """
+        self.text_scale = 0.1
         self.text_node_path = None
         self.button = None
         self.player = player
@@ -27,11 +26,11 @@ class Action:
         """
         Creates a DirectButton
         """
-        self.button = DirectButton(scale=((self.text_node.getWidth() * text_scale) + 0.2, 1, 0.3), relief=None,
+        self.button = DirectButton(scale=((self.text_node.getWidth() * self.text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
                                    geom=self.player.drawn_square, )
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
-        self.text_node_path.setScale(text_scale)
+        self.text_node_path.setScale(self.text_scale)
         self.text_node_path.wrtReparentTo(self.button)
         self.text_node_path.setPos(0, 0, -.1)
 

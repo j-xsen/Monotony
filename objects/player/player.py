@@ -152,3 +152,6 @@ class Player(Notifier):
     def disable_actions(self):
         self.able = False
         self.action_bar.disable_actions()
+
+    def profit(self, amount=100):
+        self.money += amount
