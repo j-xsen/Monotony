@@ -1,6 +1,7 @@
 from direct.gui.DirectGuiGlobals import FLAT
 from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TextNode
 
 from objects.ui.action import Action
@@ -35,7 +36,8 @@ class Message:
         self.UI_message = UIMessage(self)
 
 
-class UIMessage(Panel):
+class UIMessage(Panel, DirectObject):
+    scroll_speed = 0.05
     def __init__(self, message):
         Panel.__init__(self,"Message", frame_size=(size, -size, size, -size), sort=1000)
         self.player = message.player
@@ -90,6 +92,15 @@ class UIMessage(Panel):
                                                   verticalScroll_decButton_relief=FLAT, )
         self.UI_message.wrtReparentTo(self.UI_scrolled_frame.getCanvas())
         self.UI_message.setPos(-.7, 0, self.UI_message.getHeight() / 10 - .1)
+
+        self.accept('wheel_up', self.scroll_up)
+        self.accept('wheel_down', self.scroll_down)
+
+    def scroll_up(self):
+        self.UI_scrolled_frame.verticalScroll['value'] -= self.scroll_speed
+
+    def scroll_down(self):
+        self.UI_scrolled_frame.verticalScroll['value'] += self.scroll_speed
 
     def destroy(self):
         self.UI_title.destroy()
