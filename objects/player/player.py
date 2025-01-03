@@ -142,10 +142,8 @@ class Player(Notifier):
 
     def enable_actions(self):
         self.able = True
-        self.clock.start_clock()
         self.action_bar.enable_actions()
 
     def disable_actions(self):
         self.able = False
-        self.clock.stop_clock()
         self.action_bar.disable_actions()

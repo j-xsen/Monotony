@@ -117,3 +117,7 @@ class Clock(Notifier):
         """
         if self.paused:
             self.toggle_clock()
+
+    def pause_clock(self):
+        if not self.paused:
+            self.toggle_clock()
