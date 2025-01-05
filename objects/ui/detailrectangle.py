@@ -2,6 +2,7 @@ from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectFrame import DirectFrame
 from direct.gui.DirectGui import DGG
 from direct.gui.DirectLabel import DirectLabel
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TextNode, LVector3f
 
 from objects.ui.panel import Panel
@@ -14,22 +15,23 @@ class DetailRectangle(Panel):
         Panel.__init__(self, "inventory",
                        frame_size=(size, -size * 2.75, size - .045, -size),
                        pos=(-0.1, 0, -.52))
-        self.player = player
+        self.font = loader.loadFont("Monotony-Regular.ttf")
+        self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
 
         button_scale = 0.4
-        self.nav_log = DirectButton(geom=player.drawn_square,
+        self.nav_log = DirectButton(geom=self.drawn_square,
                                     text="Log",
                                     text_fg=(1, 1, 1, 1),
                                     text_pos=(0, -.03, 1),
-                                    text_font=player.font, text_scale=0.06,
+                                    text_font=self.font, text_scale=0.06,
                                     relief=None,
                                     geom_scale=(button_scale, 1, button_scale * 0.35),
                                     pos=(-1, 0, -.045), command=self.goto_log)
-        self.nav_inv = DirectButton(geom=player.drawn_square,
+        self.nav_inv = DirectButton(geom=self.drawn_square,
                                     text="Inventory",
                                     text_fg=(1, 1, 1, 1),
                                     text_pos=(0, -.03, 1),
-                                    text_font=player.font, text_scale=0.06,
+                                    text_font=self.font, text_scale=0.06,
                                     relief=None,
                                     geom_scale=(button_scale, 1, button_scale * 0.35),
                                     pos=(-.5, 0, -.045), command=self.goto_inventory)
@@ -73,14 +75,16 @@ class DetailRectanglePane:
         self.frame.show()
 
 
-class Inventory(DetailRectanglePane):
+class Inventory(DetailRectanglePane, DirectObject):
     def __init__(self):
         DetailRectanglePane.__init__(self)
         self.items = []
         self.font = loader.loadFont("Monotony-Regular.ttf")
+        self.accept("add_note", self.add_note)
 
-    def add(self, message):
-        new_item = InventoryItem(message, self.font, len(self.items))
+    def add_note(self, note):
+        print("Add note inventory")
+        new_item = InventoryItem(note, self.font, len(self.items))
         new_item.reparentTo(self.frame)
         self.items.append(new_item)
 
@@ -114,10 +118,12 @@ class InventoryItem:
         self.message.display()
 
 
-class Log(DetailRectanglePane):
+class Log(DetailRectanglePane, DirectObject):
     def __init__(self):
         DetailRectanglePane.__init__(self)
         self.items = []
+
+        self.accept("add_log", self.add)
 
     def add(self, entry):
         for e in self.items:
@@ -127,13 +133,13 @@ class Log(DetailRectanglePane):
 
 
 class LogEntry:
-    def __init__(self, text, font):
+    def __init__(self, text):
         self.label = DirectLabel(text=text,
                                  text_align=TextNode.ALeft,
                                  pos=(-1.22, 0, .14),
                                  scale=0.06,
                                  frameColor=(1, 1, 1, 0),
-                                 text_font=font,
+                                 text_font=loader.loadFont("Monotony-Regular.ttf"),
                                  text_fg=(1, 1, 1, 1))
 
     def move_down(self):

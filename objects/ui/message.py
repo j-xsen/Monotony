@@ -11,14 +11,13 @@ size = .45
 
 
 class CloseAction(Action):
-    def __init__(self, player, container):
-        Action.__init__(self, "Close", player)
+    def __init__(self, container):
+        Action.__init__(self, "Close")
         self.create_button()
         self.container = container
 
     def command(self):
-        if not self.container.was_paused:
-            self.player.enable_actions()
+        messenger.send("clock_resume")
         self.container.destroy()
 
     def create_button(self):
@@ -28,10 +27,9 @@ class CloseAction(Action):
 
 
 class Message:
-    def __init__(self, title, message, player):
+    def __init__(self, title, message):
         self.title = title
         self.message = message
-        self.player = player
         self.UI_message = None
 
     def display(self):
@@ -43,7 +41,6 @@ class UIMessage(Panel, DirectObject):
 
     def __init__(self, message):
         Panel.__init__(self, "Message", frame_size=(size, -size, size, -size), sort=1000)
-        self.player = message.player
         self.message = message
 
         self.UI_title = None
@@ -51,21 +48,22 @@ class UIMessage(Panel, DirectObject):
         self.UI_scrolled_frame = None
         self.UI_close_button = None
 
-        self.player.disable_actions()
-        self.was_paused = self.player.clock.paused
-        self.player.clock.pause_clock()
+        self.font = loader.loadFont("Monotony-Regular.ttf")
+
+        messenger.send("disable_actions")
+        messenger.send("clock_pause")
         self.UI_title = DirectLabel(text=self.message.title, scale=0.1,
-                                    text_font=self.player.font,
+                                    text_font=self.font,
                                     pos=(0, 0, .6), text_bg=(0, 0, 0, 1),
                                     text_fg=(1, 1, 1, 1),
                                     relief=None, parent=self.background)
         self.UI_message = DirectLabel(text=self.message.message, scale=0.07,
-                                      text_font=self.player.font,
+                                      text_font=self.font,
                                       text_bg=(0, 0, 0, 1),
                                       text_fg=(1, 1, 1, 1),
                                       relief=None, text_align=TextNode.ALeft,
                                       text_wordwrap=20)
-        self.UI_close_button = CloseAction(self.player, self)
+        self.UI_close_button = CloseAction(self)
         self.UI_close_button.button.wrtReparentTo(self.background)
         background_bounds = [
             -1,
@@ -113,5 +111,3 @@ class UIMessage(Panel, DirectObject):
         self.background.destroy()
         self.UI_scrolled_frame.destroy()
         self.UI_close_button.destroy_button()
-        if not self.was_paused:
-            self.player.clock.resume_clock()

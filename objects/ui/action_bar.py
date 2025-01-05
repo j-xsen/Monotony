@@ -1,7 +1,9 @@
+from direct.showbase.DirectObject import DirectObject
+
 from objects.ui.panel import Panel
 
 
-class ActionBar(Panel):
+class ActionBar(Panel, DirectObject):
     def __init__(self):
         """
         Holds the box with the different actions available.
@@ -36,6 +38,12 @@ class ActionBar(Panel):
             ]
         }
 
+        self.accept("set_actions", self.set_actions)
+        self.accept("disable_actions", self.disable_actions)
+        self.accept("enable_actions", self.enable_actions)
+        self.accept("ab_hide", self.hide)
+        self.accept("ab_show", self.show)
+
     def add_action(self, new_action):
         self.actions.append(new_action)
 
@@ -44,6 +52,7 @@ class ActionBar(Panel):
             action.destroy_button()
 
     def set_actions(self, actions):
+        print("Setting actions")
         self.delete_actions()
 
         self.actions = actions
@@ -75,3 +84,6 @@ class ActionBar(Panel):
     def enable_actions(self):
         for action in self.actions:
             action.enable_button()
+
+    def destroy(self):
+        self.ignore_all()

@@ -1,5 +1,10 @@
 from panda3d.core import loadPrcFile
 
+from objects.clock import Clock
+from objects.locations.location import LocationHandler
+from objects.ui.detailrectangle import DetailRectangle
+from objects.ui.selfportrait import SelfPortrait
+
 loadPrcFile("config/Config.prc")
 
 from direct.showbase.ShowBase import ShowBase
@@ -26,7 +31,12 @@ class Monotony(ShowBase):
         self.setBackgroundColor(0, 0, 0)
 
         self.console = None
-        self.player = Player()
+
+        self.clock = Clock()
+        self.player = Player(self.clock)
+        self.location_holder = LocationHandler()
+        self.self_portrait = SelfPortrait()
+        self.detail_rectangle = DetailRectangle(self)
 
         # Controls
         self.accept("`", self.pressed_tilda)

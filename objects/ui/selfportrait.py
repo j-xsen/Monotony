@@ -1,4 +1,5 @@
 from direct.gui.DirectFrame import DirectFrame
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TransparencyAttrib
 
 from objects.ui.panel import Panel
@@ -18,7 +19,7 @@ self_portrait_dict = {
 }
 
 
-class SelfPortrait(Panel):
+class SelfPortrait(Panel, DirectObject):
 
     def __init__(self):
         """
@@ -35,6 +36,7 @@ class SelfPortrait(Panel):
                                  parent=self.background)
 
         self.update_state(SLEEPING)
+        self.accept("update_state", self.update_state)
 
     def update_state(self, new_state):
         """

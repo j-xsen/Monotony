@@ -1,6 +1,7 @@
 from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectGui import DGG
 from direct.gui.DirectWaitBar import DirectWaitBar
+from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
 from direct.task.TaskManagerGlobal import taskMgr
 from panda3d.core import ConfigVariableString
@@ -33,8 +34,8 @@ class Day:
         return self.index
 
 
-class Clock(Notifier):
-    def __init__(self, player):
+class Clock(Notifier, DirectObject):
+    def __init__(self):
         """
         Clock object that holds:
         - Task ("RunClock") that progresses hours
@@ -49,7 +50,6 @@ class Clock(Notifier):
         @param player: The Player object
         """
         Notifier.__init__(self, "clock")
-        self.player = player
 
         # the clock bar
         self.bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75), sortOrder=0)
@@ -70,10 +70,17 @@ class Clock(Notifier):
                                    command=self.toggle_clock)
 
         self.paused = False
+        self.double_pause = False
         self.offset_time = 0
 
         # start task
         self.start_clock()
+
+        self.accept("clock_disable_pausing", self.disable_pausing)
+        self.accept("clock_enable_pausing", self.enable_pausing)
+        self.accept("clock_pause", self.pause_clock)
+        self.accept("clock_toggle", self.toggle_clock)
+        self.accept("clock_resume", self.resume_clock)
 
     def disable_pausing(self):
         tint = .4
@@ -103,32 +110,41 @@ class Clock(Notifier):
 
     def progress_hour(self):
         self.time += 100
-        self.player.deteriorate()
+        messenger.send("deteriorate")
         if self.time >= self.hours_in_day * 100:
             self.time -= self.hours_in_day * 100
             # TODO do day move
             self.notify.debug("[progress_hour] End of day")
-        self.player.stats_widget.update_stats()
+        messenger.send("update_stats")
 
     def toggle_clock(self):
         if not self.paused:
             self.notify.debug("[toggle_clock] Pausing")
-            self.player.disable_actions()
+            messenger.send("disable_actions")
             self.offset_time = (self.bar['value'] / 100) * self.seconds_per_hour
             self.toggle.setGeom(self.egg.find("**/play"))
         else:
             self.notify.debug("[toggle_clock] Unpausing")
-            self.player.enable_actions()
+            messenger.send("enable_actions")
             self.toggle.setGeom(self.egg.find("**/pause"))
         self.paused = not self.paused
+        self.double_pause = False
 
     def resume_clock(self):
         """
         Resumes clock if currently disabled
         """
-        if self.paused:
-            self.toggle_clock()
+        if self.double_pause:
+            self.double_pause = False
+        else:
+            if self.paused:
+                self.toggle_clock()
 
     def pause_clock(self):
         if not self.paused:
             self.toggle_clock()
+        else:
+            self.double_pause = True
+
+    def destroy(self):
+        self.ignore_all()

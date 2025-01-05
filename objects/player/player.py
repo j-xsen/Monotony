@@ -1,52 +1,22 @@
+from direct.showbase.DirectObject import DirectObject
 from panda3d.core import ConfigVariableString
 
-from objects.clock import Clock
-from objects.locations.home import Home
-from objects.locations.location import HOME, WORK
-from objects.locations.work import Work
 from objects.notifier import Notifier
 from objects.player.stat import Stat
-from objects.ui.action_bar import ActionBar
-from objects.ui.detailrectangle import DetailRectangle
-from objects.ui.message import Message
-from objects.ui.selfportrait import SelfPortrait, EATING, PERSON, BATHING
+from objects.ui.selfportrait import EATING, PERSON, BATHING
 from objects.ui.statswidget import StatsWidget
 
 
-class Player(Notifier):
-    def __init__(self):
+class Player(Notifier, DirectObject):
+    def __init__(self, clock):
         """
         Player object
         @param clock: Clock object
         """
         Notifier.__init__(self, "player")
 
-        # load font
-        self.font = loader.loadFont("Monotony-Regular.ttf")
-        self.font.setPixelsPerUnit(120)
-
-        # load image for buttons
-        self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
-
-        # Collection of notes
-        self.notes = []
-
         # Ability to act
         self.able = True
-
-        # Widgets
-        self.self_portrait = SelfPortrait()
-        self.action_bar = ActionBar()
-        self.clock = Clock(self)
-        self.detail_rectangle = DetailRectangle(self)
-
-        # Location
-        self.location_dict = {
-            HOME: Home,
-            WORK: Work
-        }
-        self.location = None
-        self.head_to_location(HOME)
 
         # Stats
         self.hygiene = Stat(20)
@@ -63,17 +33,19 @@ class Player(Notifier):
         self.sleep_boost = int(ConfigVariableString('sleep-boost', '10').getValue())
         self.hygiene_decay = int(ConfigVariableString('hygiene-decay', '10').getValue())
 
-        self.stats_widget = StatsWidget(self)
+        self.stats_widget = StatsWidget(self, clock)
 
-    def head_to_location(self, destination, stage=0):
-        if destination in self.location_dict:
-            self.location = self.location_dict[destination](self)
-        else:
-            return False
+        self.accept("add_note", self.add_note)
+        self.accept("deteriorate", self.deteriorate)
+        self.accept("disable_actions", self.disable_actions)
+        self.accept("enable_actions", self.enable_actions)
+        self.accept("update_stats", self.stats_widget.update_stats)
+        self.accept("wake_up", self.wake_up)
+        self.accept("feed", self.feed)
+        self.accept("bathe", self.bathe)
 
-        self.location.set_stage(stage)
-
-        return True
+    def wake_up(self):
+        self.in_bed = False
 
     def deteriorate(self):
         self.hunger -= self.hunger_decay
@@ -91,7 +63,7 @@ class Player(Notifier):
         @param effect: How much hygiene restored
         """
         self.notify.debug(f"[bathe] Start bathing for {duration} seconds for {effect} hygiene.")
-        self.self_portrait.update_state(BATHING)
+        messenger.send("update_state", [BATHING])
         self.cleaning_amount = effect
         taskMgr.doMethodLater(duration, self.finish_bathing, "Bathing")
         if after:
@@ -100,7 +72,7 @@ class Player(Notifier):
 
     def finish_bathing(self, task):
         self.notify.debug(f"[finish_bathing] Finished bathing; restoring {self.cleaning_amount} to {self.hygiene}.")
-        self.self_portrait.update_state(PERSON)
+        messenger.send("update_state", [PERSON])
         self.hygiene += self.cleaning_amount
         self.cleaning_amount = 0
         self.stats_widget.update_stats()
@@ -113,7 +85,7 @@ class Player(Notifier):
         @param after: function to run after done eating
         """
         self.notify.debug(f"[feed] Start feeding: {daze_time}s for +{calories}.")
-        self.self_portrait.update_state(EATING)
+        messenger.send("update_state", [EATING])
         self.consuming_calories += calories
         taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
         if after:
@@ -124,34 +96,35 @@ class Player(Notifier):
         self.notify.debug(f"[finish_eating] Finished eating; restoring {self.consuming_calories} to {self.hunger}.")
         self.hunger += self.consuming_calories
         self.consuming_calories = 0
-        self.self_portrait.update_state(PERSON)
+        messenger.send("update_state", [PERSON])
 
         self.stats_widget.update_stats()
 
     def daze(self, duration=5):
-        self.action_bar.hide()
-        self.clock.disable_pausing()
-        self.detail_rectangle.inventory.disable_all()
+        messenger.send("ab_hide")
+        messenger.send("clock_disable_pausing")
+        # self.detail_rectangle.inventory.disable_all()
         taskMgr.doMethodLater(duration, self.undaze, 'DazePlayer')
 
     def undaze(self, task):
-        self.clock.enable_pausing()
-        self.detail_rectangle.inventory.enable_all()
-        self.action_bar.show()
+        messenger.send("clock_enable_pausing")
+        # self.detail_rectangle.inventory.enable_all()
+        messenger.send("ab_show")
 
-    def add_note(self, title, text):
-        new_note = Message(title, text, self)
-        self.notify.debug(f"[add_note_] Received note: {title}: {text[:10]}")
-        self.notes.append(new_note)
-        self.detail_rectangle.inventory.add(new_note)
+    def add_note(self, note):
+        self.notify.debug(f"[add_note_] Received note: {note.title}: {note.message[:10]}")
+        # self.detail_rectangle.inventory.add(new_note)
+        note.display()
+        print("Player added note")
 
     def enable_actions(self):
         self.able = True
-        self.action_bar.enable_actions()
 
     def disable_actions(self):
         self.able = False
-        self.action_bar.disable_actions()
 
     def profit(self, amount=100):
         self.money += amount
+
+    def destroy(self):
+        self.ignore_all()

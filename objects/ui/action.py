@@ -7,28 +7,30 @@ from objects.ui.detailrectangle import LogEntry
 
 
 class Action:
-    def __init__(self, text, player):
+    def __init__(self, text):
         """
         An action doable in a location
         @param text: Text to display on button
         @param player: player object
         """
+        self.font = loader.loadFont("Monotony-Regular.ttf")
+        # self.font.setPixelsPerUnit(120)
         self.text_scale = 0.1
         self.text_node_path = None
         self.button = None
-        self.player = player
         self.text_node = TextNode(text)
         self.text_node.setText(text)
-        self.text_node.setFont(self.player.font)
+        self.text_node.setFont(self.font)
         self.text_node.setAlign(TextNode.ACenter)
 
     def create_button(self):
         """
         Creates a DirectButton
         """
+        print("Create button")
         self.button = DirectButton(scale=((self.text_node.getWidth() * self.text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
-                                   geom=self.player.drawn_square, )
+                                   geom=loader.loadModel('art/drawn_square.egg').find("**/drawn_square"))
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(self.text_scale)
         self.text_node_path.wrtReparentTo(self.button)
@@ -41,10 +43,7 @@ class Action:
         self.button.destroy()
 
     def command(self):
-        """
-        Call to check validity
-        """
-        return self.player.able
+        pass
 
     def set_pos(self, pos):
         self.button.setPos(pos)
@@ -55,8 +54,7 @@ class Action:
         self.button.setScale(lvec)
 
     def add_log(self, text):
-        log = self.player.detail_rectangle.log
-        log.add(LogEntry(f"[{self.player.clock.time}] {text}", self.player.font))
+        messenger.send("add_log", [LogEntry(f"[0000] {text}")])
 
     def disable_button(self):
         tint = .4
