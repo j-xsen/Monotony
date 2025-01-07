@@ -18,6 +18,7 @@ class CloseAction(Action):
 
     def command(self):
         messenger.send("clock_resume")
+        messenger.send("inv_enable")
         self.container.destroy()
 
     def create_button(self):
@@ -26,14 +27,14 @@ class CloseAction(Action):
         self.multiply_scale(0.6)
 
 
-class Message:
+class Note:
     def __init__(self, title, message):
         self.title = title
         self.message = message
-        self.UI_message = None
+        self.UI = None
 
     def display(self):
-        self.UI_message = UIMessage(self)
+        self.UI = UIMessage(self)
 
 
 class UIMessage(Panel, DirectObject):

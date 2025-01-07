@@ -52,13 +52,9 @@ class ActionBar(Panel, DirectObject):
             action.destroy_button()
 
     def set_actions(self, actions):
-        print("Setting actions")
         self.delete_actions()
 
         self.actions = actions
-
-        image_scale = (0.1, 0, 0.1)
-        scale = 10
 
         number = 0
         for action in self.actions:

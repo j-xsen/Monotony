@@ -43,6 +43,7 @@ class Player(Notifier, DirectObject):
         self.accept("wake_up", self.wake_up)
         self.accept("feed", self.feed)
         self.accept("bathe", self.bathe)
+        self.accept("profit", self.profit)
 
     def wake_up(self):
         self.in_bed = False
@@ -103,19 +104,17 @@ class Player(Notifier, DirectObject):
     def daze(self, duration=5):
         messenger.send("ab_hide")
         messenger.send("clock_disable_pausing")
-        # self.detail_rectangle.inventory.disable_all()
+        messenger.send("inv_disable")
         taskMgr.doMethodLater(duration, self.undaze, 'DazePlayer')
 
     def undaze(self, task):
         messenger.send("clock_enable_pausing")
-        # self.detail_rectangle.inventory.enable_all()
+        messenger.send("inv_enable")
         messenger.send("ab_show")
 
     def add_note(self, note):
         self.notify.debug(f"[add_note_] Received note: {note.title}: {note.message[:10]}")
-        # self.detail_rectangle.inventory.add(new_note)
         note.display()
-        print("Player added note")
 
     def enable_actions(self):
         self.able = True

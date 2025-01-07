@@ -33,10 +33,10 @@ class Monotony(ShowBase):
         self.console = None
 
         self.clock = Clock()
+        self.detail_rectangle = DetailRectangle(self.clock)
         self.player = Player(self.clock)
         self.location_holder = LocationHandler()
         self.self_portrait = SelfPortrait()
-        self.detail_rectangle = DetailRectangle(self)
 
         # Controls
         self.accept("`", self.pressed_tilda)

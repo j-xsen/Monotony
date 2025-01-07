@@ -2,7 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 
 from objects.locations.location import Location, WORK
 from objects.ui.action import Action, DelayedAction
-from objects.ui.message import Message
+from objects.ui.note import Note
 from objects.ui.selfportrait import PERSON
 
 
@@ -30,7 +30,7 @@ class GoToWork(Action):
 
 class Eat(DelayedAction):
     def __init__(self):
-        Action.__init__(self, "Eat")
+        DelayedAction.__init__(self, "Eat")
 
     def command(self):
         messenger.send("feed", [60, 1, self.post])
@@ -50,13 +50,13 @@ class Bathe(DelayedAction):
         self.add_log("All clean.")
 
 
-class Home(Location, DirectObject):
-    def __init__(self):
+class Home(Location):
+    def __init__(self, action_bar):
         """
         Home Location object
         @param player: Player object
         """
-        Location.__init__(self)
+        Location.__init__(self, action_bar)
         self.notify.debug("[__init__] Creating Home location")
         self.actions = [
             [
@@ -72,7 +72,7 @@ class Home(Location, DirectObject):
     def set_stage(self, stage=0):
         Location.set_stage(self, stage)
         if stage == 0:
-            welcome_note = Message("Welcome to Monotony!",
+            welcome_note = Note("Welcome to Monotony!",
                                    "In this game, you live the life of someone with a 9-5 job, "
                                    "with every day being the same.\n\n"
                                    "The most important boxes that you need to keep an eye on are"

@@ -27,7 +27,6 @@ class Action:
         """
         Creates a DirectButton
         """
-        print("Create button")
         self.button = DirectButton(scale=((self.text_node.getWidth() * self.text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
                                    geom=loader.loadModel('art/drawn_square.egg').find("**/drawn_square"))
@@ -54,7 +53,7 @@ class Action:
         self.button.setScale(lvec)
 
     def add_log(self, text):
-        messenger.send("add_log", [LogEntry(f"[0000] {text}")])
+        messenger.send("add_log", [text])
 
     def disable_button(self):
         tint = .4
@@ -67,8 +66,8 @@ class Action:
 
 
 class DelayedAction(Action):
-    def __init__(self, text, player):
-        super().__init__(text, player)
+    def __init__(self, text):
+        Action.__init__(self, text)
 
     def post(self, e):
         pass

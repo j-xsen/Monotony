@@ -8,13 +8,14 @@ WORK = 1
 
 
 class Location(Notifier, DirectObject):
-    def __init__(self):
+    def __init__(self, action_bar):
         """
         Abstract Location object that holds the Player object, action bar, self portrait, actions
         and inner stage
         @param player: Player object
         """
         Notifier.__init__(self, "location")
+        self.action_bar = action_bar
 
         # Each list within self.actions is a different stage
         self.actions = []  # list of lists
@@ -44,10 +45,10 @@ class LocationHandler(DirectObject):
     def __init__(self):
         self.action_bar = ActionBar()
         self.location_dict = {
-            HOME: self.Home(),
+            HOME: self.Home,
             WORK: self.Work
         }
-        self.location = self.location_dict[HOME]
+        self.location = self.location_dict[HOME](self.action_bar)
         messenger.send("set_stage", [0])
         self.accept("head_to_location", self.head_to_location)
 
@@ -55,8 +56,9 @@ class LocationHandler(DirectObject):
         self.location_dict[index] = location
 
     def head_to_location(self, index, stage=0):
+        self.location.destroy()
         if index in self.location_dict:
-            self.location = self.location_dict[index]
+            self.location = self.location_dict[index](self.action_bar)
         else:
             return False
 

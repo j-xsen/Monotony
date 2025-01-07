@@ -1,6 +1,7 @@
 import random
 
 from direct.gui.DirectGui import DGG
+from direct.showbase.DirectObject import DirectObject
 
 from objects.locations.location import Location
 from objects.notifier import Notifier
@@ -8,43 +9,46 @@ from objects.ui.action import Action
 from objects.ui.selfportrait import DRIVING, PERSON
 
 
-class WorkAction(Action):
-    def __init__(self, index, player, loc):
-        Action.__init__(self, str(index), player)
+class WorkAction(Action, DirectObject):
+    def __init__(self, index):
+        Action.__init__(self, str(index))
         self.number = 0
         self.text_scale = 0.08
         self.index = index
-        self.loc = loc
+
+        self.accept("randomize", self.randomize)
 
     def randomize(self):
         self.number = random.randrange(10, 100)
         self.text_node.setText(str(self.number))
 
     def command(self):
-        self.loc.pressed_card(self.index, self.number)
+        messenger.send("pressed_card", [self.index, self.number])
 
 
-class Work(Location, Notifier):
-    def __init__(self, player):
-        super().__init__(player)
+class Work(Location):
+    def __init__(self, action_bar):
+        Location.__init__(self, action_bar)
         self.notify.debug("[__init__] Creating Work location")
-        self.player.self_portrait.update_state(DRIVING)
+        messenger.send("update_state", [DRIVING])
         self.actions = [
             [
 
             ],
             [
-                WorkAction(0, player, self),
-                WorkAction(1, player, self),
-                WorkAction(2, player, self),
-                WorkAction(3, player, self),
-                WorkAction(4, player, self),
+                WorkAction(0),
+                WorkAction(1),
+                WorkAction(2),
+                WorkAction(3),
+                WorkAction(4),
             ]
         ]
 
         self.randomize_cards()
 
         self.click_order = []
+
+        self.accept("pressed_card", self.pressed_card)
 
     def set_stage(self, stage):
         super().set_stage(stage)
@@ -71,7 +75,7 @@ class Work(Location, Notifier):
                 self.reset_cards()
                 return False
             min = number
-        self.player.profit()
+        messenger.send("profit")
         self.reset_cards()
         return True
 
@@ -89,7 +93,7 @@ class Work(Location, Notifier):
         counter = 0
         for card in self.actions[1]:
             card.create_button()
-            self.actions[1][counter].set_pos(self.player.action_bar.pos[5][counter])
+            self.actions[1][counter].set_pos(self.action_bar.pos[5][counter])
             counter += 1
 
     def delete_all_card_buttons(self):
@@ -98,4 +102,4 @@ class Work(Location, Notifier):
 
     def show_cards(self, e):
         self.set_stage(1)
-        self.player.self_portrait.update_state(PERSON)
+        messenger.send("update_state", [PERSON])

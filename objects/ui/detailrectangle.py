@@ -11,7 +11,7 @@ size = .45
 
 
 class DetailRectangle(Panel):
-    def __init__(self, player):
+    def __init__(self, clock):
         Panel.__init__(self, "inventory",
                        frame_size=(size, -size * 2.75, size - .045, -size),
                        pos=(-0.1, 0, -.52))
@@ -36,7 +36,7 @@ class DetailRectangle(Panel):
                                     geom_scale=(button_scale, 1, button_scale * 0.35),
                                     pos=(-.5, 0, -.045), command=self.goto_inventory)
 
-        self.log = Log()
+        self.log = Log(clock)
         self.inventory = Inventory()
         self.inventory.hide()
         self.switch_inv_log(False)
@@ -62,8 +62,9 @@ class DetailRectangle(Panel):
         self.nav_inv.setColor(color_disabled if is_inv else color_active)
 
 
-class DetailRectanglePane:
+class DetailRectanglePane(DirectObject):
     def __init__(self):
+        DirectObject.__init__(self)
         self.frame = DirectFrame(frameColor=(1, 0, 0, 0),
                                  frameSize=(size - .2, -size * 2.75, size - .245, -size - .1),
                                  pos=(0, 0, -.37))
@@ -75,15 +76,16 @@ class DetailRectanglePane:
         self.frame.show()
 
 
-class Inventory(DetailRectanglePane, DirectObject):
+class Inventory(DetailRectanglePane):
     def __init__(self):
         DetailRectanglePane.__init__(self)
-        self.items = []
         self.font = loader.loadFont("Monotony-Regular.ttf")
+        self.items = []
+        self.accept("inv_disable", self.disable_all)
+        self.accept("inv_enable", self.enable_all)
         self.accept("add_note", self.add_note)
 
     def add_note(self, note):
-        print("Add note inventory")
         new_item = InventoryItem(note, self.font, len(self.items))
         new_item.reparentTo(self.frame)
         self.items.append(new_item)
@@ -100,36 +102,41 @@ class Inventory(DetailRectanglePane, DirectObject):
             item.button.setColor(1, 1, 1, 1)
             item.button["text_fg"] = (1, 1, 1, 1)
 
+    def destroy(self):
+        self.ignore_all()
+
 
 class InventoryItem:
-    def __init__(self, message, font, index):
-        self.message = message
-        new_button = DirectButton(text=self.message.title, text_scale=0.07, text_pos=(0, -.02),
+    def __init__(self, note, font, index):
+        self.note = note
+        self.button = DirectButton(text=note.title, text_scale=0.07, text_pos=(0, -.02),
                                   pos=(-.5, 0, .13), geom=loader.loadModel('art/drawn_square.egg')
                                   .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
                                   geom_scale=[1.5, 1, .1], text_font=font, command=self.click)
-        self.button = new_button
 
     def reparentTo(self, parent):
         self.button.reparentTo(parent)
 
     def click(self):
         # Button pressed, display message
-        self.message.display()
+        self.note.display()
+        messenger.send("inv_disable")
 
 
-class Log(DetailRectanglePane, DirectObject):
-    def __init__(self):
+class Log(DetailRectanglePane):
+    def __init__(self, clock):
         DetailRectanglePane.__init__(self)
         self.items = []
+        self.clock = clock
 
         self.accept("add_log", self.add)
 
-    def add(self, entry):
+    def add(self, text):
+        new_entry = LogEntry(f"[{self.clock.time}] {text}")
         for e in self.items:
             e.move_down()
-        entry.reparentTo(self.frame)
-        self.items.append(entry)
+        new_entry.reparentTo(self.frame)
+        self.items.append(new_entry)
 
 
 class LogEntry:
