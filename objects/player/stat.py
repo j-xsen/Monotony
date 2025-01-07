@@ -38,4 +38,5 @@ class Stat(Notifier):
         elif rtrn < self.min:
             self.notify.debug(f"[change_value] {self.value} + {adjust} < {self.min}. Setting value to {self.min}.")
             return self.min
+        messenger.send("update_stats")
         return rtrn

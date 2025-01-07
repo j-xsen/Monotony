@@ -37,7 +37,7 @@ class Note:
         self.UI = UIMessage(self)
 
 
-class UIMessage(Panel, DirectObject):
+class UIMessage(Panel):
     scroll_speed = 0.05
 
     def __init__(self, message):

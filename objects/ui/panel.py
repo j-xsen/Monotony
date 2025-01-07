@@ -1,9 +1,10 @@
 from direct.gui.DirectFrame import DirectFrame
+from direct.showbase.DirectObject import DirectObject
 
 from objects.notifier import Notifier
 
 
-class Panel(Notifier):
+class Panel(Notifier, DirectObject):
     def __init__(self, name, frame_size=(-1, 1, -1, 1), pos=(0, 0, 0), sort=0):
         """
         UI Widget that has a box

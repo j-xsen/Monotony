@@ -19,7 +19,7 @@ self_portrait_dict = {
 }
 
 
-class SelfPortrait(Panel, DirectObject):
+class SelfPortrait(Panel):
 
     def __init__(self):
         """

@@ -110,12 +110,11 @@ class Clock(Notifier, DirectObject):
 
     def progress_hour(self):
         self.time += 100
-        messenger.send("deteriorate")
         if self.time >= self.hours_in_day * 100:
             self.time -= self.hours_in_day * 100
             # TODO do day move
             self.notify.debug("[progress_hour] End of day")
-        messenger.send("update_stats")
+        messenger.send("deteriorate")
 
     def toggle_clock(self):
         if not self.paused:

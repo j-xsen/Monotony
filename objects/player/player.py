@@ -39,7 +39,6 @@ class Player(Notifier, DirectObject):
         self.accept("deteriorate", self.deteriorate)
         self.accept("disable_actions", self.disable_actions)
         self.accept("enable_actions", self.enable_actions)
-        self.accept("update_stats", self.stats_widget.update_stats)
         self.accept("wake_up", self.wake_up)
         self.accept("feed", self.feed)
         self.accept("bathe", self.bathe)
@@ -124,6 +123,7 @@ class Player(Notifier, DirectObject):
 
     def profit(self, amount=100):
         self.money += amount
+        messenger.send("update_stats")
 
     def destroy(self):
         self.ignore_all()

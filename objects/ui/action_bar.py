@@ -3,7 +3,7 @@ from direct.showbase.DirectObject import DirectObject
 from objects.ui.panel import Panel
 
 
-class ActionBar(Panel, DirectObject):
+class ActionBar(Panel):
     def __init__(self):
         """
         Holds the box with the different actions available.

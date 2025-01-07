@@ -41,8 +41,8 @@ class StatsWidget(Panel):
                                        barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
                                        frameSize=(-0.35, 0.35, -.050, .025))
 
+        self.accept("update_stats", self.update_stats)
         self.update_stats()
-        self.task_update_stats = taskMgr.doMethodLater(1, self.update_stats_task, 'update_stats')
 
     def update_stats(self):
         self.hour_text.setText(f"[{str(self.clock.time)}]")  # clock
