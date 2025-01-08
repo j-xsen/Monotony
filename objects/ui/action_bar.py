@@ -1,5 +1,3 @@
-from direct.showbase.DirectObject import DirectObject
-
 from objects.ui.panel import Panel
 
 

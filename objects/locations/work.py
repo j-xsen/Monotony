@@ -11,6 +11,11 @@ from objects.ui.selfportrait import DRIVING, PERSON
 
 class WorkAction(Action, DirectObject):
     def __init__(self, index):
+        """
+        A special action for the Work scene's minigame.
+        :param index: The index of the action (0-4)
+        :type index: int
+        """
         Action.__init__(self, str(index))
         self.number = 0
         self.text_scale = 0.08
@@ -56,6 +61,13 @@ class Work(Location):
             taskMgr.doMethodLater(0.5, self.show_cards, "Driving")
 
     def pressed_card(self, index, number):
+        """
+        Ran when a card is pressed. Disables card and adds to the click order.
+        :param index: The index of the card.
+        :type index: int
+        :param number: Number of the card.
+        :type number: int
+        """
         self.actions[1][index].disable_button()
         self.click_order.append(number)
 

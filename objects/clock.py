@@ -41,13 +41,12 @@ class Clock(Notifier, DirectObject):
         - Task ("RunClock") that progresses hours
             = Deteriorates player
         - bar: A clock widget showing the progress between hours
+        - toggle: The pause/play button
 
         Variables for time settings are in config/Config.prc
         - starting-time 600
         - secs-per-hour 5
         - hours-in-day 24
-
-        @param player: The Player object
         """
         Notifier.__init__(self, "clock")
 
@@ -63,7 +62,7 @@ class Clock(Notifier, DirectObject):
         self.time = int(ConfigVariableString('starting-time', '600').getValue())
 
         self.egg = loader.loadModel("art/clock.egg")
-        self.toggle = DirectButton(geom=(self.egg.find("**/pause")),
+        self.toggle = DirectButton(geom=self.egg.find("**/pause"),
                                    relief=None,
                                    scale=0.1,
                                    pos=(0.38, 0, -.04),

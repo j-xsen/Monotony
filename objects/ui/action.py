@@ -3,15 +3,13 @@ from direct.gui.DirectGui import DGG
 from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode, LVecBase3f
 
-from objects.ui.detailrectangle import LogEntry
-
 
 class Action:
     def __init__(self, text):
         """
-        An action doable in a location
-        @param text: Text to display on button
-        @param player: player object
+        An action that is able to be done.
+        :param text: The text to be displayed on the button.
+        :type text: str
         """
         self.font = loader.loadFont("Monotony-Regular.ttf")
         # self.font.setPixelsPerUnit(120)

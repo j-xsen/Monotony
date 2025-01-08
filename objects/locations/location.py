@@ -10,9 +10,9 @@ WORK = 1
 class Location(Notifier, DirectObject):
     def __init__(self, action_bar):
         """
-        Abstract Location object that holds the Player object, action bar, self portrait, actions
-        and inner stage
-        @param player: Player object
+        Abstract Location object that holds the actions available and current stage.
+        :param action_bar: The Action Bar
+        :type action_bar: ActionBar
         """
         Notifier.__init__(self, "location")
         self.action_bar = action_bar
@@ -25,8 +25,9 @@ class Location(Notifier, DirectObject):
 
     def set_stage(self, stage):
         """
-        Sets the inner stage [available actions] of the Location
-        @param stage: Stage
+        Sets the stage of the Location.
+        :param stage: Stage to go to
+        :type stage: int
         """
         if stage < len(self.actions):
             self.notify.debug(f"[set_stage] Setting stage to {stage}")
@@ -42,7 +43,9 @@ class Location(Notifier, DirectObject):
 class LocationHandler(DirectObject):
     from objects.locations.home import Home
     from objects.locations.work import Work
+
     def __init__(self):
+        DirectObject.__init__(self)
         self.action_bar = ActionBar()
         self.location_dict = {
             HOME: self.Home,
@@ -52,10 +55,16 @@ class LocationHandler(DirectObject):
         messenger.send("set_stage", [0])
         self.accept("head_to_location", self.head_to_location)
 
-    def add_location(self, index, location):
-        self.location_dict[index] = location
-
     def head_to_location(self, index, stage=0):
+        """
+        Switches the location
+        :param index: Index of location to switch to
+        :type index: int
+        :param stage: Stage to start in (default: 0)
+        :type stage: int
+        :return: If successful
+        :rtype: bool
+        """
         self.location.destroy()
         if index in self.location_dict:
             self.location = self.location_dict[index](self.action_bar)

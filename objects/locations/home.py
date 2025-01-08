@@ -1,5 +1,3 @@
-from direct.showbase.DirectObject import DirectObject
-
 from objects.locations.location import Location, WORK
 from objects.ui.action import Action, DelayedAction
 from objects.ui.note import Note
@@ -11,12 +9,9 @@ class WakeUp(Action):
         Action.__init__(self, "Wake Up")
 
     def command(self):
-        # change stage
-        messenger.send("set_stage", [1])
-        # update portrait
-        messenger.send("update_state", [PERSON])
-        # change player variable for deteriorate
-        messenger.send("wake_up")
+        messenger.send("set_stage", [1])  # location
+        messenger.send("update_state", [PERSON])  # portrait
+        messenger.send("wake_up")  # player
         self.add_log("Good morning Me!")
 
 
@@ -33,7 +28,7 @@ class Eat(DelayedAction):
         DelayedAction.__init__(self, "Eat")
 
     def command(self):
-        messenger.send("feed", [60, 1, self.post])
+        messenger.send("feed", [1, 60, self.post])
 
     def post(self, e):
         self.add_log("Delicious!")
@@ -52,10 +47,6 @@ class Bathe(DelayedAction):
 
 class Home(Location):
     def __init__(self, action_bar):
-        """
-        Home Location object
-        @param player: Player object
-        """
         Location.__init__(self, action_bar)
         self.notify.debug("[__init__] Creating Home location")
         self.actions = [

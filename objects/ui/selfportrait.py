@@ -1,5 +1,4 @@
 from direct.gui.DirectFrame import DirectFrame
-from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TransparencyAttrib
 
 from objects.ui.panel import Panel
@@ -41,7 +40,8 @@ class SelfPortrait(Panel):
     def update_state(self, new_state):
         """
         Updates self.state and changes image accordingly
-        @param new_state: New portrait state
+        :param new_state: New portrait state
+        :type new_state: int
         """
         if self.state != new_state:
             if new_state in self_portrait_dict:

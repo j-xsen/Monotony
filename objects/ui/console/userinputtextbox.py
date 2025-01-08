@@ -6,16 +6,16 @@ class UserInputTextBox(DirectObject):
     def __init__(self, placeholder, pos, on_enter, focus=False, sort_order=0):
         """
         Object of a simple entry field
-        @param placeholder: text to appear in textbox automatically
-        @type placeholder: string
-        @param pos: where to place the textbox
-        @type pos: (float, float, float)
-        @param on_enter: function to call upon them submitting a response
-        @type on_enter: function
-        @param focus: Should the entry auto-focus?
-        @type focus: bool
-        @param sort_order: Where should Entry display? (Alert is at 1000)
-        @type sort_order: int
+        :param placeholder: text to appear in textbox automatically
+        :type placeholder: string
+        :param pos: where to place the textbox
+        :type pos: (float, float, float)
+        :param on_enter: function to call upon them submitting a response
+        :type on_enter: function
+        :param focus: Should the entry auto-focus?
+        :type focus: bool
+        :param sort_order: Where should Entry display? (Alert is at 1000)
+        :type sort_order: int
         """
         DirectObject.__init__(self)
         self.accept('mouse1', self.click_out)

@@ -1,7 +1,6 @@
 from direct.gui.DirectGuiGlobals import FLAT
 from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
-from direct.showbase.DirectObject import DirectObject
 from panda3d.core import TextNode
 
 from objects.ui.action import Action

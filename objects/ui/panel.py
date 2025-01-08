@@ -7,7 +7,14 @@ from objects.notifier import Notifier
 class Panel(Notifier, DirectObject):
     def __init__(self, name, frame_size=(-1, 1, -1, 1), pos=(0, 0, 0), sort=0):
         """
-        UI Widget that has a box
+        :param name: Name to give to Notifier
+        :type name: str
+        :param frame_size: Size of the background box
+        :type frame_size: tuple
+        :param pos: Position of the panel
+        :type pos: tuple
+        :param sort: Sort order of the panel
+        :type sort: int
         """
         Notifier.__init__(self, name)
 

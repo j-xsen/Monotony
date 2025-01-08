@@ -10,8 +10,9 @@ from objects.ui.statswidget import StatsWidget
 class Player(Notifier, DirectObject):
     def __init__(self, clock):
         """
-        Player object
-        @param clock: Clock object
+        Holds all the player information
+        :param clock: The clock object
+        :type clock: Clock
         """
         Notifier.__init__(self, "player")
 
@@ -25,7 +26,7 @@ class Player(Notifier, DirectObject):
         self.consuming_calories = 0  # adds calories when done eating
         self.sleep = Stat(100)
         self.in_bed = True  # Used for decay or boost checking
-        self.money = 0
+        self.money = Stat(0, 99999, -99999)
 
         # Decay/Boost variables
         self.hunger_decay = int(ConfigVariableString('hunger-decay', '10').getValue())
@@ -48,6 +49,9 @@ class Player(Notifier, DirectObject):
         self.in_bed = False
 
     def deteriorate(self):
+        """
+        Hourly deductions in stats.
+        """
         self.hunger -= self.hunger_decay
         self.hygiene -= self.hygiene_decay
         if self.in_bed:
@@ -58,9 +62,12 @@ class Player(Notifier, DirectObject):
 
     def bathe(self, duration=2, effect=80, after=None):
         """
-        The player takes a bath
-        @param duration: How long it takes to wash
-        @param effect: How much hygiene restored
+        :param duration: Length of shower in seconds.
+        :type duration: int
+        :param effect: Effect on the player's hygiene stat.
+        :type effect: int
+        :param after: Function to run once the shower is complete.
+        :type after: function
         """
         self.notify.debug(f"[bathe] Start bathing for {duration} seconds for {effect} hygiene.")
         messenger.send("update_state", [BATHING])
@@ -77,16 +84,18 @@ class Player(Notifier, DirectObject):
         self.cleaning_amount = 0
         self.stats_widget.update_stats()
 
-    def feed(self, calories=20, daze_time=2, after=None):
+    def feed(self, daze_time=2, effect=20, after=None):
         """
-        Cheezburger
-        @param calories: Amount of hunger to restore
-        @param daze_time: How long to eat
-        @param after: function to run after done eating
+        :param daze_time: Number of seconds to halt player activity.
+        :type daze_time: int
+        :param effect: Effect on the player's hunger stat.
+        :type effect: int
+        :param after: Function to run once the player is done eating.
+        :type after: function
         """
-        self.notify.debug(f"[feed] Start feeding: {daze_time}s for +{calories}.")
+        self.notify.debug(f"[feed] Start feeding: {daze_time}s for +{effect}.")
         messenger.send("update_state", [EATING])
-        self.consuming_calories += calories
+        self.consuming_calories += effect
         taskMgr.doMethodLater(daze_time, self.finish_eating, "Eating")
         if after:
             taskMgr.doMethodLater(daze_time, after, "PostEating")
@@ -101,6 +110,10 @@ class Player(Notifier, DirectObject):
         self.stats_widget.update_stats()
 
     def daze(self, duration=5):
+        """
+        :param duration: Length of time to block all player movement.
+        :type duration: int
+        """
         messenger.send("ab_hide")
         messenger.send("clock_disable_pausing")
         messenger.send("inv_disable")
@@ -112,6 +125,10 @@ class Player(Notifier, DirectObject):
         messenger.send("ab_show")
 
     def add_note(self, note):
+        """
+        :param note: Note to display.
+        :type note: Note
+        """
         self.notify.debug(f"[add_note_] Received note: {note.title}: {note.message[:10]}")
         note.display()
 
@@ -122,6 +139,10 @@ class Player(Notifier, DirectObject):
         self.able = False
 
     def profit(self, amount=100):
+        """
+        :param amount: Money to give/subtract from player.
+        :type amount: int
+        """
         self.money += amount
         messenger.send("update_stats")
 

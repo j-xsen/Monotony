@@ -19,13 +19,17 @@ class Console(UserInputTextBox, Notifier):
         self.accept("`", self.pressed_tilda)
 
         self.logs = []
-        self.archivable = []
+        self.archival = []
         self.pos = -1
 
     def destroy(self):
         for log in self.logs:
             log.destroy()
         UserInputTextBox.destroy(self)
+
+    def swap_songs(self, args):
+        messenger.send("swap_songs")
+        return True
 
     def pressed_tilda(self):
         self.notify.debug("[pressed_tilda] Destroy console")
@@ -48,15 +52,15 @@ class Console(UserInputTextBox, Notifier):
             elif type(success) == list:
                 self.add_to_log_multiple(success)
 
-    def add_to_log(self, text, valid, archivable=True):
+    def add_to_log(self, text, valid, archival=True):
         """
         Add a message (text) to the log
-        @param text: The text to add to the log
-        @type text: str
-        @param valid: Was the command valid?
-        @type valid: bool
-        @param archivable: Should the log be able to be retrieved through arrow keys?
-        @type archivable: bool
+        :param text: The text to add to the log
+        :type text: str
+        :param valid: Was the command valid?
+        :type valid: bool
+        :param archival: Should the log be able to be retrieved through arrow keys?
+        :type archival: bool
         """
         self.notify.debug(f"[add_to_log] Adding {text} to log!")
         if len(text) > 0:
@@ -65,38 +69,38 @@ class Console(UserInputTextBox, Notifier):
             new_log = ConsoleLog(text, valid)
             self.logs.insert(0, new_log)
 
-            if archivable:
-                self.archivable.insert(0, self.logs[0])
+            if archival:
+                self.archival.insert(0, self.logs[0])
 
     def add_to_log_multiple(self, log_list):
         """
-        @param log_list: List of logs to add
-        @type log_list: list
+        :param log_list: List of logs to add
+        :type log_list: list
         """
         for log in log_list:
             for existing_log in self.logs:
                 existing_log.move_up()
             log.create()
             self.logs.insert(0, log)
-            if self.logs[0].archivable:
-                self.archivable.insert(0, self.logs[0])
+            if self.logs[0].archival:
+                self.archival.insert(0, self.logs[0])
 
     def move_command(self, direction):
         """
         Bring up command history
-        @param direction: Which direction to move in the log. Up = 1, Down = 0
-        @type direction: int
+        :param direction: Which direction to move in the log. Up = 1, Down = 0
+        :type direction: int
         """
-        if len(self.archivable) > 0:
+        if len(self.archival) > 0:
             if direction == 1:
-                if len(self.archivable) > self.pos + 1:
+                if len(self.archival) > self.pos + 1:
                     self.pos += 1
             else:
                 if self.pos > -1:
                     self.pos -= 1
 
             if self.pos > -1:
-                self.entry.enterText(self.archivable[self.pos].text)
+                self.entry.enterText(self.archival[self.pos].text)
             else:
                 self.entry.set("")
 
@@ -118,11 +122,11 @@ class Console(UserInputTextBox, Notifier):
                 self.notify.debug(f"[set_location] Invalid new location: {new_location}")
                 error_log = ConsoleLog(f"Invalid new location: {new_location}."
                                        f"Valid locations:{locations_string[:-1]}", False, auto_create=False,
-                                       archivable=False)
+                                       archival=False)
         else:
             self.notify.debug(f"[set_location] Invalid number of args! ({len(args)})")
             error_log = ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
-                                   False, archivable=False, auto_create=False)
+                                   False, archival=False, auto_create=False)
         args_string = ""
         for arg in args:
             args_string += f" {arg}"
@@ -134,12 +138,12 @@ class Console(UserInputTextBox, Notifier):
             new_state = int(args[0])
             success = self.level_holder.self_portrait.update_state(new_state)
             if not success:
-                error_log = ConsoleLog(f"Invalid new_state! Submitted: {new_state}", False, archivable=False,
+                error_log = ConsoleLog(f"Invalid new_state! Submitted: {new_state}", False, archival=False,
                                        auto_create=False)
         else:
             self.notify.debug(f"[set_self_portrait_state] Invalid number of args! ({len(args)})")
             error_log = ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
-                                   False, archivable=False, auto_create=False)
+                                   False, archival=False, auto_create=False)
         if success:
             return True
         else:
@@ -160,11 +164,11 @@ class Console(UserInputTextBox, Notifier):
         Print self.archivable
         """
         string = ""
-        for log in self.archivable:
+        for log in self.archival:
             string += f"{log.text}, "
         string = string[:-2]
         return [ConsoleLog(f"archivable", True, auto_create=False),
-                ConsoleLog(string, True, archivable=False, auto_create=False)]
+                ConsoleLog(string, True, archival=False, auto_create=False)]
 
     def print_commands(self, args):
         """
@@ -175,7 +179,7 @@ class Console(UserInputTextBox, Notifier):
             string += f"{command}, "
         string = string[:-2]
         return [ConsoleLog(f"commands", True, auto_create=False),
-                ConsoleLog(string, True, archivable=False, auto_create=False)]
+                ConsoleLog(string, True, archival=False, auto_create=False)]
 
     mapping = {
         "commands": print_commands,
@@ -184,26 +188,27 @@ class Console(UserInputTextBox, Notifier):
         "clear": clear,
         "portraitstate": set_self_portrait_state,
         "archivable": print_archivable,
-        "location": set_location
+        "location": set_location,
+        "swap_songs": swap_songs
     }
 
 
 class ConsoleLog:
-    def __init__(self, text, valid, archivable=True, auto_create=True):
+    def __init__(self, text, valid, archival=True, auto_create=True):
         """
-        @param text: What did they type in the console?
-        @type text: str
-        @param valid: Did the command work?
-        @type valid: bool
-        @param archivable: Should the log be retrievable via arrow keys?
-        @type archivable: bool
-        @param auto_create: Should the text of the log be auto created?
-        @type auto_create: bool
+        :param text: What did they type in the console?
+        :type text: str
+        :param valid: Did the command work?
+        :type valid: bool
+        :param archival: Should the log be retrievable via arrow keys?
+        :type archival: bool
+        :param auto_create: Should the text of the log be auto created?
+        :type auto_create: bool
         """
         self.text = text
         self.valid = valid
         self.log = None
-        self.archivable = archivable
+        self.archival = archival
         if auto_create:
             self.create()
 
@@ -214,14 +219,14 @@ class ConsoleLog:
         self.log = OnscreenText(text=self.text, fg=(1, 1, 1, 1), pos=(-1.25, -.8),
                                 align=TextNode.ALeft)
 
-        if not self.archivable:
+        if not self.archival:
             self.log["pos"] = (self.log["pos"][0] + 0.05, self.log["pos"][1])
             self.log["fg"] = (.8, .8, .8, 1)
 
         if not self.valid:
             self.log["fg"] = (1, 0, 0, 1)
 
-            if not self.archivable:
+            if not self.archival:
                 self.log["fg"] = (.8, 0, 0, 1)
 
     def move_up(self):
