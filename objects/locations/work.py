@@ -1,10 +1,10 @@
 import random
 
 from direct.gui.DirectGui import DGG
+from direct.interval.LerpInterval import LerpColorInterval
 from direct.showbase.DirectObject import DirectObject
 
 from objects.locations.location import Location
-from objects.notifier import Notifier
 from objects.ui.action import Action
 from objects.ui.selfportrait import DRIVING, PERSON
 
@@ -73,11 +73,21 @@ class Work(Location):
         for number in self.click_order:
             if number < min:
                 self.reset_cards()
+                self.flash_action_bar(True)
                 return False
             min = number
         messenger.send("profit")
         self.reset_cards()
+        self.flash_action_bar(False)
         return True
+
+    def flash_action_bar(self, is_red):
+        color = (1, 0, 0, 1) if is_red else (0, 1, 0, 1)
+        lerpcolor = LerpColorInterval(self.action_bar.background, 1, (1, 1, 1, 1), color)
+        for action in self.actions[self.stage]:
+            new_color = LerpColorInterval(action.button, 1, (1, 1, 1, 1), color)
+            new_color.start()
+        lerpcolor.start()
 
     def reset_cards(self):
         self.delete_all_card_buttons()
