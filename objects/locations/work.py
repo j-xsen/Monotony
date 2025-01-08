@@ -84,10 +84,10 @@ class Work(Location):
     def flash_action_bar(self, is_red):
         color = (1, 0, 0, 1) if is_red else (0, 1, 0, 1)
         lerpcolor = LerpColorInterval(self.action_bar.background, 1, (1, 1, 1, 1), color)
+        lerpcolor.start()
         for action in self.actions[self.stage]:
             new_color = LerpColorInterval(action.button, 1, (1, 1, 1, 1), color)
             new_color.start()
-        lerpcolor.start()
 
     def reset_cards(self):
         self.delete_all_card_buttons()
