@@ -20,14 +20,21 @@ class WorkAction(Action, DirectObject):
         self.number = 0
         self.text_scale = 0.08
         self.index = index
+        self.pressed = False
 
         self.accept("randomize", self.randomize)
 
+    def enable_button(self):
+        if not self.pressed:
+            Action.enable_button(self)
+
     def randomize(self):
+        self.pressed = False
         self.number = random.randrange(10, 100)
         self.text_node.setText(str(self.number))
 
     def command(self):
+        self.pressed = True
         messenger.send("pressed_card", [self.index, self.number])
 
 
