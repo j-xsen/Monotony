@@ -10,7 +10,7 @@ from objects.ui.panel import Panel
 size = .45
 
 
-class DetailRectangle(Panel):
+class TabContainer(Panel):
     def __init__(self, clock):
         Panel.__init__(self, "inventory",
                        frame_size=(size, -size * 2.75, size - .045, -size),
@@ -19,7 +19,7 @@ class DetailRectangle(Panel):
         self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
 
         button_scale = 0.4
-        tab_change = clickSound=base.loader.loadSfx("art/sounds/tab_change.ogg")
+        tab_change = base.loader.loadSfx("art/sounds/tab_change.ogg")
         tab_change.setVolume(0.5)
         self.nav_log = DirectButton(geom=self.drawn_square,
                                     text="Log",
@@ -66,7 +66,7 @@ class DetailRectangle(Panel):
         self.nav_inv.setColor(color_disabled if is_inv else color_active)
 
 
-class DetailRectanglePane(DirectObject):
+class Tab(DirectObject):
     def __init__(self):
         DirectObject.__init__(self)
         self.frame = DirectFrame(frameColor=(1, 0, 0, 0),
@@ -80,9 +80,9 @@ class DetailRectanglePane(DirectObject):
         self.frame.show()
 
 
-class Inventory(DetailRectanglePane):
+class Inventory(Tab):
     def __init__(self):
-        DetailRectanglePane.__init__(self)
+        Tab.__init__(self)
         self.font = loader.loadFont("Monotony-Regular.ttf")
         self.items = []
         self.accept("inv_disable", self.disable_all)
@@ -140,9 +140,9 @@ class InventoryItem:
         self.button.set_fluid_pos(cur_pos)
 
 
-class Log(DetailRectanglePane):
+class Log(Tab):
     def __init__(self, clock):
-        DetailRectanglePane.__init__(self)
+        Tab.__init__(self)
         self.items = []
         self.clock = clock
 

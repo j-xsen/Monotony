@@ -4,7 +4,7 @@ from panda3d.core import loadPrcFile
 from objects.clock import Clock
 from objects.locations.location import LocationHandler
 from objects.notifier import Notifier
-from objects.ui.detailrectangle import DetailRectangle
+from objects.ui.tab import TabContainer
 from objects.ui.selfportrait import SelfPortrait
 
 loadPrcFile("config/Config.prc")
@@ -40,7 +40,7 @@ class Monotony(ShowBase, Notifier):
         self.console = None
 
         self.clock = Clock()
-        self.detail_rectangle = DetailRectangle(self.clock)
+        self.detail_rectangle = TabContainer(self.clock)
         self.player = Player(self.clock)
         self.location_holder = LocationHandler()
         self.self_portrait = SelfPortrait()
