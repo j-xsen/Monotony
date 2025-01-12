@@ -4,6 +4,7 @@ from panda3d.core import TextNode
 
 from objects.notifier import Notifier
 from objects.ui.console.userinputtextbox import UserInputTextBox
+from objects.ui.note import Note
 
 
 class Console(UserInputTextBox, Notifier):
@@ -29,6 +30,10 @@ class Console(UserInputTextBox, Notifier):
 
     def swap_songs(self, args):
         messenger.send("swap_songs")
+        return True
+
+    def add_fake_note(self, args):
+        messenger.send("add_note", [Note("Fake Note", "Fake Note Text")])
         return True
 
     def pressed_tilda(self):
@@ -189,7 +194,8 @@ class Console(UserInputTextBox, Notifier):
         "portraitstate": set_self_portrait_state,
         "archivable": print_archivable,
         "location": set_location,
-        "swap_songs": swap_songs
+        "swap_songs": swap_songs,
+        "adf": add_fake_note
     }
 
 

@@ -1,6 +1,7 @@
 import random
 
 from direct.gui.DirectGui import DGG
+from direct.interval.IntervalManager import ivalMgr
 from direct.interval.LerpInterval import LerpColorInterval
 from direct.showbase.DirectObject import DirectObject
 
@@ -28,6 +29,12 @@ class WorkAction(Action, DirectObject):
         if not self.pressed:
             Action.enable_button(self)
 
+    def disable_button(self):
+        flashing_interval = ivalMgr.getInterval(f"flashing_action_bar{self.index}")
+        if flashing_interval:
+            ivalMgr.removeInterval(flashing_interval)
+        Action.disable_button(self)
+
     def randomize(self):
         self.pressed = False
         self.number = random.randrange(10, 100)
@@ -35,6 +42,7 @@ class WorkAction(Action, DirectObject):
 
     def command(self):
         self.pressed = True
+        base.loader.loadSfx("art/sounds/work_card.ogg").play()
         messenger.send("pressed_card", [self.index, self.number])
 
 
@@ -89,23 +97,42 @@ class Work(Location):
 
     def check_cards(self):
         min = 0
+        success = True
         for number in self.click_order:
             if number < min:
-                self.reset_cards()
-                self.flash_action_bar(True)
-                return False
+                success = False
+                break
             min = number
-        messenger.send("profit")
+
+        # pay player if they won
+        if success:
+            messenger.send("profit")
+
+        # sounds
+        sounds = [
+            ["art/sounds/fail_1.ogg",
+             "art/sounds/fail_2.ogg",
+             "art/sounds/fail_3.ogg",],
+            ["art/sounds/success_1.ogg",
+            "art/sounds/success_2.ogg",
+            "art/sounds/success_3.ogg",]
+        ]
+        chosen_sound = base.loader.loadSfx(random.choice(sounds[success]))
+        chosen_sound.setVolume(0.3)
+        chosen_sound.play()
+
         self.reset_cards()
-        self.flash_action_bar(False)
-        return True
+        self.flash_action_bar(not success)
+
+        return success
 
     def flash_action_bar(self, is_red):
         color = (1, 0, 0, 1) if is_red else (0, 1, 0, 1)
         lerpcolor = LerpColorInterval(self.action_bar.background, 1, (1, 1, 1, 1), color)
         lerpcolor.start()
         for action in self.actions[self.stage]:
-            new_color = LerpColorInterval(action.button, 1, (1, 1, 1, 1), color)
+            new_color = LerpColorInterval(action.button, 1, (1, 1, 1, 1), color,
+                                          name=f"flashing_action_bar{action.index}")
             new_color.start()
 
     def reset_cards(self):

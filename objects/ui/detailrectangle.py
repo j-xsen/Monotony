@@ -19,6 +19,8 @@ class DetailRectangle(Panel):
         self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
 
         button_scale = 0.4
+        tab_change = clickSound=base.loader.loadSfx("art/sounds/tab_change.ogg")
+        tab_change.setVolume(0.5)
         self.nav_log = DirectButton(geom=self.drawn_square,
                                     text="Log",
                                     text_fg=(1, 1, 1, 1),
@@ -26,7 +28,8 @@ class DetailRectangle(Panel):
                                     text_font=self.font, text_scale=0.06,
                                     relief=None,
                                     geom_scale=(button_scale, 1, button_scale * 0.35),
-                                    pos=(-1, 0, -.045), command=self.goto_log)
+                                    pos=(-1, 0, -.045), command=self.goto_log,
+                                    clickSound=tab_change)
         self.nav_inv = DirectButton(geom=self.drawn_square,
                                     text="Inventory",
                                     text_fg=(1, 1, 1, 1),
@@ -34,7 +37,8 @@ class DetailRectangle(Panel):
                                     text_font=self.font, text_scale=0.06,
                                     relief=None,
                                     geom_scale=(button_scale, 1, button_scale * 0.35),
-                                    pos=(-.5, 0, -.045), command=self.goto_inventory)
+                                    pos=(-.5, 0, -.045), command=self.goto_inventory,
+                                    clickSound=tab_change)
 
         self.log = Log(clock)
         self.inventory = Inventory()
@@ -86,6 +90,13 @@ class Inventory(DetailRectanglePane):
         self.accept("add_note", self.add_note)
 
     def add_note(self, note):
+        for item in self.items:
+            item.move_down()
+        if note.title != "Welcome to Monotony!":
+            receive_sound = base.loader.loadSfx("art/sounds/receive_note.ogg")
+            receive_sound.setVolume(0.5)
+            receive_sound.play()
+        note.display()
         new_item = InventoryItem(note, self.font, len(self.items))
         new_item.reparentTo(self.frame)
         self.items.append(new_item)
@@ -112,7 +123,8 @@ class InventoryItem:
         self.button = DirectButton(text=note.title, text_scale=0.07, text_pos=(0, -.02),
                                   pos=(-.5, 0, .13), geom=loader.loadModel('art/drawn_square.egg')
                                   .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
-                                  geom_scale=[1.5, 1, .1], text_font=font, command=self.click)
+                                  geom_scale=[1.5, 1, .1], text_font=font, command=self.click,
+                                   clickSound=base.loader.loadSfx("art/sounds/open.ogg"))
 
     def reparentTo(self, parent):
         self.button.reparentTo(parent)
@@ -121,6 +133,11 @@ class InventoryItem:
         # Button pressed, display message
         self.note.display()
         messenger.send("inv_disable")
+
+    def move_down(self):
+        cur_pos = self.button.get_pos()
+        cur_pos.z -= 0.125
+        self.button.set_fluid_pos(cur_pos)
 
 
 class Log(DetailRectanglePane):

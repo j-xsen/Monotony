@@ -36,7 +36,6 @@ class Player(Notifier, DirectObject):
 
         self.stats_widget = StatsWidget(self, clock)
 
-        self.accept("add_note", self.add_note)
         self.accept("deteriorate", self.deteriorate)
         self.accept("disable_actions", self.disable_actions)
         self.accept("enable_actions", self.enable_actions)
@@ -123,14 +122,6 @@ class Player(Notifier, DirectObject):
         messenger.send("clock_enable_pausing")
         messenger.send("inv_enable")
         messenger.send("ab_show")
-
-    def add_note(self, note):
-        """
-        :param note: Note to display.
-        :type note: Note
-        """
-        self.notify.debug(f"[add_note_] Received note: {note.title}: {note.message[:10]}")
-        note.display()
 
     def enable_actions(self):
         self.able = True

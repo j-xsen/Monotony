@@ -61,12 +61,18 @@ class Clock(Notifier, DirectObject):
         self.hours_in_day = int(ConfigVariableString('hours-in-day', '24').getValue())
         self.time = int(ConfigVariableString('starting-time', '600').getValue())
 
+        self.click_sounds = [base.loader.loadSfx("art/sounds/resume.ogg"),
+                             base.loader.loadSfx("art/sounds/pause.ogg")]
+        for sound in self.click_sounds:
+            sound.setVolume(0.35)
+
         self.egg = loader.loadModel("art/clock.egg")
         self.toggle = DirectButton(geom=self.egg.find("**/pause"),
                                    relief=None,
                                    scale=0.1,
                                    pos=(0.38, 0, -.04),
-                                   command=self.toggle_clock)
+                                   command=self.toggle_clock,
+                                   clickSound=self.click_sounds[0])
 
         self.paused = False
         self.double_pause = False
@@ -118,11 +124,13 @@ class Clock(Notifier, DirectObject):
     def toggle_clock(self):
         if not self.paused:
             self.notify.debug("[toggle_clock] Pausing")
+            self.toggle["clickSound"] = self.click_sounds[1]
             messenger.send("disable_actions")
             self.offset_time = (self.bar['value'] / 100) * self.seconds_per_hour
             self.toggle.setGeom(self.egg.find("**/play"))
         else:
             self.notify.debug("[toggle_clock] Unpausing")
+            self.toggle["clickSound"] = self.click_sounds[0]
             messenger.send("enable_actions")
             self.toggle.setGeom(self.egg.find("**/pause"))
         self.paused = not self.paused

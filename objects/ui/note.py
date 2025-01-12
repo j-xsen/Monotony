@@ -22,6 +22,7 @@ class CloseAction(Action):
 
     def create_button(self):
         Action.create_button(self)
+        self.button["clickSound"] = base.loader.loadSfx("art/sounds/close.ogg")
         self.set_pos((0, 0, -.4))
         self.multiply_scale(0.6)
 
