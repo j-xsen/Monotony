@@ -195,7 +195,7 @@ class Console(UserInputTextBox, Notifier):
         "archivable": print_archivable,
         "location": set_location,
         "swap_songs": swap_songs,
-        "adf": add_fake_note
+        "add_fake_note": add_fake_note
     }
 
 
