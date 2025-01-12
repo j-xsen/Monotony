@@ -16,9 +16,6 @@ class Player(Notifier, DirectObject):
         """
         Notifier.__init__(self, "player")
 
-        # Ability to act
-        self.able = True
-
         # Stats
         self.hygiene = Stat(20)
         self.cleaning_amount = 0  # adds hygiene after bathing
@@ -37,8 +34,6 @@ class Player(Notifier, DirectObject):
         self.stats_widget = StatsWidget(self, clock)
 
         self.accept("deteriorate", self.deteriorate)
-        self.accept("disable_actions", self.disable_actions)
-        self.accept("enable_actions", self.enable_actions)
         self.accept("wake_up", self.wake_up)
         self.accept("feed", self.feed)
         self.accept("bathe", self.bathe)
@@ -122,12 +117,6 @@ class Player(Notifier, DirectObject):
         messenger.send("clock_enable_pausing")
         messenger.send("inv_enable")
         messenger.send("ab_show")
-
-    def enable_actions(self):
-        self.able = True
-
-    def disable_actions(self):
-        self.able = False
 
     def profit(self, amount=100):
         """
