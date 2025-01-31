@@ -1,6 +1,8 @@
 win-size 1800 1000
 window-title Monotony
 
+model-path $THIS_PRC_DIR/..
+
 notify-level warning
 default-directnotify-level warning
 

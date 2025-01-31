@@ -48,7 +48,7 @@ class WorkAction(Action, DirectObject):
 
 class Work(Location):
     def __init__(self, action_bar):
-        Location.__init__(self, action_bar)
+        Location.__init__(self, action_bar, "Work")
         self.notify.debug("[__init__] Creating Work location")
         messenger.send("update_state", [DRIVING])
         self.actions = [

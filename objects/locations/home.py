@@ -47,7 +47,7 @@ class Bathe(DelayedAction):
 
 class Home(Location):
     def __init__(self, action_bar):
-        Location.__init__(self, action_bar)
+        Location.__init__(self, action_bar, "Home")
         self.notify.debug("[__init__] Creating Home location")
         self.actions = [
             [

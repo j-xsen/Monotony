@@ -8,13 +8,16 @@ WORK = 1
 
 
 class Location(Notifier, DirectObject):
-    def __init__(self, action_bar):
+    def __init__(self, action_bar, name):
         """
         Abstract Location object that holds the actions available and current stage.
         :param action_bar: The Action Bar
         :type action_bar: ActionBar
+        :param name: Name for Notifier
+        :type name: str
         """
-        Notifier.__init__(self, "location")
+        Notifier.__init__(self, name)
+        self.name = name
         self.action_bar = action_bar
 
         # Each list within self.actions is a different stage

@@ -1,5 +1,5 @@
 from direct.task.TaskManagerGlobal import taskMgr
-from panda3d.core import loadPrcFile
+from panda3d.core import loadPrcFile, ConfigVariableManager
 
 from objects.clock import Clock
 from objects.locations.location import LocationHandler
@@ -17,8 +17,12 @@ from objects.player.player import Player
 
 class Monotony(ShowBase, Notifier):
 
-    def __init__(self):
+    def __init__(self, debug=False):
         ShowBase.__init__(self)
+
+        if debug:
+            for v in ConfigVariableManager.getGlobalPtr().getVariables():
+                print(v)
 
         # Open Multfile
         self.vfs = VirtualFileSystem.getGlobalPtr()
@@ -81,5 +85,6 @@ class Monotony(ShowBase, Notifier):
             self.console = None
 
 
-app = Monotony()
-app.run()
+if __name__ == '__main__':
+    app = Monotony()
+    app.run()
