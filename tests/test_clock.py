@@ -1,7 +1,10 @@
 import unittest
 
+from panda3d.core import loadPrcFile
+
 import base
 
+loadPrcFile("config/Testing.prc")
 
 class TestClock(unittest.TestCase):
     def setUp(self):

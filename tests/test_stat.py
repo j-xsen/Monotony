@@ -1,6 +1,7 @@
+import unittest
+
 from objects.player.stat import Stat
 
-import unittest
 
 class TestStat(unittest.TestCase):
     def test_add_overflow(self):

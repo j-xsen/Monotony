@@ -1,28 +1,21 @@
+from direct.showbase.ShowBase import ShowBase
 from direct.task.TaskManagerGlobal import taskMgr
-from panda3d.core import loadPrcFile, ConfigVariableManager
+from panda3d.core import Multifile, VirtualFileSystem
+from panda3d.core import loadPrcFile
 
 from objects.clock import Clock
 from objects.locations.location import LocationHandler
 from objects.notifier import Notifier
-from objects.ui.tab import TabContainer
-from objects.ui.selfportrait import SelfPortrait
-
-loadPrcFile("config/Config.prc")
-
-from direct.showbase.ShowBase import ShowBase
-from objects.ui.console.console import Console
-from panda3d.core import Multifile, VirtualFileSystem
 from objects.player.player import Player
+from objects.ui.console.console import Console
+from objects.ui.selfportrait import SelfPortrait
+from objects.ui.tab import TabContainer
 
 
 class Monotony(ShowBase, Notifier):
 
     def __init__(self, debug=False):
         ShowBase.__init__(self)
-
-        if debug:
-            for v in ConfigVariableManager.getGlobalPtr().getVariables():
-                print(v)
 
         # Open Multfile
         self.vfs = VirtualFileSystem.getGlobalPtr()
@@ -86,5 +79,6 @@ class Monotony(ShowBase, Notifier):
 
 
 if __name__ == '__main__':
+    loadPrcFile("config/Config.prc")
     app = Monotony()
     app.run()
