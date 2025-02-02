@@ -14,7 +14,7 @@ from objects.ui.tab import TabContainer
 
 class Monotony(ShowBase, Notifier):
 
-    def __init__(self, debug=False):
+    def __init__(self):
         ShowBase.__init__(self)
 
         # Open Multfile
