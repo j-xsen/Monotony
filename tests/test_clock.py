@@ -8,7 +8,7 @@ loadPrcFile("config/Testing.prc")
 
 class TestClock(unittest.TestCase):
     def setUp(self):
-        self.monotony = base.Monotony(debug=True)
+        self.monotony = base.Monotony()
 
     def tearDown(self):
         self.monotony.destroy()
