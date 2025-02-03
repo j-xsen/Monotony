@@ -27,7 +27,7 @@ class Panel(Notifier, DirectObject):
 
     def create_background(self):
         self.background = DirectFrame(frameColor=(1, 1, 1, 1),
-                                      frameTexture='art/square.png',
+                                      frameTexture='art/drawn_square.png',
                                       frameSize=self.frame_size,
                                       pos=self.pos, sortOrder=self.sort)
 

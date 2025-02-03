@@ -16,7 +16,7 @@ class TabContainer(Panel):
                        frame_size=(size, -size * 2.75, size - .045, -size),
                        pos=(-0.1, 0, -.52))
         self.font = loader.loadFont("Monotony-Regular.ttf")
-        self.drawn_square = loader.loadModel('art/square.egg')
+        self.drawn_square = loader.loadModel('art/drawn_square.egg').find("**/drawn_square")
 
         button_scale = 0.4
         tab_change = base.loader.loadSfx("art/sounds/tab_change.ogg")
@@ -121,8 +121,8 @@ class InventoryItem:
     def __init__(self, note, font, index):
         self.note = note
         self.button = DirectButton(text=note.title, text_scale=0.07, text_pos=(0, -.02),
-                                  pos=(-.5, 0, .13), geom=loader.loadModel('art/rectangle.egg'),
-                                   relief=None, text_fg=(1, 1, 1, 1),
+                                  pos=(-.5, 0, .13), geom=loader.loadModel('art/drawn_square.egg')
+                                  .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
                                   geom_scale=[1.5, 1, .1], text_font=font, command=self.click,
                                    clickSound=base.loader.loadSfx("art/sounds/open.ogg"))
 

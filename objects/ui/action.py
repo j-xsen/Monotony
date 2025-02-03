@@ -27,7 +27,7 @@ class Action:
         """
         self.button = DirectButton(scale=((self.text_node.getWidth() * self.text_scale) + 0.2, 1, 0.3), relief=None,
                                    command=self.command,
-                                   geom=loader.loadModel('art/rectangle.egg'))
+                                   geom=loader.loadModel('art/drawn_square.egg').find("**/drawn_square"))
         self.text_node_path = aspect2d.attachNewNode(self.text_node.generate())
         self.text_node_path.setScale(self.text_scale)
         self.text_node_path.wrtReparentTo(self.button)
