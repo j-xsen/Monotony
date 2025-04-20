@@ -1,5 +1,6 @@
 from direct.gui.OnscreenText import OnscreenText
 from direct.showbase.DirectObject import DirectObject
+from direct.showbase.MessengerGlobal import messenger
 from panda3d.core import TextNode
 
 from objects.notifier import Notifier
@@ -172,7 +173,7 @@ class Console(UserInputTextBox, Notifier):
         for log in self.archival:
             string += f"{log.text}, "
         string = string[:-2]
-        return [ConsoleLog(f"archivable", True, auto_create=False),
+        return [ConsoleLog("archivable", True, auto_create=False),
                 ConsoleLog(string, True, archival=False, auto_create=False)]
 
     def print_commands(self, args):
@@ -186,6 +187,9 @@ class Console(UserInputTextBox, Notifier):
         return [ConsoleLog(f"commands", True, auto_create=False),
                 ConsoleLog(string, True, archival=False, auto_create=False)]
 
+    def set_speed(self, args):
+        messenger.send("clock_set_speed", args)
+
     mapping = {
         "commands": print_commands,
         "help": print_commands,
@@ -195,7 +199,8 @@ class Console(UserInputTextBox, Notifier):
         "archivable": print_archivable,
         "location": set_location,
         "swap_songs": swap_songs,
-        "add_fake_note": add_fake_note
+        "add_fake_note": add_fake_note,
+        "x": set_speed,
     }
 
 

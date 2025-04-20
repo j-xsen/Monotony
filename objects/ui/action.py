@@ -4,6 +4,10 @@ from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode, LVecBase3f
 
 
+def add_log(text: str):
+    messenger.send("add_log", [text])
+
+
 class Action:
     def __init__(self, text):
         """
@@ -49,9 +53,6 @@ class Action:
         cur = self.button.getScale()
         lvec = LVecBase3f(multiple * cur.x, multiple * cur.y, multiple * cur.z)
         self.button.setScale(lvec)
-
-    def add_log(self, text):
-        messenger.send("add_log", [text])
 
     def disable_button(self):
         tint = .4

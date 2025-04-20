@@ -86,6 +86,12 @@ class Clock(Notifier, DirectObject):
         self.accept("clock_pause", self.pause_clock)
         self.accept("clock_toggle", self.toggle_clock)
         self.accept("clock_resume", self.resume_clock)
+        self.accept("clock_set_speed", self.set_speed)
+
+    def set_speed(self, args):
+        self.notify.debug(f"Settings seconds per hour to {self.seconds_per_hour}/{args}")
+        self.seconds_per_hour /= float(args)
+        self.notify.debug(f"new seconds per hour: {self.seconds_per_hour}")
 
     def disable_pausing(self):
         tint = .4

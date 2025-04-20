@@ -1,5 +1,5 @@
 from objects.locations.location import Location, WORK
-from objects.ui.action import Action, DelayedAction
+from objects.ui.action import Action, DelayedAction, add_log
 from objects.ui.note import Note
 from objects.ui.selfportrait import PERSON
 
@@ -12,7 +12,7 @@ class WakeUp(Action):
         messenger.send("set_stage", [1])  # location
         messenger.send("update_state", [PERSON])  # portrait
         messenger.send("wake_up")  # player
-        self.add_log("Good morning Me!")
+        add_log("Good morning Me!")
 
 
 class GoToWork(Action):
@@ -31,7 +31,7 @@ class Eat(DelayedAction):
         messenger.send("feed", [1, 60, self.post])
 
     def post(self, e):
-        self.add_log("Delicious!")
+        add_log("Delicious!")
 
 
 class Bathe(DelayedAction):
@@ -42,7 +42,7 @@ class Bathe(DelayedAction):
         messenger.send("bathe", [2, 80, self.post])
 
     def post(self, e):
-        self.add_log("All clean.")
+        add_log("All clean.")
 
 
 class Home(Location):
