@@ -47,6 +47,7 @@ class WorkAction(Action, DirectObject):
 
 
 class Work(Location):
+    ENDTIME=1700
     def __init__(self, action_bar):
         Location.__init__(self, action_bar, "Work")
         self.notify.debug("[__init__] Creating Work location")
@@ -69,11 +70,16 @@ class Work(Location):
         self.click_order = []
 
         self.accept("pressed_card", self.pressed_card)
+        self.accept(self.ENDTIME, self.works_done)
 
     def set_stage(self, stage):
         super().set_stage(stage)
         if stage == 0:
             taskMgr.doMethodLater(0.5, self.show_cards, "Driving")
+
+    def works_done(self):
+        messenger.send("add_log", ["Time to clock out."])
+        self.notify.debug("[works_done] Work is finished (" + str(self.ENDTIME) + ")")
 
     def pressed_card(self, index, number):
         """

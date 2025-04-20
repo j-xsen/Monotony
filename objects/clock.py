@@ -115,6 +115,7 @@ class Clock(Notifier, DirectObject):
 
     def progress_hour(self):
         self.time += 100
+        messenger.send(self.time)
         if self.time >= self.hours_in_day * 100:
             self.time -= self.hours_in_day * 100
             # TODO do day move

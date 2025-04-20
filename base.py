@@ -9,7 +9,7 @@ from objects.notifier import Notifier
 from objects.player.player import Player
 from objects.ui.console.console import Console
 from objects.ui.selfportrait import SelfPortrait
-from objects.ui.tab import TabContainer
+from objects.ui.tabbed.TabContainer import TabContainer
 
 
 class Monotony(ShowBase, Notifier):
