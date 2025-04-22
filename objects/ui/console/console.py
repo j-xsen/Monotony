@@ -190,6 +190,9 @@ class Console(UserInputTextBox, Notifier):
     def set_speed(self, args):
         messenger.send("clock_set_speed", args)
 
+    def set_time(self, args):
+        messenger.send("clock_set_time", args)
+
     mapping = {
         "commands": print_commands,
         "help": print_commands,
@@ -201,6 +204,7 @@ class Console(UserInputTextBox, Notifier):
         "swap_songs": swap_songs,
         "add_fake_note": add_fake_note,
         "x": set_speed,
+        "time": set_time,
     }
 
 

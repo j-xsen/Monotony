@@ -86,12 +86,19 @@ class Clock(Notifier, DirectObject):
         self.accept("clock_pause", self.pause_clock)
         self.accept("clock_toggle", self.toggle_clock)
         self.accept("clock_resume", self.resume_clock)
+        # commands
         self.accept("clock_set_speed", self.set_speed)
+        self.accept("clock_set_time", self.set_time)
 
     def set_speed(self, args):
         self.notify.debug(f"Settings seconds per hour to {self.seconds_per_hour}/{args}")
         self.seconds_per_hour /= float(args)
         self.notify.debug(f"new seconds per hour: {self.seconds_per_hour}")
+
+    def set_time(self, args):
+        self.notify.debug(f"Setting time to {args}")
+        self.time = int(args)
+        messenger.send("update_stats")
 
     def disable_pausing(self):
         tint = .4
