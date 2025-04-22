@@ -9,7 +9,7 @@ def add_log(text: str):
 
 
 class Action:
-    def __init__(self, text):
+    def __init__(self, text: str):
         """
         An action that is able to be done.
         :param text: The text to be displayed on the button.
@@ -65,7 +65,7 @@ class Action:
 
 
 class DelayedAction(Action):
-    def __init__(self, text):
+    def __init__(self, text: str):
         Action.__init__(self, text)
 
     def post(self, e):

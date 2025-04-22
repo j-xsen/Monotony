@@ -1,6 +1,6 @@
 from direct.showbase.ShowBase import ShowBase
 from direct.task.TaskManagerGlobal import taskMgr
-from panda3d.core import Multifile, VirtualFileSystem
+from panda3d.core import Multifile, VirtualFileSystem, ConfigVariableBool, Event
 from panda3d.core import loadPrcFile
 
 from objects.clock import Clock
@@ -29,8 +29,9 @@ class Monotony(ShowBase, Notifier):
             self.notify.error("Unable to mount art.mf!")
 
         # music
-        self.current_song = 0
-        self.swap_songs()
+        if ConfigVariableBool('sound', '#f').getValue():
+            self.current_song = 0
+            self.swap_songs()
 
         self.setBackgroundColor(0, 0, 0)
 
@@ -45,7 +46,8 @@ class Monotony(ShowBase, Notifier):
         # Controls
         self.accept("`", self.pressed_tilda)
         self.accept("escape", self.userExit)
-        self.accept("swap_songs", self.swap_songs)
+        if ConfigVariableBool('sound', '#f').getValue():
+            self.accept("swap_songs", self.swap_songs)
 
     def swap_songs(self):
         taskMgr.remove("MusicSwap")

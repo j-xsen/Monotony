@@ -37,7 +37,7 @@ class SelfPortrait(Panel):
         self.update_state(SLEEPING)
         self.accept("update_state", self.update_state)
 
-    def update_state(self, new_state):
+    def update_state(self, new_state: int) -> bool:
         """
         Updates self.state and changes image accordingly
         :param new_state: New portrait state

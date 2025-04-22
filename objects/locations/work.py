@@ -5,13 +5,22 @@ from direct.interval.IntervalManager import ivalMgr
 from direct.interval.LerpInterval import LerpColorInterval
 from direct.showbase.DirectObject import DirectObject
 
+from objects.locations import location
 from objects.locations.location import Location
 from objects.ui.action import Action
+from objects.ui.action_bar import ActionBar
 from objects.ui.selfportrait import DRIVING, PERSON
 
 
+class GoHome(Action):
+    def __init__(self):
+        Action.__init__(self, "Go Home")
+
+    def command(self):
+        messenger.send("head_to_location", [location.HOME])
+
 class WorkAction(Action, DirectObject):
-    def __init__(self, index):
+    def __init__(self, index: int):
         """
         A special action for the Work scene's minigame.
         :param index: The index of the action (0-4)
@@ -48,7 +57,7 @@ class WorkAction(Action, DirectObject):
 
 class Work(Location):
     ENDTIME=1700
-    def __init__(self, action_bar):
+    def __init__(self, action_bar: ActionBar):
         Location.__init__(self, action_bar, "Work")
         self.notify.debug("[__init__] Creating Work location")
         messenger.send("update_state", [DRIVING])
@@ -62,6 +71,9 @@ class Work(Location):
                 WorkAction(2),
                 WorkAction(3),
                 WorkAction(4),
+            ],
+            [
+                GoHome(),
             ]
         ]
 
@@ -72,16 +84,17 @@ class Work(Location):
         self.accept("pressed_card", self.pressed_card)
         self.accept(self.ENDTIME, self.works_done)
 
-    def set_stage(self, stage):
+    def set_stage(self, stage: int):
         super().set_stage(stage)
         if stage == 0:
             taskMgr.doMethodLater(0.5, self.show_cards, "Driving")
 
     def works_done(self):
         messenger.send("add_log", ["Time to clock out."])
+        self.set_stage(2)
         self.notify.debug("[works_done] Work is finished (" + str(self.ENDTIME) + ")")
 
-    def pressed_card(self, index, number):
+    def pressed_card(self, index: int, number: int):
         """
         Ran when a card is pressed. Disables card and adds to the click order.
         :param index: The index of the card.
@@ -132,7 +145,7 @@ class Work(Location):
 
         return success
 
-    def flash_action_bar(self, is_red):
+    def flash_action_bar(self, is_red: bool):
         color = (1, 0, 0, 1) if is_red else (0, 1, 0, 1)
         lerpcolor = LerpColorInterval(self.action_bar.background, 1, (1, 1, 1, 1), color)
         lerpcolor.start()

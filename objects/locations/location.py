@@ -8,7 +8,7 @@ WORK = 1
 
 
 class Location(Notifier, DirectObject):
-    def __init__(self, action_bar, name):
+    def __init__(self, action_bar: ActionBar, name: str):
         """
         Abstract Location object that holds the actions available and current stage.
         :param action_bar: The Action Bar
@@ -26,7 +26,7 @@ class Location(Notifier, DirectObject):
 
         self.accept("set_stage", self.set_stage)
 
-    def set_stage(self, stage):
+    def set_stage(self, stage: int):
         """
         Sets the stage of the Location.
         :param stage: Stage to go to
@@ -58,7 +58,7 @@ class LocationHandler(DirectObject):
         messenger.send("set_stage", [0])
         self.accept("head_to_location", self.head_to_location)
 
-    def head_to_location(self, index, stage=0):
+    def head_to_location(self, index: int, stage: int = 0) -> bool:
         """
         Switches the location
         :param index: Index of location to switch to

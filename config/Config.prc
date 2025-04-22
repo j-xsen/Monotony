@@ -24,3 +24,5 @@ hunger-decay 6
 hygiene-decay 4
 sleep-decay 5
 sleep-boost 10
+
+sound #f

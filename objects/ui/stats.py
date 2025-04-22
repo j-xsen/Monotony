@@ -5,7 +5,7 @@ from direct.task import Task
 from objects.ui.panel import Panel
 
 
-class StatsWidget(Panel):
+class Stats(Panel):
     def __init__(self, player, clock):
         Panel.__init__(self, "statswidget",
                        frame_size=(.85, 0, .85, 0),
@@ -54,6 +54,6 @@ class StatsWidget(Panel):
         # sleep
         self.sleep_bar['value'] = self.player.sleep.value
 
-    def update_stats_task(self, task):
+    def update_stats_task(self, task: Task):
         self.update_stats()
         return Task.again

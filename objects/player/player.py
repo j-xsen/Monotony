@@ -1,14 +1,17 @@
+from typing import Callable
+
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import ConfigVariableString
 
+from objects.clock import Clock
 from objects.notifier import Notifier
 from objects.player.stat import Stat
 from objects.ui.selfportrait import EATING, PERSON, BATHING
-from objects.ui.statswidget import StatsWidget
+from objects.ui.stats import Stats
 
 
 class Player(Notifier, DirectObject):
-    def __init__(self, clock):
+    def __init__(self, clock: Clock):
         """
         Holds all the player information
         :param clock: The clock object
@@ -31,7 +34,7 @@ class Player(Notifier, DirectObject):
         self.sleep_boost = int(ConfigVariableString('sleep-boost', '10').getValue())
         self.hygiene_decay = int(ConfigVariableString('hygiene-decay', '10').getValue())
 
-        self.stats_widget = StatsWidget(self, clock)
+        self.stats_widget = Stats(self, clock)
 
         self.accept("deteriorate", self.deteriorate)
         self.accept("wake_up", self.wake_up)
@@ -54,7 +57,7 @@ class Player(Notifier, DirectObject):
             self.sleep -= self.sleep_decay
         self.stats_widget.update_stats()
 
-    def bathe(self, duration=2, effect=80, after=None):
+    def bathe(self, duration: int = 2, effect: int = 80, after=None):
         """
         :param duration: Length of shower in seconds.
         :type duration: int

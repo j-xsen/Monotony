@@ -1,6 +1,7 @@
+from direct.gui.DirectGui import DGG
+
 from objects.ui.tabbed.InventoryItem import InventoryItem
 from objects.ui.tabbed.Tab import Tab
-from direct.gui.DirectGui import DGG
 
 
 class Inventory(Tab):

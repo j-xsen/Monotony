@@ -58,7 +58,7 @@ class Console(UserInputTextBox, Notifier):
             elif type(success) == list:
                 self.add_to_log_multiple(success)
 
-    def add_to_log(self, text, valid, archival=True):
+    def add_to_log(self, text: str, valid: bool, archival: bool = True):
         """
         Add a message (text) to the log
         :param text: The text to add to the log
@@ -78,10 +78,9 @@ class Console(UserInputTextBox, Notifier):
             if archival:
                 self.archival.insert(0, self.logs[0])
 
-    def add_to_log_multiple(self, log_list):
+    def add_to_log_multiple(self, log_list: iter):
         """
         :param log_list: List of logs to add
-        :type log_list: list
         """
         for log in log_list:
             for existing_log in self.logs:
@@ -91,7 +90,7 @@ class Console(UserInputTextBox, Notifier):
             if self.logs[0].archival:
                 self.archival.insert(0, self.logs[0])
 
-    def move_command(self, direction):
+    def move_command(self, direction: int):
         """
         Bring up command history
         :param direction: Which direction to move in the log. Up = 1, Down = 0
@@ -209,7 +208,7 @@ class Console(UserInputTextBox, Notifier):
 
 
 class ConsoleLog:
-    def __init__(self, text, valid, archival=True, auto_create=True):
+    def __init__(self, text: str, valid: bool, archival: bool = True, auto_create: bool = True):
         """
         :param text: What did they type in the console?
         :type text: str

@@ -1,3 +1,4 @@
+from objects.ui.action import Action
 from objects.ui.panel import Panel
 
 
@@ -33,7 +34,7 @@ class ActionBar(Panel):
                 (0.45, 0, 0.6),
                 (0.75, 0, 0.6),
                 (1.05, 0, 0.6)
-            ]
+            ],
         }
 
         self.accept("set_actions", self.set_actions)
@@ -42,14 +43,14 @@ class ActionBar(Panel):
         self.accept("ab_hide", self.hide)
         self.accept("ab_show", self.show)
 
-    def add_action(self, new_action):
+    def add_action(self, new_action: Action):
         self.actions.append(new_action)
 
     def delete_actions(self):
         for action in self.actions:
             action.destroy_button()
 
-    def set_actions(self, actions):
+    def set_actions(self, actions: list[Action]):
         self.delete_actions()
 
         self.actions = actions

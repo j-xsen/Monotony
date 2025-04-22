@@ -5,7 +5,7 @@ from objects.notifier import Notifier
 
 
 class Panel(Notifier, DirectObject):
-    def __init__(self, name, frame_size=(-1, 1, -1, 1), pos=(0, 0, 0), sort=0):
+    def __init__(self, name: str, frame_size: tuple = (-1, 1, -1, 1), pos: tuple = (0, 0, 0), sort: int = 0):
         """
         :param name: Name to give to Notifier
         :type name: str

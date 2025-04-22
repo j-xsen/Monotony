@@ -3,7 +3,7 @@ from panda3d.core import TextNode, LVector3f
 
 
 class LogEntry:
-    def __init__(self, text):
+    def __init__(self, text: str):
         self.label = DirectLabel(text=text,
                                  text_align=TextNode.ALeft,
                                  pos=(-1.22, 0, .14),

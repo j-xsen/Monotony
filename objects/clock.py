@@ -23,7 +23,7 @@ class Day:
     def __init__(self):
         self.index = 1  # Start monday
 
-    def set(self, index):
+    def set(self, index: int):
         self.index = index
         return self.index
 
@@ -109,7 +109,7 @@ class Clock(Notifier, DirectObject):
         self.toggle["state"] = DGG.NORMAL
         self.toggle.setColor(1, 1, 1, 1)
 
-    def run_clock(self, task):
+    def run_clock(self, task: Task):
         if not self.paused:
             self.bar['value'] = (task.time + self.offset_time) / self.seconds_per_hour * 100
             if task.time + self.offset_time < self.seconds_per_hour:

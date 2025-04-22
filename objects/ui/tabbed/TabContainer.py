@@ -1,13 +1,14 @@
 from direct.gui.DirectButton import DirectButton
+from direct.gui.DirectGui import DGG
 
+from objects.clock import Clock
 from objects.ui.panel import Panel
 from objects.ui.tabbed.Inventory import Inventory
 from objects.ui.tabbed.Log import Log
-from direct.gui.DirectGui import DGG
 
 size = .45
 class TabContainer(Panel):
-    def __init__(self, clock):
+    def __init__(self, clock: Clock):
         Panel.__init__(self, "inventory",
                        frame_size=(size, -size * 2.75, size - .045, -size),
                        pos=(-0.1, 0, -.52))
@@ -51,7 +52,7 @@ class TabContainer(Panel):
         self.log.show()
         self.switch_inv_log(False)
 
-    def switch_inv_log(self, is_inv):
+    def switch_inv_log(self, is_inv: bool):
         color_active = (1, 1, 1, 1)
         color_disabled = (1, 1, 1, 0.5)
         self.nav_log["state"] = DGG.NORMAL if is_inv else DGG.DISABLED

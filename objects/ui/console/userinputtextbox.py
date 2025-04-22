@@ -3,7 +3,9 @@ from direct.showbase.DirectObject import DirectObject
 
 
 class UserInputTextBox(DirectObject):
-    def __init__(self, placeholder, pos, on_enter, focus=False, sort_order=0):
+    def __init__(self, placeholder: str, pos: tuple,
+                 on_enter, focus: bool = False,
+                 sort_order: int = 0):
         """
         Object of a simple entry field
         :param placeholder: text to appear in textbox automatically

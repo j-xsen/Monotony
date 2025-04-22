@@ -2,7 +2,7 @@ from objects.notifier import Notifier
 
 
 class Stat(Notifier):
-    def __init__(self, value, stat_max=100, stat_min=0):
+    def __init__(self, value: int, stat_max: int = 100, stat_min: int = 0):
         """
 
         :param value: Starting value of the stat.
@@ -17,18 +17,18 @@ class Stat(Notifier):
         self.stat_max = stat_max
         self.stat_min = stat_min
 
-    def __add__(self, other):
+    def __add__(self, other: int):
         self.value = self.change_value(other)
         return self
 
-    def __sub__(self, other):
+    def __sub__(self, other: int):
         self.value = self.change_value(-other)
         return self
 
     def __str__(self):
         return f"{self.value}"
 
-    def change_value(self, adjust):
+    def change_value(self, adjust: int) -> int:
         """
 
         :param adjust: Amount to adjust the stat by.

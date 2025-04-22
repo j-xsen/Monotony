@@ -1,5 +1,6 @@
 from objects.locations.location import Location, WORK
 from objects.ui.action import Action, DelayedAction, add_log
+from objects.ui.action_bar import ActionBar
 from objects.ui.note import Note
 from objects.ui.selfportrait import PERSON
 
@@ -35,7 +36,7 @@ class Eat(DelayedAction):
 
 
 class Bathe(DelayedAction):
-    def __init__(self, ):
+    def __init__(self):
         Action.__init__(self, "Bathe")
 
     def command(self):
@@ -46,7 +47,7 @@ class Bathe(DelayedAction):
 
 
 class Home(Location):
-    def __init__(self, action_bar):
+    def __init__(self, action_bar: ActionBar):
         Location.__init__(self, action_bar, "Home")
         self.notify.debug("[__init__] Creating Home location")
         self.actions = [
@@ -60,7 +61,7 @@ class Home(Location):
             ]
         ]
 
-    def set_stage(self, stage=0):
+    def set_stage(self, stage: int = 0):
         Location.set_stage(self, stage)
         if stage == 0:
             welcome_note = Note("Welcome to Monotony!",

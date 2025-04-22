@@ -28,7 +28,7 @@ class CloseAction(Action):
 
 
 class Note:
-    def __init__(self, title, message):
+    def __init__(self, title: str, message: str):
         self.title = title
         self.message = message
         self.UI = None
@@ -40,7 +40,7 @@ class Note:
 class UIMessage(Panel):
     scroll_speed = 0.05
 
-    def __init__(self, message):
+    def __init__(self, message: Note):
         Panel.__init__(self, "Message", frame_size=(size, -size, size, -size), sort=1000)
         self.message = message
 
