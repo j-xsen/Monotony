@@ -1,7 +1,7 @@
 from direct.gui.DirectLabel import DirectLabel
 from panda3d.core import TextNode, LVector3f
 
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 
 
 class LogEntry:

@@ -7,9 +7,9 @@ from direct.showbase.DirectObject import DirectObject
 from panda3d.core import ConfigVariableString
 
 from objects.locations.location import Location, HOME
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 from objects.ui.action import Action
-from objects.ui.action_bar import ActionBar
+from objects.ui.actionbar import ActionBar
 from objects.ui.selfportrait import DRIVING, PERSON
 
 

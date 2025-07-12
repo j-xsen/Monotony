@@ -4,7 +4,7 @@ from direct.showbase.MessengerGlobal import messenger
 from panda3d.core import TextNode
 
 from objects.notifier import Notifier
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 from objects.ui.console.userinputtextbox import UserInputTextBox
 from objects.ui.note import Note
 

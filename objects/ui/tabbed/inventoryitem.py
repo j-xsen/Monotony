@@ -1,6 +1,6 @@
 from direct.gui.DirectButton import DirectButton
 
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 
 
 class InventoryItem:

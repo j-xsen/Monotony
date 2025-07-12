@@ -1,6 +1,6 @@
 from objects.clock import Clock
-from objects.ui.tabbed.LogEntry import LogEntry
-from objects.ui.tabbed.Tab import Tab
+from objects.ui.tabbed.logentry import LogEntry
+from objects.ui.tabbed.tab import Tab
 
 
 class Log(Tab):

@@ -3,7 +3,7 @@ from direct.gui.DirectGui import DGG
 from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode, LVecBase3f
 
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 
 
 def add_log(text: str):

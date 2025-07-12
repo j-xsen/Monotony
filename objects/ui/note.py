@@ -3,7 +3,7 @@ from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
 from panda3d.core import TextNode
 
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 from objects.ui.action import Action
 from objects.ui.panel import Panel
 

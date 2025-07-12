@@ -2,7 +2,7 @@ from panda3d.core import ConfigVariableString
 
 from objects.locations.location import Location, WORK
 from objects.ui.action import Action, DelayedAction, add_log
-from objects.ui.action_bar import ActionBar
+from objects.ui.actionbar import ActionBar
 from objects.ui.note import Note
 from objects.ui.selfportrait import PERSON
 

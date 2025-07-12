@@ -7,7 +7,7 @@ from direct.task.TaskManagerGlobal import taskMgr
 from panda3d.core import ConfigVariableString
 
 from objects.notifier import Notifier
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 
 
 class Day:

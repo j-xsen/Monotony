@@ -2,10 +2,10 @@ from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectGui import DGG
 
 from objects.clock import Clock
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 from objects.ui.panel import Panel
-from objects.ui.tabbed.Inventory import Inventory
-from objects.ui.tabbed.Log import Log
+from objects.ui.tabbed.inventory import Inventory
+from objects.ui.tabbed.log import Log
 
 size = .45
 class TabContainer(Panel):

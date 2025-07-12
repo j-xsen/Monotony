@@ -1,7 +1,7 @@
 from direct.showbase.DirectObject import DirectObject
 
 from objects.notifier import Notifier
-from objects.ui.action_bar import ActionBar
+from objects.ui.actionbar import ActionBar
 
 HOME_SETUP = -1
 HOME = 0

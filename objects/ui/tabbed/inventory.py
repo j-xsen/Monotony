@@ -1,8 +1,8 @@
 from direct.gui.DirectGui import DGG
 
-from objects.ui.tabbed.InventoryItem import InventoryItem
-from objects.ui.tabbed.Tab import Tab
-from objects.ui.UIConstants import UIConstants
+from objects.ui.tabbed.inventoryitem import InventoryItem
+from objects.ui.tabbed.tab import Tab
+from objects.ui.uiconstants import UIConstants
 
 
 class Inventory(Tab):

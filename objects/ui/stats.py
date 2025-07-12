@@ -2,7 +2,7 @@ from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.OnscreenText import OnscreenText
 from direct.task import Task
 
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 from objects.ui.panel import Panel
 
 

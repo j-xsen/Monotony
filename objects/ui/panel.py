@@ -2,7 +2,7 @@ from direct.gui.DirectFrame import DirectFrame
 from direct.showbase.DirectObject import DirectObject
 
 from objects.notifier import Notifier
-from objects.ui.UIConstants import UIConstants
+from objects.ui.uiconstants import UIConstants
 
 
 class Panel(Notifier, DirectObject):
