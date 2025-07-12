@@ -37,38 +37,44 @@ class ActionBar(Panel):
             ],
         }
 
+        self.hidden = False
+
         self.accept("set_actions", self.set_actions)
         self.accept("disable_actions", self.disable_actions)
         self.accept("enable_actions", self.enable_actions)
         self.accept("ab_hide", self.hide)
         self.accept("ab_show", self.show)
 
-    def add_action(self, new_action: Action):
-        self.actions.append(new_action)
-
     def delete_actions(self):
+        self.notify.debug("[delete_actions] Deleting actions...")
         for action in self.actions:
             action.destroy_button()
 
     def set_actions(self, actions: list[Action]):
-        self.delete_actions()
+        if self.hidden:
+            self.temp = actions
+        else:
+            self.notify.debug("[set_actions] Setting actions...")
+            self.delete_actions()
 
-        self.actions = actions
+            self.actions = actions
 
-        number = 0
-        for action in self.actions:
-            # set location and scale
-            action.create_button()
-            action.set_pos(self.pos[len(self.actions)][number])
-            number += 1
+            number = 0
+            for action in self.actions:
+                # set location and scale
+                action.create_button()
+                action.set_pos(self.pos[len(self.actions)][number])
+                number += 1
 
     def hide(self):
         self.notify.debug("[hide] Hiding actions...")
+        self.hidden = True
         self.temp = self.actions
         self.delete_actions()
 
     def show(self):
         self.notify.debug("[show] Showing actions...")
+        self.hidden = False
         self.set_actions(self.temp)
         self.temp = []
 

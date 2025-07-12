@@ -8,7 +8,7 @@ default-directnotify-level warning
 
 notify-level-clock debug
 notify-level-console debug
-notify-level-actionbar warning
+notify-level-actionbar debug
 notify-level-player debug
 notify-level-home debug
 notify-level-location debug
@@ -24,5 +24,8 @@ hunger-decay 6
 hygiene-decay 4
 sleep-decay 5
 sleep-boost 10
+
+work-start 800
+work-end 1700
 
 sound #f

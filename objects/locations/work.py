@@ -4,9 +4,10 @@ from direct.gui.DirectGui import DGG
 from direct.interval.IntervalManager import ivalMgr
 from direct.interval.LerpInterval import LerpColorInterval
 from direct.showbase.DirectObject import DirectObject
+from panda3d.core import ConfigVariableString
 
 from objects.locations import location
-from objects.locations.location import Location
+from objects.locations.location import Location, HOME
 from objects.ui.action import Action
 from objects.ui.action_bar import ActionBar
 from objects.ui.selfportrait import DRIVING, PERSON
@@ -17,7 +18,8 @@ class GoHome(Action):
         Action.__init__(self, "Go Home")
 
     def command(self):
-        messenger.send("head_to_location", [location.HOME, 1])
+        messenger.send("set_stage", [3])
+        messenger.send("update_state", [DRIVING])
 
 class WorkAction(Action, DirectObject):
     def __init__(self, index: int):
@@ -56,7 +58,7 @@ class WorkAction(Action, DirectObject):
 
 
 class Work(Location):
-    ENDTIME=1700
+    ENDTIME=int(ConfigVariableString('work-end', '1700').getValue())
     def __init__(self, action_bar: ActionBar):
         Location.__init__(self, action_bar, "Work")
         self.notify.debug("[__init__] Creating Work location")
@@ -74,7 +76,8 @@ class Work(Location):
             ],
             [
                 GoHome(),
-            ]
+            ],
+            []
         ]
 
         self.randomize_cards()
@@ -84,10 +87,15 @@ class Work(Location):
         self.accept("pressed_card", self.pressed_card)
         self.accept(self.ENDTIME, self.works_done)
 
+    def head_home_message(self, e):
+        messenger.send("head_to_location", [HOME, 2])
+
     def set_stage(self, stage: int):
         super().set_stage(stage)
         if stage == 0:
-            taskMgr.doMethodLater(0.5, self.show_cards, "Driving")
+            taskMgr.doMethodLater(0.5, self.show_cards, "DrivingWork")
+        elif stage == 3:
+            taskMgr.doMethodLater(0.5, self.head_home_message, "DrivingHome")
 
     def works_done(self):
         messenger.send("add_log", ["Time to clock out."])
