@@ -3,6 +3,8 @@ from direct.gui.DirectGui import DGG
 from direct.showbase.ShowBaseGlobal import aspect2d
 from panda3d.core import TextNode, LVecBase3f
 
+from objects.ui.UIConstants import UIConstants
+
 
 def add_log(text: str):
     messenger.send("add_log", [text])
@@ -61,7 +63,7 @@ class Action:
 
     def enable_button(self):
         self.button["state"] = DGG.NORMAL
-        self.button.setColor(1, 1, 1, 1)
+        self.button.setColor(UIConstants.COLOR_ENABLE)
 
 
 class DelayedAction(Action):

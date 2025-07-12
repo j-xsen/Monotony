@@ -4,6 +4,7 @@ from direct.showbase.MessengerGlobal import messenger
 from panda3d.core import TextNode
 
 from objects.notifier import Notifier
+from objects.ui.UIConstants import UIConstants
 from objects.ui.console.userinputtextbox import UserInputTextBox
 from objects.ui.note import Note
 
@@ -114,7 +115,6 @@ class Console(UserInputTextBox, Notifier):
         return True
 
     def set_location(self, args):
-        success = False
         if len(args) == 1:
             new_location = int(args[0])
             if new_location in self.level_holder.player.location_dict:
@@ -140,7 +140,13 @@ class Console(UserInputTextBox, Notifier):
     def set_self_portrait_state(self, args):
         success = False
         if len(args) == 1:
-            new_state = int(args[0])
+            try:
+                new_state = int(args[0])
+            except ValueError:
+                self.notify.debug(f"[set_self_portrait_state] Argument is not a number! ({args[0]})")
+                return [ConsoleLog(f"portraitstate {', '.join(str(arg) for arg in args)}", False, auto_create=False),
+                        ConsoleLog(f"Argument is not a number! Submitted: {args[0]}", False, archival=False,
+                                       auto_create=False)]
             success = self.level_holder.self_portrait.update_state(new_state)
             if not success:
                 error_log = ConsoleLog(f"Invalid new_state! Submitted: {new_state}", False, archival=False,
@@ -152,11 +158,7 @@ class Console(UserInputTextBox, Notifier):
         if success:
             return True
         else:
-            args_string = ""
-            for arg in args:
-                args_string += f" {arg}"
-
-            return [ConsoleLog(f"set_portrait_state{args_string}", False, auto_create=False), error_log]
+            return [ConsoleLog(f"portraitstate {', '.join(str(arg) for arg in args)}", False, auto_create=False), error_log]
 
     def clear(self, args):
         for log in self.logs:
@@ -187,10 +189,26 @@ class Console(UserInputTextBox, Notifier):
                 ConsoleLog(string, True, archival=False, auto_create=False)]
 
     def set_speed(self, args):
-        messenger.send("clock_set_speed", args)
+        if len(args) != 1:
+            self.notify.debug(f"[set_speed] Invalid number of args! ({len(args)})")
+            return [ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
+                                   False, archival=False, auto_create=False)]
+        try:
+            messenger.send("clock_set_speed", args)
+        except ValueError:
+            self.notify.warning(f"[set_speed] Invalid argument type! Expected number, got {type(args[0])}")
+            return [ConsoleLog(f"set_speed {args}", False, archival=False, auto_create=False)]
 
     def set_time(self, args):
-        messenger.send("clock_set_time", args)
+        if len(args) != 1:
+            self.notify.debug(f"[set_time] Invalid number of args! ({len(args)})")
+            return [ConsoleLog(f"Invalid number of arguments! Required: 1, Submitted: {len(args)}",
+                                   False, archival=False, auto_create=False)]
+        try:
+            messenger.send("clock_set_time", args)
+        except ValueError:
+            self.notify.warning(f"[set_time] Invalid argument type! Expected number, got {type(args[0])}")
+            return [ConsoleLog(f"set_time {args[0]}", False, archival=False, auto_create=False)]
 
     mapping = {
         "commands": print_commands,
@@ -230,7 +248,7 @@ class ConsoleLog:
             self.log["fg"] = (1, 0, 0, 1)
 
     def create(self):
-        self.log = OnscreenText(text=self.text, fg=(1, 1, 1, 1), pos=(-1.25, -.8),
+        self.log = OnscreenText(text=self.text, fg=UIConstants.COLOR_ENABLE, pos=(-1.25, -.8),
                                 align=TextNode.ALeft)
 
         if not self.archival:

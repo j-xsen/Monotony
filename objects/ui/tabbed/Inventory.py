@@ -2,6 +2,7 @@ from direct.gui.DirectGui import DGG
 
 from objects.ui.tabbed.InventoryItem import InventoryItem
 from objects.ui.tabbed.Tab import Tab
+from objects.ui.UIConstants import UIConstants
 
 
 class Inventory(Tab):
@@ -28,14 +29,14 @@ class Inventory(Tab):
     def disable_all(self):
         for item in self.items:
             item.button["state"] = DGG.DISABLED
-            item.button.setColor(.4, .4, .4, 1)
-            item.button["text_fg"] = (.4, .4, .4, 1)
+            item.button.setColor(UIConstants.COLOR_DISABLE)
+            item.button["text_fg"] = UIConstants.COLOR_DISABLE
 
     def enable_all(self):
         for item in self.items:
             item.button["state"] = DGG.NORMAL
-            item.button.setColor(1, 1, 1, 1)
-            item.button["text_fg"] = (1, 1, 1, 1)
+            item.button.setColor(UIConstants.COLOR_ENABLE)
+            item.button["text_fg"] = UIConstants.COLOR_ENABLE
 
     def destroy(self):
         self.ignore_all()

@@ -2,6 +2,7 @@ from direct.gui.DirectFrame import DirectFrame
 from direct.showbase.DirectObject import DirectObject
 
 from objects.notifier import Notifier
+from objects.ui.UIConstants import UIConstants
 
 
 class Panel(Notifier, DirectObject):
@@ -26,7 +27,7 @@ class Panel(Notifier, DirectObject):
         self.create_background()
 
     def create_background(self):
-        self.background = DirectFrame(frameColor=(1, 1, 1, 1),
+        self.background = DirectFrame(frameColor=UIConstants.COLOR_ENABLE,
                                       frameTexture='art/drawn_square.png',
                                       frameSize=self.frame_size,
                                       pos=self.pos, sortOrder=self.sort)

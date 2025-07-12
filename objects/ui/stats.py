@@ -2,6 +2,7 @@ from direct.gui.DirectWaitBar import DirectWaitBar
 from direct.gui.OnscreenText import OnscreenText
 from direct.task import Task
 
+from objects.ui.UIConstants import UIConstants
 from objects.ui.panel import Panel
 
 
@@ -15,31 +16,31 @@ class Stats(Panel):
         self.clock = clock
         self.player = player
 
-        self.hour_text = OnscreenText(pos=(.6, -.25), scale=0.07,
-                                      fg=(1, 1, 1, 1), font=self.font)
-        self.money_text = OnscreenText(pos=(.6, -.35), scale=0.07,
-                                       fg=(1, 1, 1, 1), font=self.font)
+        self.hour_text = OnscreenText(pos=(.6, -.25), scale=UIConstants.TXT["scale"],
+                                      fg=UIConstants.COLOR_ENABLE, font=self.font)
+        self.money_text = OnscreenText(pos=(.6, -.35), scale=UIConstants.TXT["scale"],
+                                       fg=UIConstants.COLOR_ENABLE, font=self.font)
 
         # hygiene bar
-        self.hygiene_text = OnscreenText(pos=(1.08, -.45), scale=0.07,
-                                         fg=(1, 1, 1, 1), text="Hygiene", font=self.font)
-        self.hygiene_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.5), scale=(1, 1, 0.75),
-                                         barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
-                                         frameSize=(-0.35, 0.35, -0.050, .025))
+        self.hygiene_text = OnscreenText(pos=(1.08, -.45), scale=UIConstants.TXT["scale"],
+                                         fg=UIConstants.COLOR_ENABLE, text="Hygiene", font=self.font)
+        self.hygiene_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.5), scale=UIConstants.STATS["scale"],
+                                         barColor=UIConstants.COLOR_ENABLE, frameColor=UIConstants.COLOR_BLACK,
+                                         frameSize=UIConstants.STATS["frame_size"])
 
         # hunger bar
-        self.hunger_text = OnscreenText(pos=(1.1, -.615), scale=0.07,
-                                        fg=(1, 1, 1, 1), text="Hunger", font=self.font)
-        self.hunger_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.665), scale=(1, 1, 0.75),
-                                        barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
-                                        frameSize=(-0.35, 0.35, -.050, .025))
+        self.hunger_text = OnscreenText(pos=(1.1, -.615), scale=UIConstants.TXT["scale"],
+                                        fg=UIConstants.COLOR_ENABLE, text="Hunger", font=self.font)
+        self.hunger_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.665), scale=UIConstants.STATS["scale"],
+                                        barColor=UIConstants.COLOR_ENABLE, frameColor=UIConstants.COLOR_BLACK,
+                                        frameSize=UIConstants.STATS["frame_size"])
 
         # Tired bar
-        self.sleep_text = OnscreenText(pos=(1.12, -.8), scale=0.07,
-                                       fg=(1, 1, 1, 1), text="Sleep", font=self.font)
-        self.sleep_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.85), scale=(1, 1, 0.75),
-                                       barColor=(1, 1, 1, 1), frameColor=(0, 0, 0, 1),
-                                       frameSize=(-0.35, 0.35, -.050, .025))
+        self.sleep_text = OnscreenText(pos=(1.12, -.8), scale=UIConstants.TXT["scale"],
+                                       fg=UIConstants.COLOR_ENABLE, text="Sleep", font=self.font)
+        self.sleep_bar = DirectWaitBar(value=100, pos=(0.875, 0, -.85), scale=UIConstants.STATS["scale"],
+                                       barColor=UIConstants.COLOR_ENABLE, frameColor=UIConstants.COLOR_BLACK,
+                                       frameSize=UIConstants.STATS["frame_size"])
 
         self.accept("update_stats", self.update_stats)
         self.update_stats()

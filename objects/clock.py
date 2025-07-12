@@ -7,6 +7,7 @@ from direct.task.TaskManagerGlobal import taskMgr
 from panda3d.core import ConfigVariableString
 
 from objects.notifier import Notifier
+from objects.ui.UIConstants import UIConstants
 
 
 class Day:
@@ -52,7 +53,7 @@ class Clock(Notifier, DirectObject):
 
         # the clock bar
         self.bar = DirectWaitBar(text="", value=0, pos=(0, 0, .1), scale=(1, 1, 0.75), sortOrder=0)
-        self.bar['barColor'] = (1, 1, 1, 1)
+        self.bar['barColor'] = UIConstants.COLOR_ENABLE
         self.bar['frameColor'] = (.075, .075, .075, 1)
         self.bar['frameSize'] = (-1.28, 1.28, -.050, .025)
 
@@ -107,7 +108,7 @@ class Clock(Notifier, DirectObject):
 
     def enable_pausing(self):
         self.toggle["state"] = DGG.NORMAL
-        self.toggle.setColor(1, 1, 1, 1)
+        self.toggle.setColor(UIConstants.COLOR_ENABLE)
 
     def run_clock(self, task: Task):
         if not self.paused:

@@ -69,7 +69,7 @@ class Home(Location):
             ]
         ]
         self.accept(self.work_start, self.enable_work)  # Enable work action at work_start time
-        self.accept(self.work_end, self.disable_work)  # Disable work action at work_end time
+        self.accept(self.work_end-100, self.disable_work)  # Disable work action at hour before work_end time
 
     def enable_work(self):
         self.set_stage(1)  # Set stage to 1 to show the GoToWork action

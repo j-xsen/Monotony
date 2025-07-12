@@ -2,6 +2,7 @@ from direct.gui.DirectButton import DirectButton
 from direct.gui.DirectGui import DGG
 
 from objects.clock import Clock
+from objects.ui.UIConstants import UIConstants
 from objects.ui.panel import Panel
 from objects.ui.tabbed.Inventory import Inventory
 from objects.ui.tabbed.Log import Log
@@ -20,7 +21,7 @@ class TabContainer(Panel):
         tab_change.setVolume(0.5)
         self.nav_log = DirectButton(geom=self.drawn_square,
                                     text="Log",
-                                    text_fg=(1, 1, 1, 1),
+                                    text_fg=UIConstants.COLOR_ENABLE,
                                     text_pos=(0, -.03, 1),
                                     text_font=self.font, text_scale=0.06,
                                     relief=None,
@@ -29,7 +30,7 @@ class TabContainer(Panel):
                                     clickSound=tab_change)
         self.nav_inv = DirectButton(geom=self.drawn_square,
                                     text="Inventory",
-                                    text_fg=(1, 1, 1, 1),
+                                    text_fg=UIConstants.COLOR_ENABLE,
                                     text_pos=(0, -.03, 1),
                                     text_font=self.font, text_scale=0.06,
                                     relief=None,
@@ -53,8 +54,9 @@ class TabContainer(Panel):
         self.switch_inv_log(False)
 
     def switch_inv_log(self, is_inv: bool):
-        color_active = (1, 1, 1, 1)
-        color_disabled = (1, 1, 1, 0.5)
+        color_active = UIConstants.COLOR_ENABLE
+        color_disabled = UIConstants.COLOR_DISABLE
+        # color_disabled = (1, 1, 1, 0.5)
         self.nav_log["state"] = DGG.NORMAL if is_inv else DGG.DISABLED
         self.nav_log["text_fg"] = color_active if is_inv else color_disabled
         self.nav_log.setColor(color_active if is_inv else color_disabled)

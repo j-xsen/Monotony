@@ -1,14 +1,12 @@
 from direct.gui.DirectButton import DirectButton
 
+from objects.ui.UIConstants import UIConstants
+
 
 class InventoryItem:
     def __init__(self, note, font, index):
         self.note = note
-        self.button = DirectButton(text=note.title, text_scale=0.07, text_pos=(0, -.02),
-                                  pos=(-.5, 0, .13), geom=loader.loadModel('art/drawn_square.egg')
-                                  .find("**/drawn_square"), relief=None, text_fg=(1, 1, 1, 1),
-                                  geom_scale=[1.5, 1, .1], text_font=font, command=self.click,
-                                   clickSound=base.loader.loadSfx("art/sounds/open.ogg"))
+        self.button = self.create_inventory_button(note, font)
 
     def reparentTo(self, parent):
         self.button.reparentTo(parent)
@@ -22,3 +20,16 @@ class InventoryItem:
         cur_pos = self.button.get_pos()
         cur_pos.z -= 0.125
         self.button.set_fluid_pos(cur_pos)
+
+    def create_inventory_button(self, note, font):
+        return DirectButton(text=note.title,
+                            text_scale=UIConstants.BTNS["INV"]["text_scale"],
+                            text_pos=UIConstants.BTNS["INV"]["text_pos"],
+                            pos=UIConstants.BTNS["INV"]["pos"],
+                            geom=loader.loadModel('art/drawn_square.egg').find("**/drawn_square"), relief=None, text_fg=UIConstants.COLOR_ENABLE,
+                            geom_scale=UIConstants.BTNS["INV"]["geom_scale"],
+                            text_font=font,
+                            command=self.click,
+                            clickSound=base.loader.loadSfx("art/sounds/open.ogg"))
+
+

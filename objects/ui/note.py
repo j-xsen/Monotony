@@ -3,6 +3,7 @@ from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectScrolledFrame import DirectScrolledFrame
 from panda3d.core import TextNode
 
+from objects.ui.UIConstants import UIConstants
 from objects.ui.action import Action
 from objects.ui.panel import Panel
 
@@ -55,13 +56,13 @@ class UIMessage(Panel):
         messenger.send("clock_pause")
         self.UI_title = DirectLabel(text=self.message.title, scale=0.1,
                                     text_font=self.font,
-                                    pos=(0, 0, .6), text_bg=(0, 0, 0, 1),
-                                    text_fg=(1, 1, 1, 1),
+                                    pos=(0, 0, .6), text_bg=UIConstants.COLOR_BLACK,
+                                    text_fg=UIConstants.COLOR_ENABLE,
                                     relief=None, parent=self.background)
-        self.UI_message = DirectLabel(text=self.message.message, scale=0.07,
+        self.UI_message = DirectLabel(text=self.message.message, scale=UIConstants.TXT["scale"],
                                       text_font=self.font,
-                                      text_bg=(0, 0, 0, 1),
-                                      text_fg=(1, 1, 1, 1),
+                                      text_bg=UIConstants.COLOR_BLACK,
+                                      text_fg=UIConstants.COLOR_ENABLE,
                                       relief=None, text_align=TextNode.ALeft,
                                       text_wordwrap=20)
         self.UI_close_button = CloseAction(self)
@@ -69,8 +70,8 @@ class UIMessage(Panel):
         background_bounds = [
             -1,
             1,
-            self.UI_close_button.button.getPos()[2] - .07,
-            self.UI_title.getPos()[2] + .07,
+            self.UI_close_button.button.getPos()[2] - UIConstants.TXT["scale"],
+            self.UI_title.getPos()[2] + UIConstants.TXT["scale"],
         ]
         self.background["frameSize"] = background_bounds
 
@@ -83,11 +84,11 @@ class UIMessage(Panel):
                                                                  background_bounds[1] * .7,
                                                                  0,
                                                                  self.UI_message.getHeight() / 10],
-                                                     frameColor=(0, 0, 0, 1),
+                                                     frameColor=UIConstants.COLOR_BLACK,
                                                      autoHideScrollBars=True,
                                                      verticalScroll_relief=FLAT,
                                                      verticalScroll_frameColor=(1, 1, 1, 0.25),
-                                                     verticalScroll_thumb_frameColor=(1, 1, 1, 1),
+                                                     verticalScroll_thumb_frameColor=UIConstants.COLOR_ENABLE,
                                                      verticalScroll_thumb_relief=FLAT,
                                                      verticalScroll_incButton_relief=FLAT,
                                                      verticalScroll_incButton_frameColor=(1, 1, 1, 0.25),

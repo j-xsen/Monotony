@@ -6,8 +6,8 @@ from direct.interval.LerpInterval import LerpColorInterval
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import ConfigVariableString
 
-from objects.locations import location
 from objects.locations.location import Location, HOME
+from objects.ui.UIConstants import UIConstants
 from objects.ui.action import Action
 from objects.ui.action_bar import ActionBar
 from objects.ui.selfportrait import DRIVING, PERSON
@@ -155,10 +155,10 @@ class Work(Location):
 
     def flash_action_bar(self, is_red: bool):
         color = (1, 0, 0, 1) if is_red else (0, 1, 0, 1)
-        lerpcolor = LerpColorInterval(self.action_bar.background, 1, (1, 1, 1, 1), color)
+        lerpcolor = LerpColorInterval(self.action_bar.background, 1, UIConstants.COLOR_ENABLE, color)
         lerpcolor.start()
         for action in self.actions[self.stage]:
-            new_color = LerpColorInterval(action.button, 1, (1, 1, 1, 1), color,
+            new_color = LerpColorInterval(action.button, 1, UIConstants.COLOR_ENABLE, color,
                                           name=f"flashing_action_bar{action.index}")
             new_color.start()
 
