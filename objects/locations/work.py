@@ -17,7 +17,7 @@ class GoHome(Action):
         Action.__init__(self, "Go Home")
 
     def command(self):
-        messenger.send("head_to_location", [location.HOME])
+        messenger.send("head_to_location", [location.HOME, 1])
 
 class WorkAction(Action, DirectObject):
     def __init__(self, index: int):

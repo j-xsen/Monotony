@@ -3,6 +3,7 @@ from direct.showbase.DirectObject import DirectObject
 from objects.notifier import Notifier
 from objects.ui.action_bar import ActionBar
 
+HOME_SETUP = -1
 HOME = 0
 WORK = 1
 
@@ -54,8 +55,8 @@ class LocationHandler(DirectObject):
             HOME: self.Home,
             WORK: self.Work
         }
-        self.location = self.location_dict[HOME](self.action_bar)
-        messenger.send("set_stage", [0])
+        self.location = self.location_dict[HOME](self.action_bar) # Set location to Home
+        messenger.send("set_stage", [HOME_SETUP])  # Set the initial stage to HOME_SETUP (Gives message)
         self.accept("head_to_location", self.head_to_location)
 
     def head_to_location(self, index: int, stage: int = 0) -> bool:

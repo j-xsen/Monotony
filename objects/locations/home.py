@@ -63,7 +63,7 @@ class Home(Location):
 
     def set_stage(self, stage: int = 0):
         Location.set_stage(self, stage)
-        if stage == 0:
+        if stage == -1:
             welcome_note = Note("Welcome to Monotony!",
                                    "In this game, you live the life of someone with a 9-5 job, "
                                    "with every day being the same.\n\n"
@@ -75,3 +75,4 @@ class Home(Location):
                                    "The upper-right box is where you will see the actions "
                                    "available to you.")
             messenger.send("add_note", [welcome_note])
+            self.set_stage(0)
